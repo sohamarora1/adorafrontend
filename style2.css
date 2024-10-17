@@ -337,6 +337,7 @@ body {
     #HEADER
   \-----------------------------------/
   
+   
   .header .input-wrapper,
   .header-action-btn:not(:first-child),
   .navbar { display: none; }
@@ -355,7 +356,6 @@ body {
     letter-spacing: 2px;
     text-align: center;
     padding-block: 15px;
-    width:100%;
   }
   
   .header-top {
@@ -388,6 +388,13 @@ body {
     align-items: center;
     gap: 20px;
   }
+  
+        .container {
+            max-width: 1200px;
+            margin: 2rem auto;
+            padding: 0 1rem;
+        }
+
   
   .nav-open-btn {
     width: 26px;
