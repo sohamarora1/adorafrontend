@@ -1427,6 +1427,133 @@ body {
     }
   
     .feature .flex-item { max-width: calc(33.33% - 66.66px); }
+/* ... (previous CSS remains the same) */
+
+/* Header adjustments */
+.header-top .container {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0 20px;
+  max-width: 1300px;
+  margin: 0 auto;
+}
+
+.header .logo {
+  order: 2;
+  flex-grow: 1;
+  text-align: center;
+}
+
+.header .input-wrapper {
+  order: 1;
+}
+
+.header-actions {
+  order: 3;
+}
+
+@media (max-width: 992px) {
+  .header-top .container {
+    flex-wrap: wrap;
+  }
+  
+  .header .logo {
+    order: 1;
+    width: 100%;
+    margin-bottom: 10px;
+  }
+  
+  .header .input-wrapper {
+    order: 2;
+    width: 100%;
+    margin-bottom: 10px;
+  }
+  
+  .header-actions {
+    order: 3;
+    width: 100%;
+    justify-content: center;
+  }
+}
+
+/* Hero section improvements */
+.hero {
+  padding-top: 60px;
+}
+
+.hero-card {
+  background-size: cover;
+  background-position: center;
+  text-align: center;
+  color: white;
+  text-shadow: 2px 2px 4px rgba(0,0,0,0.5);
+}
+
+.hero-text {
+  max-width: 600px;
+  margin: 0 auto;
+}
+
+@media (max-width: 768px) {
+  .hero-card {
+    padding: 60px 20px;
+  }
+}
+
+/* Footer centering */
+.footer .container {
+  max-width: 1300px;
+  margin: 0 auto;
+  padding: 0 20px;
+}
+
+.footer-top {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 30px;
+  justify-content: center;
+}
+
+/* Middle section adjustments */
+.container {
+  max-width: 1300px;
+  margin: 0 auto;
+  padding: 0 20px;
+}
+
+@media (max-width: 1200px) {
+  .container {
+    max-width: 960px;
+  }
+}
+
+@media (max-width: 992px) {
+  .container {
+    max-width: 720px;
+  }
+}
+
+@media (max-width: 768px) {
+  .container {
+    max-width: 540px;
+  }
+}
+
+@media (max-width: 576px) {
+  .container {
+    max-width: none;
+    padding: 0 15px;
+  }
+}
+
+/* Ensure content doesn't shift left on zoom out */
+body {
+  min-width: 320px;
+  overflow-x: hidden;
+}
+
+/* ... (rest of the CSS remains the same) */
   
   
   
