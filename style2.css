@@ -355,6 +355,7 @@ body {
     letter-spacing: 2px;
     text-align: center;
     padding-block: 15px;
+    width:100%;
   }
   
   .header-top {
