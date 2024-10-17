@@ -1552,6 +1552,18 @@ body {
   min-width: 320px;
   overflow-x: hidden;
 }
+.header-top .container {
+  display: flex;
+  align-items: center; /* Vertically center the items */
+  justify-content: space-between; /* Space between items */
+}
+
+.logo {
+  margin: 0 auto; /* Centers the logo */
+  display: flex; /* Makes sure the logo is treated as a flex item */
+  justify-content: center; /* Center the content of the logo */
+}
+
 
 /* ... (rest of the CSS remains the same) */
   
