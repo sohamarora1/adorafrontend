@@ -35,7 +35,7 @@
     - #HEADER
   -->
 
- <header class="header">
+<header class="header">
   <div class="alert">
     <div class="container">
       <p class="alert-text">FREE SHIPPING ON ORDERS ABOVE 1000</p>
@@ -1226,6 +1226,28 @@
     - custom js link
   -->
   <script src="script2.js" defer></script>
+  <script>
+  // Check if user is logged in
+  document.addEventListener('DOMContentLoaded', () => {
+    const token = localStorage.getItem('token');
+    const userBtn = document.getElementById('user-btn');
+    const profileLink = document.getElementById('profile-link');
+
+    if (token) {
+      userBtn.innerHTML = '<a href="logout.html"><ion-icon name="log-out-outline"></ion-icon> Logout</a>';
+      profileLink.style.display = 'inline-block';
+    } else {
+      userBtn.innerHTML = '<a href="login.html"><ion-icon name="log-in-outline"></ion-icon> Login</a>';
+      profileLink.style.display = 'none';
+    }
+  });
+
+  // Redirect to cart page
+  document.getElementById('cart-btn').addEventListener('click', () => {
+    window.location.href = 'cart.html';
+  });
+</script>
+
 
   <!-- 
     - ionicon link
