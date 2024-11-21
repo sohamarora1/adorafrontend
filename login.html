@@ -266,12 +266,13 @@
 
                 const data = await response.json();
 
-                if (data.success) {
-    localStorage.setItem('token', data.token);
-    console.log('Attempting to redirect...');
-    setTimeout(() => {
-        window.location.href = 'index.html';
-    }, 100);
+                // Redirect after login
+if (data.success) {
+  localStorage.setItem('token', data.token);
+  const redirectUrl = localStorage.getItem('redirectUrl') || 'index.html';
+  localStorage.removeItem('redirectUrl');
+  window.location.href = redirectUrl;
+}
 } else {
                     document.getElementById('loginError').textContent = data.message;
                 }
@@ -299,12 +300,13 @@
 
                 const data = await response.json();
 
-                if (data.success) {
-        localStorage.setItem('token', data.token);
-        const redirectUrl = localStorage.getItem('redirectUrl') || 'index.html';
-        localStorage.removeItem('redirectUrl');
-        window.location.href = redirectUrl;
-    }
+               // Redirect after login
+if (data.success) {
+  localStorage.setItem('token', data.token);
+  const redirectUrl = localStorage.getItem('redirectUrl') || 'index.html';
+  localStorage.removeItem('redirectUrl');
+  window.location.href = redirectUrl;
+}
                     else {
                     document.getElementById('loginError').textContent = data.message;
                     }
