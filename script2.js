@@ -1,21 +1,39 @@
-'use strict';
 
-// Document ready event
+
+
+'use strict';
 document.addEventListener('DOMContentLoaded', () => {
-  
-  /** USER AUTHENTICATION (LOGIN/LOGOUT) **/
-  const token = localStorage.getItem('token');
-  const userBtn = document.getElementById('user-btn');
-  const profileLink = document.getElementById('profile-link');
-  
-  if (token) {
-    // If user is logged in
-    userBtn.innerHTML = '<a href="logout.html"><ion-icon name="log-out-outline"></ion-icon> Logout</a>';
-    profileLink.style.display = 'inline-block';
-  } else {
-    // If user is not logged in
-    userBtn.innerHTML = '<a href="login.html"><ion-icon name="log-in-outline"></ion-icon> Login</a>';
-    profileLink.style.display = 'none';
+    const token = localStorage.getItem('token');
+    const authButtons = document.getElementById('auth-buttons');
+    const profileLink = document.getElementById('profile-link');
+
+    if (token) {
+      // If user is logged in
+      authButtons.innerHTML = `
+        <button class="header-action-btn" aria-label="profile">
+          <a href="profile.html"><ion-icon name="person-outline"></ion-icon> Profile</a>
+        </button>
+        <button class="header-action-btn" aria-label="logout">
+          <a href="#" onclick="logoutUser()"><ion-icon name="log-out-outline"></ion-icon> Logout</a>
+        </button>
+      `;
+      profileLink.style.display = 'inline-block';
+    } else {
+      // If user is not logged in
+      authButtons.innerHTML = `
+        <button class="header-action-btn" aria-label="login">
+          <a href="login.html"><ion-icon name="log-in-outline"></ion-icon> Login</a>
+        </button>
+      `;
+      profileLink.style.display = 'none';
+    }
+  });
+
+  // Logout User
+  function logoutUser() {
+    localStorage.removeItem('token');
+    alert('You have been logged out!');
+    window.location.href = 'login.html';
   }
 
   // Redirect to cart page
