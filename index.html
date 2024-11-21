@@ -35,7 +35,7 @@
     - #HEADER
   -->
 
- <header class="header">
+<header class="header">
   <div class="alert">
     <div class="container">
       <p class="alert-text">FREE SHIPPING ON ORDERS ABOVE 1000</p>
@@ -62,18 +62,13 @@
       </a>
 
       <div class="header-actions">
-        <button class="header-action-btn" aria-label="user" id="user-btn">
-          <ion-icon name="person-outline" aria-hidden="true"></ion-icon>
-        </button>
-
-        <button class="header-action-btn" aria-label="favorite item">
-          <ion-icon name="star-outline" aria-hidden="true"></ion-icon>
-          <span class="btn-badge">0</span>
-        </button>
+        <span id="auth-buttons">
+          <!-- Dynamic Login/Logout & Profile Buttons Will Be Injected Here -->
+        </span>
 
         <button class="header-action-btn" aria-label="cart item" id="cart-btn">
           <data class="btn-text" value="0" id="cart-total">₹ 0.00</data>
-          <ion-icon name="bag-handle-outline" aria-hidden="true"></ion-icon>
+          <ion-icon name="bag-handle-outline"></ion-icon>
           <span class="btn-badge" id="cart-count">0</span>
         </button>
       </div>
@@ -84,7 +79,7 @@
           <li><a href="men.html" class="navbar-link has-after">Men</a></li>
           <li><a href="women.html" class="navbar-link has-after">Women</a></li>
           <li><a href="blog.html" class="navbar-link has-after">Blog</a></li>
-          <li><a href="profile.html" class="navbar-link has-after" id="profile-link">Profile</a></li>
+          <li><a href="profile.html" class="navbar-link has-after" id="profile-link" style="display: none;">Profile</a></li>
         </ul>
       </nav>
     </div>
