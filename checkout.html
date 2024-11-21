@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Checkout - Trendify</title>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Roboto', sans-serif;
+            background-color: #f5f5f5;
+            color: #333;
+        }
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 40px 20px;
+            background: #fff;
+            border-radius: 10px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+        h1 {
+            text-align: center;
+            margin-bottom: 30px;
+            color: #2c3e50;
+            font-size: 2em;
+        }
+        .form-group {
+            margin-bottom: 20px;
+        }
+        label {
+            font-weight: 500;
+            display: block;
+            margin-bottom: 5px;
+        }
+        input {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            font-size: 1em;
+        }
+        button {
+            display: block;
+            width: 100%;
+            padding: 10px 20px;
+            background-color: #27ae60;
+            color: #fff;
+            border: none;
+            border-radius: 5px;
+            font-size: 1em;
+            cursor: pointer;
+        }
+        button:hover {
+            background-color: #229954;
+        }
+        .summary {
+            text-align: center;
+            font-size: 1.2em;
+            margin-top: 20px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Checkout</h1>
+        <form id="checkout-form">
+            <div class="form-group">
+                <label for="address">Shipping Address</label>
+                <input type="text" id="address" placeholder="Enter your address" required>
+            </div>
+            <div class="form-group">
+                <label for="card-number">Card Number</label>
+                <input type="text" id="card-number" placeholder="1234 5678 9012 3456" required>
+            </div>
+            <div class="form-group">
+                <label for="expiry">Expiry Date</label>
+                <input type="month" id="expiry" required>
+            </div>
+            <div class="form-group">
+                <label for="cvv">CVV</label>
+                <input type="text" id="cvv" placeholder="123" maxlength="3" required>
+            </div>
+            <button type="submit">Pay Now</button>
+        </form>
+        <div class="summary" id="summary"></div>
+    </div>
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const cart = JSON.parse(localStorage.getItem('cart')) || [];
+            let total = 0;
+
+            cart.forEach(item => {
+                total += item.price * item.qty;
+            });
+
+            const deliveryCharge = total > 1000 ? 0 : 100;
+            const finalTotal = total + deliveryCharge;
+
+            document.getElementById('summary').innerHTML = `
+                <p>Subtotal: ₹${total.toFixed(2)}</p>
+                <p>Delivery: ₹${deliveryCharge.toFixed(2)}</p>
+                <p><strong>Total: ₹${finalTotal.toFixed(2)}</strong></p>
+            `;
+        });
+
+        document.getElementById('checkout-form').addEventListener('submit', function(e) {
+            e.preventDefault();
+            alert('Payment successful. Thank you for shopping!');
+            localStorage.removeItem('cart');
+            window.location.href = 'thankyou.html';
+        });
+    </script>
+</body>
+</html>
