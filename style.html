@@ -1,0 +1,254 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Style Advisor</title>
+    <style>
+        /* General Styles */
+        body {
+            font-family: 'Arial', sans-serif;
+            margin: 0;
+            padding: 0;
+            background: linear-gradient(135deg, #ff9a9e, #fad0c4, #fbc2eb);
+            background-size: 400% 400%;
+            animation: gradientBG 10s ease infinite;
+            color: #333;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            min-height: 100vh;
+        }
+
+        @keyframes gradientBG {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
+
+        header {
+            text-align: center;
+            padding: 20px;
+            background: rgba(255, 255, 255, 0.8);
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.15);
+            width: 100%;
+        }
+
+        header h1 {
+            font-size: 2.5rem;
+            margin: 0;
+        }
+
+        header p {
+            font-size: 1.2rem;
+            margin: 5px 0;
+            color: #555;
+        }
+
+        .card {
+            background: rgba(255, 255, 255, 0.9);
+            padding: 30px;
+            border-radius: 15px;
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
+            max-width: 600px;
+            width: 90%;
+            text-align: center;
+            margin-top: 50px;
+            display: none;
+        }
+
+        .card.active {
+            display: block;
+        }
+
+        h2 {
+            font-size: 1.8rem;
+            margin-bottom: 20px;
+            color: #444;
+        }
+
+        .question h3 {
+            font-size: 1.2rem;
+            color: #666;
+            margin-bottom: 20px;
+        }
+
+        .question input[type="radio"] {
+            margin-right: 10px;
+        }
+
+        button {
+            background: #ff6f61;
+            color: #fff;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 5px;
+            font-size: 1rem;
+            cursor: pointer;
+            transition: background 0.3s ease;
+            margin-top: 20px;
+        }
+
+        button:hover {
+            background: #ff4b3a;
+        }
+
+        .result-section {
+            background: rgba(255, 255, 255, 0.9);
+            padding: 30px;
+            border-radius: 15px;
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
+            width: 90%;
+            max-width: 600px;
+            text-align: center;
+            margin-top: 50px;
+        }
+
+        .result-section h2 {
+            font-size: 2rem;
+            color: #444;
+            margin-bottom: 20px;
+        }
+
+        .result {
+            font-size: 1.2rem;
+            color: #555;
+            line-height: 1.6;
+        }
+
+        footer {
+            text-align: center;
+            margin-top: 30px;
+            padding: 10px;
+            font-size: 0.9rem;
+            color: #555;
+            width: 100%;
+        }
+    </style>
+</head>
+
+<body>
+    <header>
+        <h1>Style Analysis</h1>
+        <p>Discover Your Unique Style</p>
+    </header>
+
+    <!-- Question Cards -->
+    <div class="card active" id="question1">
+        <h2>Question 1</h2>
+        <div class="question">
+            <h3>Which of these best describes your ideal outfit?</h3>
+            <label><input type="radio" name="favoriteOutfit" value="Comfortable and Casual"> Comfortable and Casual</label><br>
+            <label><input type="radio" name="favoriteOutfit" value="Polished and Professional"> Polished and Professional</label><br>
+            <label><input type="radio" name="favoriteOutfit" value="Bold and Expressive"> Bold and Expressive</label><br>
+            <label><input type="radio" name="favoriteOutfit" value="Trendy and Fashionable"> Trendy and Fashionable</label>
+        </div>
+        <button onclick="nextQuestion()">Next</button>
+    </div>
+
+    <div class="card" id="question2">
+        <h2>Question 2</h2>
+        <div class="question">
+            <h3>When shopping for clothes, what do you prioritize?</h3>
+            <label><input type="radio" name="shoppingPriority" value="Comfort and Practicality"> Comfort and Practicality</label><br>
+            <label><input type="radio" name="shoppingPriority" value="Quality and Durability"> Quality and Durability</label><br>
+            <label><input type="radio" name="shoppingPriority" value="Unique and Statement Pieces"> Unique and Statement Pieces</label><br>
+            <label><input type="radio" name="shoppingPriority" value="Latest Trends"> Latest Trends</label>
+        </div>
+        <button onclick="nextQuestion()">Next</button>
+    </div>
+
+    <div class="card" id="question3">
+        <h2>Question 3</h2>
+        <div class="question">
+            <h3>How would you describe your approach to colors?</h3>
+            <label><input type="radio" name="colorPreference" value="Neutral Colors"> Neutral Colors</label><br>
+            <label><input type="radio" name="colorPreference" value="Bright and Bold Colors"> Bright and Bold Colors</label><br>
+            <label><input type="radio" name="colorPreference" value="Monochromatic Looks"> Monochromatic Looks</label><br>
+            <label><input type="radio" name="colorPreference" value="Mix and Colorful Accents"> Mix and Colorful Accents</label>
+        </div>
+        <button onclick="nextQuestion()">Next</button>
+    </div>
+
+    <div class="card" id="question4">
+        <h2>Question 4</h2>
+        <div class="question">
+            <h3>What accessories do you gravitate towards?</h3>
+            <label><input type="radio" name="accessories" value="Minimal and Subtle"> Minimal and Subtle</label><br>
+            <label><input type="radio" name="accessories" value="Bold and Statement Pieces"> Bold and Statement Pieces</label><br>
+            <label><input type="radio" name="accessories" value="Classic and Timeless"> Classic and Timeless</label><br>
+            <label><input type="radio" name="accessories" value="I rarely wear accessories"> I rarely wear accessories</label>
+        </div>
+        <button onclick="nextQuestion()">Next</button>
+    </div>
+
+    <div class="card" id="question5">
+        <h2>Question 5</h2>
+        <div class="question">
+            <h3>How would you describe your approach to fashion?</h3>
+            <label><input type="radio" name="fashionApproach" value="Comfort and Functionality"> Comfort and Functionality</label><br>
+            <label><input type="radio" name="fashionApproach" value="Self-Expression"> Self-Expression</label><br>
+            <label><input type="radio" name="fashionApproach" value="Experimenting with Styles"> Experimenting with Styles</label><br>
+            <label><input type="radio" name="fashionApproach" value="Tried and True Favorites"> Tried and True Favorites</label>
+        </div>
+        <button onclick="nextQuestion()">Submit</button>
+    </div>
+
+    <!-- Results Section -->
+    <div class="result-section" id="resultSection" style="display: none;">
+        <h2>Your Style Advice</h2>
+        <div class="result" id="result">
+            <!-- Results will be displayed here -->
+        </div>
+    </div>
+
+
+    <script>
+        let currentQuestionIndex = 0;
+        const questions = document.querySelectorAll('.card');
+        const resultSection = document.getElementById('resultSection');
+        const resultDiv = document.getElementById('result');
+        const answers = {};
+
+        function nextQuestion() {
+            const currentQuestion = questions[currentQuestionIndex];
+            const selectedOption = currentQuestion.querySelector('input[type="radio"]:checked');
+
+            if (selectedOption) {
+                // Save the answer
+                answers[currentQuestion.id] = selectedOption.value;
+
+                // Move to the next question
+                currentQuestion.classList.remove('active');
+                currentQuestionIndex++;
+
+                if (currentQuestionIndex < questions.length) {
+                    questions[currentQuestionIndex].classList.add('active');
+                } else {
+                    showResults();
+                }
+            } else {
+                alert('Please select an answer before proceeding!');
+            }
+        }
+
+        function showResults() {
+            let advice = `
+                <p>Your ideal outfit is <strong>${answers['question1']}</strong>.</p>
+                <p>When shopping, you prioritize <strong>${answers['question2']}</strong>.</p>
+                <p>You prefer <strong>${answers['question3']}</strong> colors.</p>
+                <p>Your accessory choice is <strong>${answers['question4']}</strong>.</p>
+                <p>Your approach to fashion is <strong>${answers['question5']}</strong>.</p>
+            `;
+
+            // Add final advice based on preferences
+            advice += <p>Based on your preferences, focus on blending ${answers['question3']} with ${answers['question4']}. Experiment with ${answers['question2']} styles to create your signature look!</p>;
+
+            resultDiv.innerHTML = advice;
+            resultSection.style.display = 'block';
+        }
+    </script>
+</body>
+
+</html>
