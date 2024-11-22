@@ -1,0 +1,270 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Shipping FAQ - Adora</title>
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css">
+        <style>
+            * {
+                box-sizing: border-box;
+                margin: 0;
+                padding: 0;
+            }
+    
+            :root {
+                --primary-color: #2c3e50;
+                --secondary-color: #3498db;
+                --accent-color: #e74c3c;
+                --text-color: #2c3e50;
+                --background-color: #ecf0f1;
+            }
+    
+            body {
+                font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+                line-height: 1.6;
+                color: var(--text-color);
+                background: var(--background-color);
+                min-height: 100vh;
+                background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+            }
+    
+            .container {
+                max-width: 900px;
+                margin: 0 auto;
+                padding: 20px;
+            }
+    
+            header {
+                background: linear-gradient(45deg, var(--primary-color), var(--secondary-color));
+                color: #fff;
+                text-align: center;
+                padding: 2rem;
+                margin-bottom: 2rem;
+                border-radius: 0 0 50px 50px;
+                box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+                animation: slideDown 0.8s ease-out;
+            }
+    
+            @keyframes slideDown {
+                from {
+                    transform: translateY(-100%);
+                }
+                to {
+                    transform: translateY(0);
+                }
+            }
+    
+            h1 {
+                margin-bottom: 10px;
+                font-size: 2.5em;
+                text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.2);
+            }
+    
+            .faq-section {
+                background-color: rgba(255, 255, 255, 0.95);
+                border-radius: 15px;
+                box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+                padding: 2rem;
+                backdrop-filter: blur(10px);
+                animation: fadeIn 1s ease-out;
+            }
+    
+            @keyframes fadeIn {
+                from {
+                    opacity: 0;
+                    transform: translateY(20px);
+                }
+                to {
+                    opacity: 1;
+                    transform: translateY(0);
+                }
+            }
+    
+            .faq-item {
+                margin-bottom: 1rem;
+                border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+                transition: all 0.3s ease;
+            }
+    
+            .faq-item:hover {
+                transform: translateX(10px);
+            }
+    
+            .faq-question {
+                font-weight: bold;
+                font-size: 1.1rem;
+                padding: 1.2rem;
+                cursor: pointer;
+                position: relative;
+                transition: all 0.3s ease;
+                color: var(--primary-color);
+                display: flex;
+                align-items: center;
+                justify-content: space-between;
+            }
+    
+            .faq-question:hover {
+                color: var(--secondary-color);
+                background: rgba(52, 152, 219, 0.1);
+                border-radius: 10px;
+            }
+    
+            .faq-question::after {
+                content: '+';
+                font-size: 1.5rem;
+                transition: all 0.3s ease;
+            }
+    
+            .faq-question.active::after {
+                transform: rotate(45deg);
+                color: var(--accent-color);
+            }
+    
+            .faq-answer {
+                max-height: 0;
+                overflow: hidden;
+                transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+                background: rgba(255, 255, 255, 0.8);
+                border-radius: 0 0 10px 10px;
+                padding: 0 1.2rem;
+            }
+    
+            .faq-answer.show {
+                max-height: 500px;
+                padding: 1.2rem;
+                animation: slideDown 0.5s ease-out;
+            }
+    
+            .search-container {
+                margin-bottom: 2rem;
+                position: relative;
+            }
+    
+            #faq-search {
+                width: 100%;
+                padding: 15px 20px;
+                font-size: 1.1rem;
+                border: none;
+                border-radius: 50px;
+                background: white;
+                box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+                transition: all 0.3s ease;
+            }
+    
+            #faq-search:focus {
+                outline: none;
+                box-shadow: 0 5px 20px rgba(52, 152, 219, 0.3);
+                transform: translateY(-2px);
+            }
+    
+            #faq-search::placeholder {
+                color: #95a5a6;
+            }
+    
+            /* Animations */
+            @keyframes pulse {
+                0% {
+                    transform: scale(1);
+                }
+                50% {
+                    transform: scale(1.05);
+                }
+                100% {
+                    transform: scale(1);
+                }
+            }
+    
+            .faq-item:last-child {
+                border-bottom: none;
+            }
+    
+            /* Responsive Design */
+            @media (max-width: 768px) {
+                .container {
+                    padding: 10px;
+                }
+    
+                header {
+                    padding: 1.5rem;
+                    border-radius: 0 0 30px 30px;
+                }
+    
+                h1 {
+                    font-size: 2em;
+                }
+    
+                .faq-question {
+                    font-size: 1rem;
+                    padding: 1rem;
+                }
+            }
+        </style>
+    </head>
+<body>
+    <header>
+        <h1>Shipping FAQ</h1>
+        <p>Answers to your shipping questions</p>
+    </header>
+
+    <div class="container">
+        <div class="search-container">
+            <input type="text" id="faq-search" placeholder="Search FAQ...">
+        </div>
+        <div class="faq-section">
+            <div class="faq-item">
+                <div class="faq-question">What shipping methods do you offer?</div>
+                <div class="faq-answer">We offer standard shipping (5-7 business days), express shipping (1 day Delivery).International Shipping options are not available recently</div>
+            </div>
+            <div class="faq-item">
+                <div class="faq-question">How much does shipping cost?</div>
+                <div class="faq-answer">Shipping costs vary based on the destination. Standard shipping is free for orders over &#8377;1000. You can view exact shipping costs at checkout before completing your purchase.</div>
+            </div>
+            <div class="faq-item">
+                <div class="faq-question">How long will it take to receive my order?</div>
+                <div class="faq-answer">Delivery times depend on your location.</div>
+            </div>
+            <div class="faq-item">
+                <div class="faq-question">Do you ship internationally?</div>
+                <div class="faq-answer">No,Currently International shipping is not available.</div>
+            </div>
+            <div class="faq-item">
+                <div class="faq-question">How can I track my order?</div>
+                <div class="faq-answer">Once your order ships, you'll receive a shipping confirmation email with a tracking number.</div>
+            </div>
+            <div class="faq-item">
+                <div class="faq-question">What if my package is lost or damaged?</div>
+                <div class="faq-answer">If your package is lost or arrives damaged, please contact our customer service team immediately. We'll work with you to resolve the issue and send a replacement if necessary.</div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Toggle FAQ answers
+        document.querySelectorAll('.faq-question').forEach(question => {
+            question.addEventListener('click', () => {
+                question.classList.toggle('active');
+                const answer = question.nextElementSibling;
+                answer.classList.toggle('show');
+            });
+        });
+
+        // Search functionality
+        const searchInput = document.getElementById('faq-search');
+        const faqItems = document.querySelectorAll('.faq-item');
+
+        searchInput.addEventListener('input', () => {
+            const searchTerm = searchInput.value.toLowerCase();
+            faqItems.forEach(item => {
+                const question = item.querySelector('.faq-question').textContent.toLowerCase();
+                const answer = item.querySelector('.faq-answer').textContent.toLowerCase();
+                if (question.includes(searchTerm) || answer.includes(searchTerm)) {
+                    item.style.display = 'block';
+                } else {
+                    item.style.display = 'none';
+                }
+            });
+        });
+    </script>
+</body>
+</html>
