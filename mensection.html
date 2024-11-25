@@ -1280,36 +1280,54 @@ padding-inline: 50px;
 
 <script>
   // Check authentication status for profile and cart buttons
-  async function checkAuthAndSetup() {
+ async function checkAuthAndCart() {
     const token = localStorage.getItem('token');
-    const profileBtn = document.getElementById('profile-btn');
-    const profileInitial = document.getElementById('profileInitial');
-
-    if (token) {
-      try {
-        const response = await fetch('https://adora-t8e8.onrender.com/api/user/profile', {
-          headers: { 'Auth': token }
+    if (!token) {
+        return false;
+    }
+    try {
+        const response = await fetch('https://adora-t8e8.onrender.com/api/cart', {
+            headers: { 'Auth': token }
         });
         const data = await response.json();
-
-        if (data.user) {
-          profileInitial.style.display = 'flex';
-          profileInitial.textContent = data.user.name[0].toUpperCase();
-          profileBtn.onclick = () => window.location.href = 'profile.html';
-        } else {
-          throw new Error('User not found');
-        }
-      } catch (error) {
-        console.error('Error verifying user:', error);
-        localStorage.removeItem('token');
-        profileInitial.style.display = 'none';
-        profileBtn.onclick = () => window.location.href = 'login.html';
-      }
-    } else {
-      profileInitial.style.display = 'none';
-      profileBtn.onclick = () => window.location.href = 'login.html';
+        return data.success;
+    } catch (error) {
+        console.error('Error checking cart:', error);
+        return false;
     }
-  }
+}
+    async function addToCart(productId) {
+    const token = localStorage.getItem('token');
+    if (!token) {
+        localStorage.setItem('redirectUrl', window.location.href);
+        alert('Please login first!');
+        window.location.href = 'login.html';
+        return;
+    }
+
+    try {
+        const response = await fetch('https://adora-t8e8.onrender.com/api/cart/add', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                'Auth': token
+            },
+            body: JSON.stringify({ productId })
+        });
+
+        const data = await response.json();
+        if (data.success) {
+            updateCartCount();
+            alert('Product added to cart successfully!');
+        } else {
+            alert(data.message || 'Failed to add product to cart');
+        }
+    } catch (error) {
+        console.error('Error adding to cart:', error);
+        alert('An error occurred. Please try again.');
+    }
+}
+
 
   // Fetch and display products
   async function fetchAndDisplayProducts() {
@@ -1342,67 +1360,53 @@ padding-inline: 50px;
           }
         }
       });
+        document.addEventListener('DOMContentLoaded', async () => {
+    await Auth.checkAuthStatus();
+    await updateCartCount();
+    await fetchAndDisplayProducts();
+});
 
       // Add event listeners for add-to-cart buttons
-      document.querySelectorAll('.btn-add-to-cart').forEach(button => {
-        button.addEventListener('click', async (e) => {
-          const productId = e.target.getAttribute('data-product-id');
-
-          // Check if user is logged in
-          const token = localStorage.getItem('token');
-          if (!token) {
-            alert('Please login first!');
-            window.location.href = 'login.html';
-            return;
-          }
-
-          try {
-            const cartResponse = await fetch('https://adora-t8e8.onrender.com/api/cart/add', {
-              method: 'POST',
-              headers: {
-                'Content-Type': 'application/json',
-                'Auth': token
-              },
-              body: JSON.stringify({ productId })
-            });
-
-            const cartData = await cartResponse.json();
-            if (cartData.success) {
-              updateCartDisplay();
-              alert('Product added to cart successfully!');
-            } else {
-              alert(cartData.message || 'Failed to add product to cart.');
-            }
-          } catch (error) {
-            console.error('Error adding to cart:', error);
-            alert('An error occurred. Please try again.');
-          }
-        });
-      });
-    } catch (error) {
-      console.error('Error fetching products:', error);
+     document.getElementById('cart-btn').addEventListener('click', () => {
+    const token = localStorage.getItem('token');
+    if (!token) {
+        alert('Please login first!');
+        localStorage.setItem('redirectUrl', 'cart.html');
+        window.location.href = 'login.html';
+    } else {
+        window.location.href = 'cart.html';
     }
-  }
-
+});
   // Update cart count
-  function updateCartDisplay() {
+ async function updateCartCount() {
+    const token = localStorage.getItem('token');
     const cartCount = document.getElementById('cart-count');
-    fetch('https://adora-t8e8.onrender.com/api/cart', {
-      headers: { 'Auth': localStorage.getItem('token') }
-    })
-      .then(res => res.json())
-      .then(data => {
-        cartCount.textContent = data.cartItems.length || 0;
-      })
-      .catch(err => console.error('Error fetching cart data:', err));
-  }
+    
+    if (!token) {
+        cartCount.textContent = '0';
+        return;
+    }
 
-  // Initialize
-  document.addEventListener('DOMContentLoaded', async () => {
-    await checkAuthAndSetup();
-    await fetchAndDisplayProducts();
-    updateCartDisplay();
-  });
+    try {
+        const response = await fetch('https://adora-t8e8.onrender.com/api/cart', {
+            headers: { 'Auth': token }
+        });
+        const data = await response.json();
+        cartCount.textContent = data.cartItems?.length || '0';
+    } catch (error) {
+        console.error('Error updating cart count:', error);
+    }
+}
+  document.getElementById('cart-btn').addEventListener('click', () => {
+    const token = localStorage.getItem('token');
+    if (!token) {
+        alert('Please login first!');
+        localStorage.setItem('redirectUrl', 'cart.html');
+        window.location.href = 'login.html';
+    } else {
+        window.location.href = 'cart.html';
+    }
+});
 </script>
 
 </body>
