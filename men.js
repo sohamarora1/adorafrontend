@@ -1,10 +1,40 @@
 // men.js
 
+// Utility function for API calls
+async function apiCall(endpoint, options = {}) {
+    const BASE_URL = 'https://adora-t8e8.onrender.com/api';
+    const token = Auth.getToken();
+
+    const defaultHeaders = {
+        'Content-Type': 'application/json',
+        'Auth': token || ''
+    };
+
+    try {
+        const response = await fetch(`${BASE_URL}${endpoint}`, {
+            ...options,
+            headers: {
+                ...defaultHeaders,
+                ...options.headers
+            }
+        });
+
+        if (!response.ok) {
+            throw new Error(`HTTP error! status: ${response.status}`);
+        }
+
+        const data = await response.json();
+        return data;
+    } catch (error) {
+        console.error('API Call Error:', error);
+        throw error;
+    }
+}
+
 // Fetch products from the API
 async function fetchProducts() {
     try {
-        const response = await fetch('https://adora-t8e8.onrender.com/api/product/all');
-        const data = await response.json();
+        const data = await apiCall('/product/all');
         if (data.products && Array.isArray(data.products)) {
             return data.products;
         }
@@ -44,10 +74,13 @@ function displayProducts(products) {
     if (festiveSection) festiveSection.innerHTML = '';
     if (casualSection) casualSection.innerHTML = '';
 
+    let productsDisplayed = false;
+
     products.forEach(product => {
         if (product.category === 'mensection') {
+            productsDisplayed = true;
             const productCard = createProductCard(product);
-            switch (product.type) {
+            switch (product.type.toLowerCase()) {
                 case 'formals':
                     if (formalsSection) formalsSection.innerHTML += productCard;
                     break;
@@ -60,6 +93,10 @@ function displayProducts(products) {
             }
         }
     });
+
+    if (!productsDisplayed) {
+        console.log('No products found for mensection category');
+    }
 }
 
 // Handle add to cart
@@ -71,30 +108,24 @@ async function handleAddToCart(productId) {
     }
 
     try {
-        const response = await fetch(`https://adora-t8e8.onrender.com/api/product/${productId}`);
-        const data = await response.json();
+        // First fetch the product details
+        const productData = await apiCall(`/product/${productId}`);
         
-        if (!data.product) {
+        if (!productData.product) {
             throw new Error('Product not found');
         }
 
-        const addToCartResponse = await fetch('https://adora-t8e8.onrender.com/api/cart/add', {
+        // Add to cart
+        const cartData = await apiCall('/cart/add', {
             method: 'POST',
-            headers: {
-                'Content-Type': 'application/json',
-                'Auth': Auth.getToken()
-            },
             body: JSON.stringify({
-                productId: data.product._id,
+                productId: productId,
                 qty: 1
             })
         });
 
-        const cartData = await addToCartResponse.json();
-
         if (cartData.success) {
             alert('Product added to cart successfully!');
-            // Update cart display
             if (typeof cartManager !== 'undefined') {
                 cartManager.updateCartDisplay();
             }
@@ -110,7 +141,9 @@ async function handleAddToCart(productId) {
 // Initialize page
 async function init() {
     try {
+        console.log('Initializing page...');
         const products = await fetchProducts();
+        console.log('Fetched products:', products);
         displayProducts(products);
 
         // Cart button click handler
@@ -134,6 +167,9 @@ async function init() {
         console.error('Error initializing page:', error);
     }
 }
+
+// Make handleAddToCart available globally
+window.handleAddToCart = handleAddToCart;
 
 // Start the initialization
 document.addEventListener('DOMContentLoaded', init);
