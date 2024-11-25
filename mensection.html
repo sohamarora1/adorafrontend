@@ -4,16 +4,6 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Men's Section - Trendify</title>
-<!-- <script src="auth.js"></script> -->
- <style>
-    .profile-initial {
-    transition: all 0.3s ease;
-}
-
-#profile-btn:hover .profile-initial {
-    transform: scale(1.1);
-}
-  </style>
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap');
 
@@ -1202,18 +1192,17 @@
       </a>
 
       <div class="header-actions">
-         <button class="header-action-btn" aria-label="user" id="profile-btn">
-        <ion-icon name="person-outline" aria-hidden="true"></ion-icon>
-        <span class="profile-initial" id="profileInitial" style="display: none; position: absolute; top: -5px; right: -5px; background: #5a36a8; color: white; border-radius: 50%; width: 20px; height: 20px; font-size: 12px; display: flex; align-items: center; justify-content: center;"></span>
-    </button>
+        <button class="header-action-btn" aria-label="user" id="user-btn">
+          <ion-icon name="person-outline" aria-hidden="true"></ion-icon>
+        </button>
 
-<!--         <button class="header-action-btn" aria-label="favorite item">
+        <button class="header-action-btn" aria-label="favorite item">
           <ion-icon name="star-outline" aria-hidden="true"></ion-icon>
           <span class="btn-badge">0</span>
-        </button> -->
+        </button>
 
         <button class="header-action-btn" aria-label="cart item" id="cart-btn">
-<!--           <data class="btn-text" value="0" id="cart-total">₹ 0.00</data> -->
+          <data class="btn-text" value="0" id="cart-total">₹ 0.00</data>
           <ion-icon name="bag-handle-outline" aria-hidden="true"></ion-icon>
           <span class="btn-badge" id="cart-count">0</span>
         </button>
@@ -1415,8 +1404,5 @@
     window.location.href = 'cart.html';
   });
 </script> -->
- <script type="module" src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.esm.js"></script>
-  <script nomodule src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.js"></script>
-
 </body>
 </html>
