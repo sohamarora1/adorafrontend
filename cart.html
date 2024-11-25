@@ -5,8 +5,10 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Shopping Cart - Trendify</title>
     <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Pacifico&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.1/css/all.min.css">
     <style>
+        /* Global styles */
         * {
             margin: 0;
             padding: 0;
@@ -14,93 +16,110 @@
         }
         body {
             font-family: 'Roboto', sans-serif;
-            background-color: #f5f5f5;
+            background: linear-gradient(135deg, #a1c4fd, #c2e9fb); /* Gradient background */
             color: #333;
+            min-height: 100vh;
             display: flex;
             justify-content: center;
             align-items: center;
-            min-height: 100vh;
-            overflow: hidden;
-            perspective: 1000px; /* Enable 3D space */
         }
-        .container {
-            max-width: 1200px;
-            margin: 0 auto;
-            padding: 40px 20px;
-            background-color: rgba(255, 255, 255, 0.9);
-            border-radius: 15px;
-            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
-            transition: transform 0.5s;
-            transform-style: preserve-3d; /* Preserve 3D effects */
-        }
-        .container:hover {
-            transform: rotateY(5deg) rotateX(5deg); /* Enhance 3D effect on hover */
-        }
+
         h1 {
             text-align: center;
             margin-bottom: 40px;
+            font-family: 'Pacifico', cursive;
             color: #2c3e50;
-            font-size: 2.5em;
-            text-shadow: 1px 1px 5px rgba(0, 0, 0, 0.1);
+            font-size: 3em;
+            text-shadow: 2px 4px 8px rgba(0, 0, 0, 0.2);
         }
+
+        .container {
+            width: 90%;
+            max-width: 1200px;
+            padding: 40px;
+            background: rgba(255, 255, 255, 0.8);
+            border-radius: 20px;
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.15);
+            position: relative;
+            overflow: hidden;
+            animation: fadeIn 1s ease-out;
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: scale(0.9);
+            }
+            to {
+                opacity: 1;
+                transform: scale(1);
+            }
+        }
+
+        /* Cart items */
         .cart-item {
             display: flex;
             align-items: center;
-            background-color: #ffffff;
-            border-radius: 10px;
-            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+            background: linear-gradient(145deg, #ffffff, #f0f0f0);
+            border-radius: 15px;
+            box-shadow: 4px 4px 10px rgba(0, 0, 0, 0.1), -4px -4px 10px rgba(255, 255, 255, 0.5);
             margin-bottom: 20px;
             overflow: hidden;
-            transition: all 0.3s ease;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
         }
         .cart-item:hover {
             transform: translateY(-10px) scale(1.02);
-            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.2);
+            box-shadow: 8px 8px 15px rgba(0, 0, 0, 0.2), -8px -8px 15px rgba(255, 255, 255, 0.7);
         }
+
         .cart-item img {
             width: 120px;
             height: 120px;
             object-fit: cover;
-            transition: transform 0.3s;
+            border-radius: 15px 0 0 15px;
+            transition: transform 0.3s ease;
         }
         .cart-item img:hover {
-            transform: scale(1.1); /* Zoom-in effect on image hover */
+            transform: scale(1.1);
         }
+
         .cart-item-details {
             flex-grow: 1;
             padding: 20px;
         }
+
         .cart-item-details h3 {
-            font-size: 1.2em;
+            font-size: 1.5em;
             margin-bottom: 10px;
             color: #2c3e50;
-            transition: color 0.3s;
+            text-shadow: 1px 1px 5px rgba(0, 0, 0, 0.1);
         }
-        .cart-item-details h3:hover {
-            color: #3498db; /* Change color on title hover */
-        }
+
         .cart-item-details p {
             font-size: 1em;
             color: #7f8c8d;
             margin-bottom: 5px;
         }
+
+        /* Quantity and actions */
         .cart-item-actions {
             display: flex;
             align-items: center;
             padding: 20px;
         }
         .cart-item-actions button {
-            background-color: transparent;
+            background: none;
             border: none;
             cursor: pointer;
             font-size: 1.2em;
             color: #3498db;
-            transition: color 0.3s;
+            transition: color 0.3s ease, transform 0.2s ease;
         }
         .cart-item-actions button:hover {
             color: #2980b9;
-            transform: scale(1.1); /* Slightly enlarge on hover */
+            transform: scale(1.2);
         }
+
         .quantity-control {
             display: flex;
             align-items: center;
@@ -109,45 +128,77 @@
         .quantity-control span {
             margin: 0 10px;
             font-weight: bold;
+            font-size: 1.2em;
         }
+
+        /* Cart summary */
         #cart-total {
             text-align: right;
             font-size: 1.5em;
             margin-top: 20px;
             color: #2c3e50;
-            animation: fadeIn 0.5s;
+            text-shadow: 1px 2px 4px rgba(0, 0, 0, 0.15);
         }
+
         #clear-cart, #checkout-btn {
             display: block;
             margin: 20px auto;
-            padding: 10px 20px;
+            padding: 15px 30px;
             border: none;
-            border-radius: 5px;
-            font-size: 1em;
+            border-radius: 30px;
+            font-size: 1.2em;
             cursor: pointer;
-            transition: background-color 0.3s ease, transform 0.3s;
             text-align: center;
-            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
-        }
-        #clear-cart {
-            background-color: #e74c3c;
             color: #fff;
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        #clear-cart {
+            background: #e74c3c;
         }
         #clear-cart:hover {
-            background-color: #c0392b;
-            transform: translateY(-3px);
+            background: #c0392b;
+            transform: translateY(-5px);
         }
+
         #checkout-btn {
-            background-color: #27ae60;
-            color: #fff;
+            background: linear-gradient(145deg, #27ae60, #2ecc71);
         }
         #checkout-btn:hover {
-            background-color: #229954;
-            transform: translateY(-3px);
+            background: linear-gradient(145deg, #229954, #2ecc71);
+            transform: translateY(-5px);
         }
-        @keyframes fadeIn {
-            from { opacity: 0; }
-            to { opacity: 1; }
+
+        /* Add glowing animation for checkout button */
+        #checkout-btn::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            border-radius: 30px;
+            background: rgba(255, 255, 255, 0.5);
+            animation: glow 2s infinite;
+            z-index: -1;
+        }
+
+        @keyframes glow {
+            0%, 100% {
+                box-shadow: 0 0 5px rgba(255, 255, 255, 0.5);
+            }
+            50% {
+                box-shadow: 0 0 20px rgba(255, 255, 255, 0.8);
+            }
+        }
+
+        .cart-item-actions .fas {
+            transition: transform 0.3s ease;
+        }
+        .cart-item-actions .fas:hover {
+            transform: rotate(360deg);
         }
     </style>
 </head>
