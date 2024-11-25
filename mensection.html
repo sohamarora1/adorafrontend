@@ -1384,6 +1384,69 @@
         }
     
         init();
+// Add this after your existing scripts
+document.addEventListener('DOMContentLoaded', () => {
+    const profileBtn = document.getElementById('profile-btn');
+    const token = localStorage.getItem('token');
+    
+    // Check if user is logged in when page loads
+    checkAuthStatus();
+
+    // Add click event to profile button
+    profileBtn.addEventListener('click', () => {
+        if (token) {
+            window.location.href = 'profile.html';
+        } else {
+            window.location.href = 'login.html';
+        }
+    });
+
+    // Add click handlers to all add to cart buttons
+    document.addEventListener('click', async (e) => {
+        if (e.target && e.target.classList.contains('btn-add-to-cart')) {
+            if (!token) {
+                // Save current page URL to localStorage
+                localStorage.setItem('returnTo', window.location.href);
+                alert('Please login first to add items to cart');
+                window.location.href = 'login.html';
+                return;
+            }
+            // If user is logged in, proceed with adding to cart
+            const productId = e.target.getAttribute('data-product-id');
+            const products = await fetchProducts();
+            const product = products.find(p => p._id === productId);
+            if (product) {
+                addToCart(product);
+            }
+        }
+    });
+});
+
+function checkAuthStatus() {
+    const token = localStorage.getItem('token');
+    const profileBtn = document.getElementById('profile-btn');
+    const profileInitial = document.getElementById('profileInitial');
+    
+    if (token) {
+        // Get user data from token or localStorage
+        const userData = JSON.parse(localStorage.getItem('userData'));
+        if (userData && userData.name) {
+            // Show first letter of user's name
+            profileInitial.textContent = userData.name.charAt(0).toUpperCase();
+            profileInitial.style.display = 'flex';
+        }
+    } else {
+        profileInitial.style.display = 'none';
+    }
+}
+
+// Modify your init() function to include auth check
+async function init() {
+    const products = await fetchProducts();
+    displayProducts(products);
+    updateCartDisplay();
+    checkAuthStatus();
+}
     </script>
 <!-- <script>
   // Check if user is logged in
