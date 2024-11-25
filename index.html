@@ -8,6 +8,46 @@
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>ADORA</title>
+  <style>
+    .logout-btn {
+        position: relative;
+        padding: 10px 20px;
+        border: none;
+        background: linear-gradient(45deg, #ff6b6b, #ff4757);
+        color: white;
+        border-radius: 25px;
+        cursor: pointer;
+        font-family: 'Arial', sans-serif;
+        font-weight: bold;
+        transition: all 0.3s ease;
+        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        overflow: hidden;
+    }
+
+    .logout-btn:hover {
+        transform: scale(1.05);
+        box-shadow: 0 6px 8px rgba(0, 0, 0, 0.15);
+    }
+
+    .logout-btn::before {
+        content: '👋';
+        position: absolute;
+        left: 10px;
+        top: 50%;
+        transform: translateY(-50%);
+        font-size: 18px;
+    }
+
+    .logout-btn span {
+        margin-left: 25px;
+    }
+
+    .logout-btn:active {
+        transform: scale(0.95);
+        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    }
+</style>
+
 
   <!-- 
     - favicon
@@ -77,6 +117,9 @@
         <ion-icon name="person-outline" aria-hidden="true"></ion-icon>
         <span class="profile-initial" id="profileInitial" style="display: none; position: absolute; top: -5px; right: -5px; background: #5a36a8; color: white; border-radius: 50%; width: 20px; height: 20px; font-size: 12px; display: flex; align-items: center; justify-content: center;"></span>
     </button>
+        <button id="logout-btn" class="logout-btn">
+    <span>Logout</span>
+</button>
 
 <!--         <button class="header-action-btn" aria-label="favorite item">
           <ion-icon name="star-outline" aria-hidden="true"></ion-icon>
@@ -1309,6 +1352,47 @@
   <!-- 
     - ionicon link
   -->
+  <script>
+    document.addEventListener('DOMContentLoaded', () => {
+        const logoutBtn = document.getElementById('logout-btn');
+        
+        if (logoutBtn) {
+            logoutBtn.addEventListener('click', async () => {
+                // Clear cart from localStorage
+                localStorage.removeItem('cart');
+                
+                // Optional: Clear cart from backend if you have a backend endpoint
+                const token = localStorage.getItem('token');
+                if (token) {
+                    try {
+                        await fetch('https://adora-t8e8.onrender.com/api/cart/clear', {
+                            method: 'DELETE',
+                            headers: {
+                                'Authorization': `Bearer ${token}`
+                            }
+                        });
+                    } catch (error) {
+                        console.error('Error clearing backend cart:', error);
+                    }
+                }
+
+                // Clear authentication-related localStorage items
+                localStorage.removeItem('token');
+                localStorage.removeItem('userData');
+
+                // Update cart display
+                const cartCount = document.getElementById('cart-count');
+                const cartTotal = document.getElementById('cart-total');
+                
+                if (cartCount) cartCount.textContent = '0';
+                if (cartTotal) cartTotal.textContent = '₹ 0.00';
+
+                // Redirect to login page
+                window.location.href = 'login.html';
+            });
+        }
+    });
+</script>
   <script type="module" src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.esm.js"></script>
   <script nomodule src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.js"></script>
 
