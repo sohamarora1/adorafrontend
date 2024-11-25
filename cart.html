@@ -1,0 +1,231 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Shopping Cart - ADORA</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap');
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Poppins', sans-serif;
+        }
+
+        body {
+            background: linear-gradient(45deg, #E5D9F2, #F5EFFF);
+            min-height: 100vh;
+        }
+
+        .cart-container {
+            max-width: 1000px;
+            margin: 50px auto;
+            padding: 20px;
+        }
+
+        .cart-item {
+            background: white;
+            border-radius: 10px;
+            padding: 20px;
+            margin-bottom: 20px;
+            display: flex;
+            align-items: center;
+            gap: 20px;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.05);
+        }
+
+        .cart-item img {
+            width: 100px;
+            height: 100px;
+            object-fit: cover;
+            border-radius: 5px;
+        }
+
+        .item-details {
+            flex: 1;
+        }
+
+        .item-title {
+            font-size: 1.2rem;
+            color: #333;
+            margin-bottom: 5px;
+        }
+
+        .item-price {
+            color: #5a36a8;
+            font-weight: 600;
+            font-size: 1.1rem;
+        }
+
+        .quantity-controls {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .quantity-btn {
+            background: #f8f9fa;
+            border: none;
+            padding: 5px 10px;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        .remove-btn {
+            background: #ff416c;
+            color: white;
+            border: none;
+            padding: 8px 15px;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        .cart-summary {
+            background: white;
+            border-radius: 10px;
+            padding: 20px;
+            margin-top: 20px;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.05);
+        }
+
+        .cart-total {
+            display: flex;
+            justify-content: space-between;
+            font-size: 1.2rem;
+            font-weight: 600;
+            margin-bottom: 20px;
+        }
+
+        .checkout-btn {
+            width: 100%;
+            padding: 15px;
+            background: #5a36a8;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 1.1rem;
+        }
+
+        .empty-cart {
+            text-align: center;
+            padding: 50px;
+            background: white;
+            border-radius: 10px;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.05);
+        }
+    </style>
+</head>
+<body>
+    <div class="cart-container" id="cartContainer">
+        <div id="cartItems"></div>
+        <div class="cart-summary">
+            <div class="cart-total">
+                <span>Total:</span>
+                <span id="cartTotal">$0.00</span>
+            </div>
+            <button class="checkout-btn" onclick="checkout()">Proceed to Checkout</button>
+        </div>
+    </div>
+
+    <script>
+        async function loadCart() {
+            const token = localStorage.getItem('token');
+            if (!token) {
+                window.location.href = 'login.html';
+                return;
+            }
+
+            try {
+                const response = await fetch('https://adora-t8e8.onrender.com/api/cart/user', {
+                    headers: {
+                        'Auth': token
+                    }
+                });
+                const data = await response.json();
+
+                const cartItemsContainer = document.getElementById('cartItems');
+                if (!data.cart || !data.cart.items || data.cart.items.length === 0) {
+                    cartItemsContainer.innerHTML = `
+                        <div class="empty-cart">
+                            <h2>Your cart is empty</h2>
+                            <p>Add some items to get started!</p>
+                        </div>
+                    `;
+                    return;
+                }
+
+                let total = 0;
+                cartItemsContainer.innerHTML = data.cart.items.map(item => {
+                    total += item.price;
+                    return `
+                        <div class="cart-item">
+                            <img src="${item.imgSrc}" alt="${item.title}">
+                            <div class="item-details">
+                                <h3 class="item-title">${item.title}</h3>
+                                <p class="item-price">$${item.price.toFixed(2)}</p>
+                                <div class="quantity-controls">
+                                    <button class="quantity-btn" onclick="updateQuantity('${item.productId}', -1)">-</button>
+                                    <span>${item.qty}</span>
+                                    <button class="quantity-btn" onclick="updateQuantity('${item.productId}', 1)">+</button>
+                                </div>
+                            </div>
+                            <button class="remove-btn" onclick="removeItem('${item.productId}')">Remove</button>
+                        </div>
+                    `;
+                }).join('');
+
+                document.getElementById('cartTotal').textContent = `$${total.toFixed(2)}`;
+            } catch (error) {
+                console.error('Error:', error);
+            }
+        }
+
+        async function updateQuantity(productId, change) {
+            const token = localStorage.getItem('token');
+            try {
+                const endpoint = change > 0 ? 'add' : '--qty';
+                await fetch(`https://adora-t8e8.onrender.com/api/cart/${endpoint}`, {
+                    method: 'POST',
+                    headers: {
+                        'Auth': token,
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({
+                        productId,
+                        qty: Math.abs(change)
+                    })
+                });
+                loadCart();
+            } catch (error) {
+                console.error('Error:', error);
+            }
+        }
+
+        async function removeItem(productId) {
+            const token = localStorage.getItem('token');
+            try {
+                await fetch(`https://adora-t8e8.onrender.com/api/cart/remove/${productId}`, {
+                    method: 'DELETE',
+                    headers: {
+                        'Auth': token
+                    }
+                });
+                loadCart();
+            } catch (error) {
+                console.error('Error:', error);
+            }
+        }
+
+        function checkout() {
+            // Implement checkout logic here
+            alert('Checkout functionality coming soon!');
+        }
+
+        // Load cart on page load
+        window.addEventListener('DOMContentLoaded', loadCart);
+    </script>
+</body>
+</html>
