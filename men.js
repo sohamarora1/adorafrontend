@@ -1,16 +1,16 @@
-// men.js
-
+// Fetch products from the API
 async function fetchProducts() {
     try {
         const response = await fetch('https://adora-t8e8.onrender.com/api/product/all');
         const data = await response.json();
-        return data.products;
+        return data.products || [];
     } catch (error) {
         console.error('Error fetching products:', error);
         return [];
     }
 }
 
+// Generate product card HTML
 function createProductCard(product) {
     return `
         <div class="product-card">
@@ -25,6 +25,7 @@ function createProductCard(product) {
     `;
 }
 
+// Display products in their respective sections
 function displayProducts(products) {
     const formalsSection = document.querySelector('#college-outfits .product-grid');
     const festiveSection = document.querySelector('#trendy-outfits .product-grid');
@@ -33,70 +34,69 @@ function displayProducts(products) {
     products.forEach(product => {
         if (product.category === 'mensection') {
             const productCard = createProductCard(product);
-            switch (product.type) {
-                case 'formals':
-                    formalsSection.innerHTML += productCard;
-                    break;
-                case 'festiveoutfits':
-                    festiveSection.innerHTML += productCard;
-                    break;
-                case 'casualwear':
-                    casualSection.innerHTML += productCard;
-                    break;
+            if (product.type === 'formals' && formalsSection) {
+                formalsSection.insertAdjacentHTML('beforeend', productCard);
+            } else if (product.type === 'festiveoutfits' && festiveSection) {
+                festiveSection.insertAdjacentHTML('beforeend', productCard);
+            } else if (product.type === 'casualwear' && casualSection) {
+                casualSection.insertAdjacentHTML('beforeend', productCard);
             }
         }
     });
 }
 
-async function init() {
-    const products = await fetchProducts();
-    displayProducts(products);
+// Debounce function to prevent spamming add-to-cart requests
+function debounce(func, delay) {
+    let timeout;
+    return function (...args) {
+        clearTimeout(timeout);
+        timeout = setTimeout(() => func.apply(this, args), delay);
+    };
+}
 
-    // Add to cart click handler
-    document.addEventListener('click', async function(e) {
-        if (e.target && e.target.classList.contains('btn-add-to-cart')) {
-            const productId = e.target.getAttribute('data-product-id');
-            const product = products.find(p => p._id === productId);
-            if (product) {
-                cartManager.addToCart(product);
-            }
-        }
-    });
+// Add product to cart
+async function handleAddToCart(productId, products) {
+    if (!cartManager.isLoggedIn()) {
+        // Save the current page URL before redirecting to login
+        localStorage.setItem('redirectUrl', window.location.href);
+        window.location.href = 'login.html';
+        return;
+    }
 
-    // Cart button click handler
-    const cartBtn = document.getElementById('cart-btn');
-    if (cartBtn) {
-        cartBtn.addEventListener('click', function() {
-            window.location.href = 'cart.html';
-        });
+    const product = products.find(p => p._id === productId);
+    if (!product) {
+        alert('Product not found.');
+        return;
+    }
+
+    try {
+        await cartManager.addToCart(product);
+        alert('Product added to cart successfully!');
+        cartManager.updateCartDisplay(); // Update cart UI
+    } catch (error) {
+        console.error('Error adding to cart:', error);
+        alert('Failed to add product to cart. Please try again.');
     }
 }
 
-
-// men.js
-
-// ... (rest of your existing code)
-
+// Initialize the page
 async function init() {
     try {
-        const products = await fetchProducts();
-        displayProducts(products);
+        const products = await fetchProducts(); // Fetch products from the API
+        displayProducts(products); // Display products on the page
 
-        // Add to cart click handler
-        document.addEventListener('click', async function(e) {
+        // Add event listener for "Add to Cart" buttons
+        document.addEventListener('click', debounce(async function (e) {
             if (e.target && e.target.classList.contains('btn-add-to-cart')) {
                 const productId = e.target.getAttribute('data-product-id');
-                const product = products.find(p => p._id === productId);
-                if (product) {
-                    cartManager.addToCart(product);
-                }
+                await handleAddToCart(productId, products);
             }
-        });
+        }, 300)); // Debounce the add-to-cart click handler
 
-        // Cart button click handler
+        // Add event listener for cart button
         const cartBtn = document.getElementById('cart-btn');
         if (cartBtn) {
-            cartBtn.addEventListener('click', function() {
+            cartBtn.addEventListener('click', function () {
                 if (cartManager.isLoggedIn()) {
                     window.location.href = 'cart.html';
                 } else {
@@ -105,11 +105,12 @@ async function init() {
             });
         }
 
-        // Initialize cart display
+        // Initialize and update cart display
         cartManager.updateCartDisplay();
     } catch (error) {
         console.error('Error initializing page:', error);
     }
 }
 
+// Initialize the script
 init();
