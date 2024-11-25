@@ -72,4 +72,44 @@ async function init() {
     }
 }
 
+
+// men.js
+
+// ... (rest of your existing code)
+
+async function init() {
+    try {
+        const products = await fetchProducts();
+        displayProducts(products);
+
+        // Add to cart click handler
+        document.addEventListener('click', async function(e) {
+            if (e.target && e.target.classList.contains('btn-add-to-cart')) {
+                const productId = e.target.getAttribute('data-product-id');
+                const product = products.find(p => p._id === productId);
+                if (product) {
+                    cartManager.addToCart(product);
+                }
+            }
+        });
+
+        // Cart button click handler
+        const cartBtn = document.getElementById('cart-btn');
+        if (cartBtn) {
+            cartBtn.addEventListener('click', function() {
+                if (cartManager.isLoggedIn()) {
+                    window.location.href = 'cart.html';
+                } else {
+                    window.location.href = 'login.html';
+                }
+            });
+        }
+
+        // Initialize cart display
+        cartManager.updateCartDisplay();
+    } catch (error) {
+        console.error('Error initializing page:', error);
+    }
+}
+
 init();
