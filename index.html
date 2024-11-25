@@ -11,43 +11,46 @@
 <style>
     .logout-btn {
         display: none; /* Initially hidden */
-        background: linear-gradient(45deg, #6a11cb, #2575fc);
-        color: white;
+        position: relative;
+        padding: 10px 20px;
         border: none;
-        padding: 8px 16px;
-        border-radius: 20px;
-        font-size: 12px;
+        background: linear-gradient(45deg, #6a11cb, #2575fc); /* Gradient: Purple to Blue */
+        color: white;
+        font-family: 'Poppins', sans-serif;
+        font-size: 14px;
         font-weight: bold;
+        border-radius: 25px;
         cursor: pointer;
         transition: all 0.3s ease;
-        margin-left: 10px;
-        align-self: center;
+        box-shadow: 0 4px 10px rgba(0, 0, 0, 0.15);
+        overflow: hidden;
     }
 
     .logout-btn:hover {
         transform: scale(1.05);
-        box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+        box-shadow: 0 6px 15px rgba(0, 0, 0, 0.2);
     }
 
-    .profile-container {
-        display: flex;
-        align-items: center;
+    .logout-btn::before {
+        content: '🚪'; /* Door emoji for logout */
+        position: absolute;
+        left: 10px;
+        top: 50%;
+        transform: translateY(-50%);
+        font-size: 18px;
     }
 
-    #profileInitial {
-        display: none;
-        width: 35px;
-        height: 35px;
-        border-radius: 50%;
-        background: linear-gradient(45deg, #6a11cb, #2575fc);
-        color: white;
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        font-weight: bold;
-        margin-right: 10px;
+    .logout-btn span {
+        margin-left: 30px;
+    }
+
+    .logout-btn:active {
+        transform: scale(0.95);
+        box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
     }
 </style>
+
+
   <!-- 
     - favicon
   -->
@@ -1353,61 +1356,30 @@
   -->
  <script>
     document.addEventListener('DOMContentLoaded', () => {
-        const userBtn = document.getElementById('user-btn');
-        const profileLink = document.getElementById('profile-link');
-        const logoutContainer = document.createElement('div');
-        logoutContainer.className = 'profile-container';
+        const logoutBtn = document.getElementById('logout-btn');
+        const profileInitial = document.getElementById('profileInitial'); // Check user profile
 
-        // Create profile initial element if not exists
-        let profileInitial = document.getElementById('profileInitial');
-        if (!profileInitial) {
-            profileInitial = document.createElement('div');
-            profileInitial.id = 'profileInitial';
+        // Check if user is logged in
+        const token = localStorage.getItem('token');
+        const userData = JSON.parse(localStorage.getItem('userData'));
+
+        if (token && userData && profileInitial) {
+            // Display profile initial and logout button only if user is logged in
+            profileInitial.textContent = userData.name.charAt(0).toUpperCase();
+            profileInitial.style.display = 'flex';
+            logoutBtn.style.display = 'inline-block'; // Show logout button
+        } else {
+            // Hide profile and logout button
+            if (profileInitial) profileInitial.style.display = 'none';
+            if (logoutBtn) logoutBtn.style.display = 'none';
         }
 
-        // Create logout button
-        const logoutBtn = document.createElement('button');
-        logoutBtn.id = 'logout-btn';
-        logoutBtn.className = 'logout-btn';
-        logoutBtn.innerHTML = 'Logout';
-
-        // Add to logout container
-        logoutContainer.appendChild(profileInitial);
-        logoutContainer.appendChild(logoutBtn);
-
-        // Function to check and update auth status
-        function checkAuthStatus() {
-            const token = localStorage.getItem('token');
-            const userData = JSON.parse(localStorage.getItem('userData'));
-
-            if (token && userData) {
-                // Show profile initial
-                profileInitial.textContent = userData.name ? userData.name.charAt(0).toUpperCase() : '👤';
-                profileInitial.style.display = 'flex';
-
-                // Show logout button
-                logoutBtn.style.display = 'block';
-
-                // Append to header actions if not already added
-                const headerActions = document.querySelector('.header-actions');
-                if (headerActions && !headerActions.contains(logoutContainer)) {
-                    headerActions.appendChild(logoutContainer);
-                }
-            } else {
-                // Hide profile and logout
-                if (profileInitial) profileInitial.style.display = 'none';
-                if (logoutBtn) logoutBtn.style.display = 'none';
-            }
-        }
-
-        // Logout functionality
-        function setupLogoutHandler() {
+        if (logoutBtn) {
             logoutBtn.addEventListener('click', async () => {
                 // Clear cart from localStorage
                 localStorage.removeItem('cart');
 
                 // Clear cart from backend (optional)
-                const token = localStorage.getItem('token');
                 if (token) {
                     try {
                         await fetch('https://adora-t8e8.onrender.com/api/cart/clear', {
@@ -1432,30 +1404,10 @@
                 if (cartCount) cartCount.textContent = '0';
                 if (cartTotal) cartTotal.textContent = '₹ 0.00';
 
-                // Reset profile and logout visibility
-                if (profileInitial) profileInitial.style.display = 'none';
-                logoutBtn.style.display = 'none';
-
                 // Redirect to login page
                 window.location.href = 'login.html';
             });
         }
-
-        // Initial setup
-        checkAuthStatus();
-        setupLogoutHandler();
-
-        // Add event listeners for additional auth status checks
-        if (userBtn) {
-            userBtn.addEventListener('click', checkAuthStatus);
-        }
-
-        if (profileLink) {
-            profileLink.addEventListener('click', checkAuthStatus);
-        }
-
-        // Check auth status periodically
-        setInterval(checkAuthStatus, 5000);
     });
 </script>
   <script type="module" src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.esm.js"></script>
