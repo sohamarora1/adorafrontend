@@ -3,9 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Address Page - ADORA</title>
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.1/css/all.min.css">
+    <title>Manage Addresses - ADORA</title>
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap');
 
@@ -21,192 +19,186 @@
             min-height: 100vh;
         }
 
-        .container {
-            max-width: 500px;
+        .address-container {
+            max-width: 800px;
             margin: 50px auto;
             padding: 20px;
-            background: rgba(255, 255, 255, 0.9);
-            border-radius: 15px;
-            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
         }
 
         .address-form {
-            display: flex;
-            flex-direction: column;
-            gap: 15px;
-        }
-
-        .address-form input, .address-form select {
-            padding: 10px;
-            border: none;
-            border-radius: 5px;
-            font-size: 16px;
-        }
-
-        .address-form input:focus, .address-form select:focus {
-            outline: none;
-            border: 1px solid #5a36a8;
-        }
-
-        .btn {
-            padding: 10px 20px;
-            border: none;
-            border-radius: 5px;
-            cursor: pointer;
-            font-weight: 500;
-            transition: all 0.3s ease;
-        }
-
-        .btn-primary {
-            background: #5a36a8;
-            color: white;
-        }
-
-        .btn-primary:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-        }
-
-        .address-display {
-            margin-top: 30px;
             background: white;
             padding: 20px;
             border-radius: 10px;
-            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
+            box-shadow: 0 4px 6px rgba(0,0,0,0.05);
+            margin-bottom: 20px;
         }
 
-        .address-display h2 {
-            color: #5a36a8;
-            margin-bottom: 10px;
+        .form-group {
+            margin-bottom: 15px;
         }
 
-        .address-details {
-            font-size: 16px;
+        .form-group label {
+            display: block;
+            margin-bottom: 5px;
             color: #666;
-            margin-bottom: 10px;
+        }
+
+        .form-group input {
+            width: 100%;
+            padding: 8px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            font-size: 1rem;
+        }
+
+        .submit-btn {
+            background: #5a36a8;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 1rem;
+        }
+
+        .address-list {
+            background: white;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.05);
+        }
+
+        .address-item {
+            padding: 15px;
+            border-bottom: 1px solid #eee;
+        }
+
+        .address-item:last-child {
+            border-bottom: none;
+        }
+
+        .address-item h3 {
+            color: #333;
+            margin-bottom: 5px;
+        }
+
+        .address-item p {
+            color: #666;
+            margin-bottom: 3px;
         }
     </style>
 </head>
 <body>
-    <div class="container">
-        <h1>Enter Your Address</h1>
-        <form id="address-form" class="address-form">
-            <input type="text" id="fullName" placeholder="Full Name" required>
-            <input type="text" id="address" placeholder="Address" required>
-            <input type="text" id="city" placeholder="City" required>
-            <input type="text" id="state" placeholder="State" required>
-            <input type="text" id="country" placeholder="Country" required>
-            <input type="number" id="pincode" placeholder="Pincode" required>
-            <input type="number" id="phoneNumber" placeholder="Phone Number" required>
-            <button class="btn btn-primary" id="save-address">Save Address</button>
-        </form>
+    <div class="address-container">
+        <div class="address-form">
+            <h2>Add New Address</h2>
+            <form id="addressForm">
+                <div class="form-group">
+                    <label>Full Name</label>
+                    <input type="text" id="fullName" required>
+                </div>
+                <div class="form-group">
+                    <label>Address</label>
+                    <input type="text" id="address" required>
+                </div>
+                <div class="form-group">
+                    <label>City</label>
+                    <input type="text" id="city" required>
+                </div>
+                <div class="form-group">
+                    <label>State</label>
+                    <input type="text" id="state" required>
+                </div>
+                <div class="form-group">
+                    <label>Country</label>
+                    <input type="text" id="country" required>
+                </div>
+                <div class="form-group">
+                    <label>Pincode</label>
+                    <input type="text" id="pincode" required>
+                </div>
+                <div class="form-group">
+                    <label>Phone Number</label>
+                    <input type="tel" id="phoneNumber" required>
+                </div>
+                <button type="submit" class="submit-btn">Add Address</button>
+            </form>
+        </div>
 
-        <div id="address-display" class="address-display" style="display: none;">
-            <h2>Your Address</h2>
-            <p class="address-details" id="fullName-display"></p>
-            <p class="address-details" id="address-display"></p>
-            <p class="address-details" id="city-display"></p>
-            <p class="address-details" id="state-display"></p>
-            <p class="address-details" id="country-display"></p>
-            <p class="address-details" id="pincode-display"></p>
-            <p class="address-details" id="phoneNumber-display"></p>
-            <button class="btn btn-primary" id="proceed-to-checkout">Proceed to Checkout</button>
+        <div class="address-list" id="addressList">
+            <h2>Saved Addresses</h2>
+            <!-- Addresses will be loaded here -->
         </div>
     </div>
 
-    <script src="auth.js"></script>
     <script>
-        const addressForm = document.getElementById('address-form');
-        const saveAddressBtn = document.getElementById('save-address');
-        const addressDisplay = document.getElementById('address-display');
-        const proceedToCheckoutBtn = document.getElementById('proceed-to-checkout');
+        async function loadAddresses() {
+            const token = localStorage.getItem('token');
+            if (!token) {
+                window.location.href = 'login.html';
+                return;
+            }
 
-        // Function to save address
-        async function saveAddress() {
-            const fullName = document.getElementById('fullName').value;
-            const address = document.getElementById('address').value;
-            const city = document.getElementById('city').value;
-            const state = document.getElementById('state').value;
-            const country = document.getElementById('country').value;
-            const pincode = document.getElementById('pincode').value;
-            const phoneNumber = document.getElementById('phoneNumber').value;
+            try {
+                const response = await fetch('https://adora-t8e8.onrender.com/api/address/get', {
+                    headers: {
+                        'Auth': token
+                    }
+                });
+                const data = await response.json();
+
+                const addressList = document.getElementById('addressList');
+                if (data.userAddress) {
+                    addressList.innerHTML += `
+                        <div class="address-item">
+                            <h3>${data.userAddress.fullName}</h3>
+                            <p>${data.userAddress.address}</p>
+                            <p>${data.userAddress.city}, ${data.userAddress.state}</p>
+                            <p>${data.userAddress.country} - ${data.userAddress.pincode}</p>
+                            <p>Phone: ${data.userAddress.phoneNumber}</p>
+                        </div>
+                    `;
+                } else {
+                    addressList.innerHTML += '<p>No addresses found</p>';
+                }
+            } catch (error) {
+                console.error('Error:', error);
+            }
+        }
+
+        document.getElementById('addressForm').addEventListener('submit', async (e) => {
+            e.preventDefault();
+            const token = localStorage.getItem('token');
 
             try {
                 const response = await fetch('https://adora-t8e8.onrender.com/api/address/add', {
                     method: 'POST',
                     headers: {
-                        'Content-Type': 'application/json',
-                        'Authorization': `Bearer ${localStorage.getItem('token')}`
+                        'Auth': token,
+                        'Content-Type': 'application/json'
                     },
                     body: JSON.stringify({
-                        fullName,
-                        address,
-                        city,
-                        state,
-                        country,
-                        pincode,
-                        phoneNumber
+                        fullName: document.getElementById('fullName').value,
+                        address: document.getElementById('address').value,
+                        city: document.getElementById('city').value,
+                        state: document.getElementById('state').value,
+                        country: document.getElementById('country').value,
+                        pincode: document.getElementById('pincode').value,
+                        phoneNumber: document.getElementById('phoneNumber').value
                     })
                 });
+
                 const data = await response.json();
-                console.log(data);
-
-                // Display saved address
-                document.getElementById('fullName-display').textContent = data.userAddress.fullName;
-                document.getElementById('address-display').textContent = data.userAddress.address;
-                document.getElementById('city-display').textContent = data.userAddress.city;
-                document.getElementById('state-display').textContent = data.userAddress.state;
-                document.getElementById('country-display').textContent = data.userAddress.country;
-                document.getElementById('pincode-display').textContent = data.userAddress.pincode;
-                document.getElementById('phoneNumber-display').textContent = data.userAddress.phoneNumber;
-
-                addressDisplay.style.display = 'block';
-            } catch (error) {
-                console.error('Error saving address:', error);
-            }
-        }
-
-        // Function to get saved address
-        async function getAddress() {
-            try {
-                const response = await fetch('https://adora-t8e8.onrender.com/api/address/get', {
-                    headers: {
-                        'Authorization': `Bearer ${localStorage.getItem('token')}`
-                    }
-                });
-                const data = await response.json();
-
                 if (data.userAddress) {
-                    // Display saved address
-                    document.getElementById('fullName-display').textContent = data.userAddress.fullName;
-                    document.getElementById('address-display').textContent = data.userAddress.address;
-                    document.getElementById('city-display').textContent = data.userAddress.city;
-                    document.getElementById('state-display').textContent = data.userAddress.state;
-                    document.getElementById('country-display').textContent = data.userAddress.country;
-                    document.getElementById('pincode-display').textContent = data.userAddress.pincode;
-                    document.getElementById('phoneNumber-display').textContent = data.userAddress.phoneNumber;
-
-                    addressDisplay.style.display = 'block';
-                } else {
-                    addressDisplay.style.display = 'none';
+                    window.location.reload();
                 }
             } catch (error) {
-                console.error('Error getting address:', error);
+                console.error('Error:', error);
             }
-        }
-
-        // Event listeners
-        saveAddressBtn.addEventListener('click', (e) => {
-            e.preventDefault();
-            saveAddress();
         });
 
-        proceedToCheckoutBtn.addEventListener('click', () => {
-            window.location.href = 'checkout.html';
-        });
-
-        // Load saved address on page load
-        window.addEventListener('DOMContentLoaded', getAddress);
+        // Load addresses on page load
+        window.addEventListener('DOMContentLoaded', loadAddresses);
     </script>
 </body>
 </html>
