@@ -9,47 +9,44 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>ADORA</title>
 <style>
-    .logout-btn {
-        display: none; /* Initially hidden */
-        position: relative;
-        padding: 10px 20px;
-        border: none;
-        background: linear-gradient(45deg, #6a11cb, #2575fc); /* Gradient: Purple to Blue */
-        color: white;
-        font-family: 'Poppins', sans-serif;
-        font-size: 14px;
-        font-weight: bold;
-        border-radius: 25px;
-        cursor: pointer;
-        transition: all 0.3s ease;
-        box-shadow: 0 4px 10px rgba(0, 0, 0, 0.15);
-        overflow: hidden;
-    }
+  /* Logout Button Styling */
+  .logout-btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    padding: 10px;
+    background: linear-gradient(45deg, #6a11cb, #2575fc); /* Gradient: Purple to Blue */
+    color: white;
+    font-family: 'Poppins', sans-serif;
+    font-size: 14px;
+    font-weight: bold;
+    border: none;
+    border-radius: 50px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.15);
+  }
 
-    .logout-btn:hover {
-        transform: scale(1.05);
-        box-shadow: 0 6px 15px rgba(0, 0, 0, 0.2);
-    }
+  .logout-btn:hover {
+    background: linear-gradient(45deg, #2575fc, #6a11cb); /* Reverse gradient on hover */
+    transform: scale(1.05);
+    box-shadow: 0 6px 15px rgba(0, 0, 0, 0.2);
+  }
 
-    .logout-btn::before {
-        content: '🚪'; /* Door emoji for logout */
-        position: absolute;
-        left: 10px;
-        top: 50%;
-        transform: translateY(-50%);
-        font-size: 18px;
-    }
+  .logout-btn:active {
+    transform: scale(0.95);
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+  }
 
-    .logout-btn span {
-        margin-left: 30px;
-    }
+  .logout-btn ion-icon {
+    font-size: 18px;
+    margin-right: 8px;
+  }
 
-    .logout-btn:active {
-        transform: scale(0.95);
-        box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
-    }
+  .logout-btn .btn-text {
+    font-size: 14px;
+  }
 </style>
-
 
   <!-- 
     - favicon
@@ -115,30 +112,28 @@
       </a>
 
       <div class="header-actions">
-         <button class="header-action-btn" aria-label="user" id="profile-btn">
-        <ion-icon name="person-outline" aria-hidden="true"></ion-icon>
-        <span class="profile-initial" id="profileInitial" style="display: none; position: absolute; top: -5px; right: -5px; background: #5a36a8; color: white; border-radius: 50%; width: 20px; height: 20px; font-size: 12px; display: flex; align-items: center; justify-content: center;"></span>
-    </button>
-        <button id="logout-btn" class="logout-btn">
-    <span>Logout</span>
-</button>
-        
-    <div style="display: flex; align-items: center;">
-        <div id="profileInitial"></div> <!-- User Profile Initial -->
-        <button id="logout-btn" class="logout-btn">
-            <span>Logout</span>
+        <!-- User Profile Button -->
+        <button class="header-action-btn" aria-label="user" id="user-btn">
+          <ion-icon name="person-outline" aria-hidden="true"></ion-icon>
         </button>
-    </div>
 
-<!--         <button class="header-action-btn" aria-label="favorite item">
+        <!-- Favorites Button -->
+        <button class="header-action-btn" aria-label="favorite item">
           <ion-icon name="star-outline" aria-hidden="true"></ion-icon>
           <span class="btn-badge">0</span>
-        </button> -->
+        </button>
 
+        <!-- Cart Button -->
         <button class="header-action-btn" aria-label="cart item" id="cart-btn">
-<!--           <data class="btn-text" value="0" id="cart-total">₹ 0.00</data> -->
+          <data class="btn-text" value="0" id="cart-total">₹ 0.00</data>
           <ion-icon name="bag-handle-outline" aria-hidden="true"></ion-icon>
           <span class="btn-badge" id="cart-count">0</span>
+        </button>
+
+        <!-- Logout Button (Hidden by default) -->
+        <button class="header-action-btn logout-btn" id="logout-btn" style="display: none;">
+          <ion-icon name="log-out-outline" aria-hidden="true"></ion-icon>
+          <span class="btn-text">Logout</span>
         </button>
       </div>
 
@@ -147,15 +142,12 @@
           <li><a href="index.html" class="navbar-link has-after">Home</a></li>
           <li><a href="mensection.html" class="navbar-link has-after">Men</a></li>
           <li><a href="womensection.html" class="navbar-link has-after">Women</a></li>
-         
           <li><a href="style.html" class="navbar-link has-after" id="profile-link">Style</a></li>
         </ul>
       </nav>
     </div>
   </div>
 </header>
-
-
 
 
 
@@ -1361,61 +1353,60 @@
   <!-- 
     - ionicon link
   -->
- <script>
-    document.addEventListener('DOMContentLoaded', () => {
-        const logoutBtn = document.getElementById('logout-btn');
-        const profileInitial = document.getElementById('profileInitial'); // Check user profile
+<script>
+  document.addEventListener('DOMContentLoaded', () => {
+    const logoutBtn = document.getElementById('logout-btn');
+    const userBtn = document.getElementById('user-btn');
 
-        // Check if user is logged in
-        const token = localStorage.getItem('token');
-        const userData = JSON.parse(localStorage.getItem('userData'));
+    // Check if the user is logged in
+    const token = localStorage.getItem('token');
+    const userData = JSON.parse(localStorage.getItem('userData'));
 
-        if (token && userData && profileInitial) {
-            // Display profile initial and logout button only if user is logged in
-            profileInitial.textContent = userData.name.charAt(0).toUpperCase();
-            profileInitial.style.display = 'flex';
-            logoutBtn.style.display = 'inline-block'; // Show logout button
-        } else {
-            // Hide profile and logout button
-            if (profileInitial) profileInitial.style.display = 'none';
-            if (logoutBtn) logoutBtn.style.display = 'none';
-        }
+    if (token && userData) {
+      // Show Logout Button if the user is logged in
+      if (logoutBtn) logoutBtn.style.display = 'inline-flex';
 
-        if (logoutBtn) {
-            logoutBtn.addEventListener('click', async () => {
-                // Clear cart from localStorage
-                localStorage.removeItem('cart');
+      // (Optional) If you want to show the user's initial or name in the user button
+      if (userBtn) userBtn.setAttribute('aria-label', `User: ${userData.name}`);
+    }
 
-                // Clear cart from backend (optional)
-                if (token) {
-                    try {
-                        await fetch('https://adora-t8e8.onrender.com/api/cart/clear', {
-                            method: 'DELETE',
-                            headers: {
-                                'Authorization': `Bearer ${token}`
-                            }
-                        });
-                    } catch (error) {
-                        console.error('Error clearing backend cart:', error);
-                    }
-                }
+    // Logout Button Event Listener
+    if (logoutBtn) {
+      logoutBtn.addEventListener('click', async () => {
+        // Clear cart from localStorage
+        localStorage.removeItem('cart');
 
-                // Clear authentication-related localStorage items
-                localStorage.removeItem('token');
-                localStorage.removeItem('userData');
-
-                // Update cart display
-                const cartCount = document.getElementById('cart-count');
-                const cartTotal = document.getElementById('cart-total');
-                
-                if (cartCount) cartCount.textContent = '0';
-                if (cartTotal) cartTotal.textContent = '₹ 0.00';
-
-                // Redirect to login page
-                window.location.href = 'login.html';
+        // Clear cart from backend (optional)
+        if (token) {
+          try {
+            await fetch('https://adora-t8e8.onrender.com/api/cart/clear', {
+              method: 'DELETE',
+              headers: {
+                Authorization: `Bearer ${token}`,
+              },
             });
+          } catch (error) {
+            console.error('Error clearing backend cart:', error);
+          }
         }
-    });
+
+        // Clear authentication-related localStorage items
+        localStorage.removeItem('token');
+        localStorage.removeItem('userData');
+
+        // Update cart display
+        const cartCount = document.getElementById('cart-count');
+        const cartTotal = document.getElementById('cart-total');
+
+        if (cartCount) cartCount.textContent = '0';
+        if (cartTotal) cartTotal.textContent = '₹ 0.00';
+
+        // Redirect to login page
+        alert('You have been logged out.');
+        window.location.href = 'login.html';
+      });
+    }
+  });
 </script>
   <script type="module" src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.esm.js"></script>
   <script nomodule src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.js"></script>
