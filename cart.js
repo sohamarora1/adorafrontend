@@ -2,89 +2,94 @@
 
 class CartManager {
     constructor() {
-        this.currentUser = null;
         this.init();
     }
 
     init() {
-        // Get current user from localStorage and check if they're logged in
-        const userStr = localStorage.getItem('currentUser');
-        const token = localStorage.getItem('token'); // Also check for token
-
-        if (userStr && token) {
-            try {
-                this.currentUser = JSON.parse(userStr);
-                this.updateCartDisplay();
-            } catch (error) {
-                console.error('Error parsing user data:', error);
-                this.currentUser = null;
-            }
-        }
+        this.updateCartDisplay();
     }
 
     isLoggedIn() {
-        return !!(this.currentUser && localStorage.getItem('token'));
+        // Use the Auth class method instead of checking currentUser
+        return Auth.isAuthenticated();
     }
 
-    addToCart(product) {
+    async addToCart(product) {
         if (!this.isLoggedIn()) {
-            alert('Please login to add items to cart');
+            // Store the current URL before redirecting
+            localStorage.setItem('redirectUrl', window.location.href);
             window.location.href = 'login.html';
             return;
         }
 
         try {
-            // Get user's cart from localStorage
-            let userCarts = JSON.parse(localStorage.getItem('userCarts')) || {};
-            let userCart = userCarts[this.currentUser.email] || [];
+            const response = await fetch('https://adora-t8e8.onrender.com/api/cart/add', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Auth': Auth.getToken()
+                },
+                body: JSON.stringify({
+                    productId: product._id,
+                    qty: 1
+                })
+            });
 
-            // Check if item already exists
-            const existingItem = userCart.find(item => item._id === product._id);
-
-            if (existingItem) {
-                existingItem.qty += 1;
-            } else {
-                userCart.push({ ...product, qty: 1 });
-            }
-
-            // Save updated cart
-            userCarts[this.currentUser.email] = userCart;
-            localStorage.setItem('userCarts', JSON.stringify(userCarts));
+            const data = await response.json();
             
-            this.updateCartDisplay();
-            alert('Product added to cart successfully');
+            if (data.success) {
+                this.updateCartDisplay();
+                alert('Product added to cart successfully');
+            } else {
+                alert(data.message || 'Error adding product to cart');
+            }
         } catch (error) {
             console.error('Error adding to cart:', error);
             alert('Error adding product to cart');
         }
     }
 
-    updateCartDisplay() {
+    async updateCartDisplay() {
         if (!this.isLoggedIn()) return;
 
         try {
-            const userCarts = JSON.parse(localStorage.getItem('userCarts')) || {};
-            const userCart = userCarts[this.currentUser.email] || [];
+            const response = await fetch('https://adora-t8e8.onrender.com/api/cart/user', {
+                headers: {
+                    'Auth': Auth.getToken()
+                }
+            });
+            const data = await response.json();
 
             const cartCount = document.getElementById('cart-count');
             const cartTotal = document.getElementById('cart-total');
 
-            const itemCount = userCart.reduce((total, item) => total + item.qty, 0);
-            const totalPrice = userCart.reduce((total, item) => total + (item.price * item.qty), 0);
+            if (data.cart && data.cart.items) {
+                const itemCount = data.cart.items.reduce((total, item) => total + item.qty, 0);
+                const totalPrice = data.cart.items.reduce((total, item) => total + (item.price * item.qty), 0);
 
-            if (cartCount) cartCount.textContent = itemCount;
-            if (cartTotal) cartTotal.textContent = `₹ ${totalPrice.toFixed(2)}`;
+                if (cartCount) cartCount.textContent = itemCount;
+                if (cartTotal) cartTotal.textContent = `₹ ${totalPrice.toFixed(2)}`;
+            }
         } catch (error) {
             console.error('Error updating cart display:', error);
         }
     }
 
-    // Add method to get cart items
-    getCartItems() {
+    async getCartItems() {
         if (!this.isLoggedIn()) return [];
-        
-        const userCarts = JSON.parse(localStorage.getItem('userCarts')) || {};
-        return userCarts[this.currentUser.email] || [];
+
+        try {
+            const response = await fetch('https://adora-t8e8.onrender.com/api/cart/user', {
+                headers: {
+                    'Auth': Auth.getToken()
+                }
+            });
+            const data = await response.json();
+            return data.cart?.items || [];
+        } catch (error) {
+            console.error('Error getting cart items:', error);
+            return [];
+        }
     }
 }
 
