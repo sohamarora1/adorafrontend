@@ -1391,6 +1391,12 @@ document.addEventListener('DOMContentLoaded', () => {
     
     // Check if user is logged in when page loads
     checkAuthStatus();
+    const cartBtn = document.getElementById('cart-btn');
+if (cartBtn) {
+    cartBtn.addEventListener('click', function() {
+        window.location.href = 'cart.html'; // Redirect to the cart page
+    });
+}
 
     // Add click event to profile button
     profileBtn.addEventListener('click', () => {
@@ -1439,6 +1445,7 @@ function checkAuthStatus() {
         profileInitial.style.display = 'none';
     }
 }
+          
 
 // Modify your init() function to include auth check
 async function init() {
