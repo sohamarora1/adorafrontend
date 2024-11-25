@@ -119,12 +119,12 @@
     </style>
 </head>
 <body>
-    <div class="cart-container" id="cartContainer">
+      <div class="cart-container" id="cartContainer">
         <div id="cartItems"></div>
         <div class="cart-summary">
             <div class="cart-total">
                 <span>Total:</span>
-                <span id="cartTotal">$0.00</span>
+                <span id="cartTotal">₹0.00</span>
             </div>
             <button class="checkout-btn" onclick="checkout()">Proceed to Checkout</button>
         </div>
@@ -159,13 +159,13 @@
 
                 let total = 0;
                 cartItemsContainer.innerHTML = data.cart.items.map(item => {
-                    total += item.price;
+                    total += item.price * item.qty; // Multiply price by quantity
                     return `
                         <div class="cart-item">
                             <img src="${item.imgSrc}" alt="${item.title}">
                             <div class="item-details">
                                 <h3 class="item-title">${item.title}</h3>
-                                <p class="item-price">$${item.price.toFixed(2)}</p>
+                                <p class="item-price">₹${item.price.toFixed(2)}</p>
                                 <div class="quantity-controls">
                                     <button class="quantity-btn" onclick="updateQuantity('${item.productId}', -1)">-</button>
                                     <span>${item.qty}</span>
@@ -177,16 +177,16 @@
                     `;
                 }).join('');
 
-                document.getElementById('cartTotal').textContent = `$${total.toFixed(2)}`;
+                document.getElementById('cartTotal').textContent = `₹${total.toFixed(2)}`;
             } catch (error) {
-                console.error('Error:', error);
+                console.error('Error loading cart:', error);
             }
         }
 
         async function updateQuantity(productId, change) {
             const token = localStorage.getItem('token');
             try {
-                const endpoint = change > 0 ? 'add' : '--qty';
+                const endpoint = change > 0 ? 'add' : 'remove'; // Adjust the endpoint as needed
                 await fetch(`https://adora-t8e8.onrender.com/api/cart/${endpoint}`, {
                     method: 'POST',
                     headers: {
@@ -200,7 +200,7 @@
                 });
                 loadCart();
             } catch (error) {
-                console.error('Error:', error);
+                console.error('Error updating quantity:', error);
             }
         }
 
@@ -215,12 +215,11 @@
                 });
                 loadCart();
             } catch (error) {
-                console.error('Error:', error);
+                console.error('Error removing item:', error);
             }
         }
 
         function checkout() {
-            // Implement checkout logic here
             alert('Checkout functionality coming soon!');
         }
 
