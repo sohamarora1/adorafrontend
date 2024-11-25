@@ -1,25 +1,33 @@
+// men.js
+
 // Fetch products from the API
 async function fetchProducts() {
     try {
         const response = await fetch('https://adora-t8e8.onrender.com/api/product/all');
         const data = await response.json();
-        return data.products || [];
+        if (data.products && Array.isArray(data.products)) {
+            return data.products;
+        }
+        console.error('Invalid products data:', data);
+        return [];
     } catch (error) {
         console.error('Error fetching products:', error);
         return [];
     }
 }
 
-// Generate product card HTML
+// Create product card HTML
 function createProductCard(product) {
     return `
-        <div class="product-card">
+        <div class="product-card" data-product-id="${product._id}">
             <img src="${product.imgSrc}" alt="${product.title}" class="product-image">
             <div class="product-info">
                 <h3 class="product-title">${product.title}</h3>
                 <p class="product-price">₹${product.price.toFixed(2)}</p>
                 <p class="product-description">${product.description}</p>
-                <button class="btn-add-to-cart" data-product-id="${product._id}">Add to Cart</button>
+                <button class="btn-add-to-cart" onclick="handleAddToCart('${product._id}')">
+                    Add to Cart
+                </button>
             </div>
         </div>
     `;
@@ -31,86 +39,101 @@ function displayProducts(products) {
     const festiveSection = document.querySelector('#trendy-outfits .product-grid');
     const casualSection = document.querySelector('#casual-outfits .product-grid');
 
+    // Clear existing content
+    if (formalsSection) formalsSection.innerHTML = '';
+    if (festiveSection) festiveSection.innerHTML = '';
+    if (casualSection) casualSection.innerHTML = '';
+
     products.forEach(product => {
         if (product.category === 'mensection') {
             const productCard = createProductCard(product);
-            if (product.type === 'formals' && formalsSection) {
-                formalsSection.insertAdjacentHTML('beforeend', productCard);
-            } else if (product.type === 'festiveoutfits' && festiveSection) {
-                festiveSection.insertAdjacentHTML('beforeend', productCard);
-            } else if (product.type === 'casualwear' && casualSection) {
-                casualSection.insertAdjacentHTML('beforeend', productCard);
+            switch (product.type) {
+                case 'formals':
+                    if (formalsSection) formalsSection.innerHTML += productCard;
+                    break;
+                case 'festiveoutfits':
+                    if (festiveSection) festiveSection.innerHTML += productCard;
+                    break;
+                case 'casualwear':
+                    if (casualSection) casualSection.innerHTML += productCard;
+                    break;
             }
         }
     });
 }
 
-// Debounce function to prevent spamming add-to-cart requests
-function debounce(func, delay) {
-    let timeout;
-    return function (...args) {
-        clearTimeout(timeout);
-        timeout = setTimeout(() => func.apply(this, args), delay);
-    };
-}
-
-// Add product to cart
-async function handleAddToCart(productId, products) {
-    if (!cartManager.isLoggedIn()) {
-        // Save the current page URL before redirecting to login
+// Handle add to cart
+async function handleAddToCart(productId) {
+    if (!Auth.isAuthenticated()) {
         localStorage.setItem('redirectUrl', window.location.href);
         window.location.href = 'login.html';
         return;
     }
 
-    const product = products.find(p => p._id === productId);
-    if (!product) {
-        alert('Product not found.');
-        return;
-    }
-
     try {
-        await cartManager.addToCart(product);
-        alert('Product added to cart successfully!');
-        cartManager.updateCartDisplay(); // Update cart UI
+        const response = await fetch(`https://adora-t8e8.onrender.com/api/product/${productId}`);
+        const data = await response.json();
+        
+        if (!data.product) {
+            throw new Error('Product not found');
+        }
+
+        const addToCartResponse = await fetch('https://adora-t8e8.onrender.com/api/cart/add', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                'Auth': Auth.getToken()
+            },
+            body: JSON.stringify({
+                productId: data.product._id,
+                qty: 1
+            })
+        });
+
+        const cartData = await addToCartResponse.json();
+
+        if (cartData.success) {
+            alert('Product added to cart successfully!');
+            // Update cart display
+            if (typeof cartManager !== 'undefined') {
+                cartManager.updateCartDisplay();
+            }
+        } else {
+            throw new Error(cartData.message || 'Failed to add to cart');
+        }
     } catch (error) {
         console.error('Error adding to cart:', error);
-        alert('Failed to add product to cart. Please try again.');
+        alert(error.message || 'Failed to add product to cart. Please try again.');
     }
 }
 
-// Initialize the page
+// Initialize page
 async function init() {
     try {
-        const products = await fetchProducts(); // Fetch products from the API
-        displayProducts(products); // Display products on the page
+        const products = await fetchProducts();
+        displayProducts(products);
 
-        // Add event listener for "Add to Cart" buttons
-        document.addEventListener('click', debounce(async function (e) {
-            if (e.target && e.target.classList.contains('btn-add-to-cart')) {
-                const productId = e.target.getAttribute('data-product-id');
-                await handleAddToCart(productId, products);
-            }
-        }, 300)); // Debounce the add-to-cart click handler
-
-        // Add event listener for cart button
+        // Cart button click handler
         const cartBtn = document.getElementById('cart-btn');
         if (cartBtn) {
-            cartBtn.addEventListener('click', function () {
-                if (cartManager.isLoggedIn()) {
+            cartBtn.addEventListener('click', function() {
+                if (Auth.isAuthenticated()) {
                     window.location.href = 'cart.html';
                 } else {
+                    localStorage.setItem('redirectUrl', 'cart.html');
                     window.location.href = 'login.html';
                 }
             });
         }
 
-        // Initialize and update cart display
-        cartManager.updateCartDisplay();
+        // Initialize cart display if cartManager exists
+        if (typeof cartManager !== 'undefined') {
+            cartManager.updateCartDisplay();
+        }
     } catch (error) {
         console.error('Error initializing page:', error);
     }
 }
 
-// Initialize the script
-init();
+// Start the initialization
+document.addEventListener('DOMContentLoaded', init);
