@@ -1,10 +1,23 @@
 // auth.js
 class Auth {
+    static isAuthenticated() {
+        return localStorage.getItem('token') !== null;
+    }
+
     static getToken() {
         return localStorage.getItem('token');
     }
 
-    static async checkAuth() {
+    static setToken(token) {
+        localStorage.setItem('token', token);
+    }
+
+    static logout() {
+        localStorage.removeItem('token');
+        window.location.href = 'index.html';
+    }
+
+    static async checkAuthStatus() {
         const token = this.getToken();
         const profileBtn = document.getElementById('profile-btn');
         const profileInitial = document.getElementById('profileInitial');
@@ -12,7 +25,7 @@ class Auth {
         if (!token) {
             profileInitial.style.display = 'none';
             profileBtn.onclick = () => window.location.href = 'login.html';
-            return null;
+            return false;
         }
 
         try {
@@ -28,15 +41,21 @@ class Auth {
                 profileInitial.style.display = 'flex';
                 profileInitial.textContent = data.user.name[0].toUpperCase();
                 profileBtn.onclick = () => window.location.href = 'profile.html';
-                return data.user;
+                return true;
             }
             
-            return null;
+            return false;
         } catch (error) {
             console.error('Auth check failed:', error);
-            return null;
+            return false;
         }
     }
 }
 
+// Initialize auth check when the page loads
+document.addEventListener('DOMContentLoaded', () => {
+    Auth.checkAuthStatus();
+});
+
+// Export the Auth class
 window.Auth = Auth;
