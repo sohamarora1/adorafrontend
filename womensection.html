@@ -1410,28 +1410,58 @@
             cartTotal.textContent = `₹ ${totalPrice.toFixed(2)}`;
         }
 
-        async function init() {
-            const products = await fetchProducts();
-            displayProducts(products);
-            loadCart();
+        // async function init() {
+        //     const products = await fetchProducts();
+        //     displayProducts(products);
+        //     loadCart();
 
-            document.addEventListener('click', function(e) {
-                if (e.target && e.target.classList.contains('btn-add-to-cart')) {
-                    const productId = e.target.getAttribute('data-product-id');
-                    const product = products.find(p => p._id === productId);
-                    if (product) {
-                        addToCart(product);
-                    }
-                }
-            });
+        //     document.addEventListener('click', function(e) {
+        //         if (e.target && e.target.classList.contains('btn-add-to-cart')) {
+        //             const productId = e.target.getAttribute('data-product-id');
+        //             const product = products.find(p => p._id === productId);
+        //             if (product) {
+        //                 addToCart(product);
+        //             }
+        //         }
+        //     });
 
-            const cartBtn = document.getElementById('cart-btn');
-            if (cartBtn) {
-                cartBtn.addEventListener('click', function() {
-                    window.location.href = 'cart.html';
-                });
+        //     const cartBtn = document.getElementById('cart-btn');
+        //     if (cartBtn) {
+        //         cartBtn.addEventListener('click', function() {
+        //             window.location.href = 'cart.html';
+        //         });
+        //     }
+        // }
+          async function init() {
+    try {
+        // Fetch and display products
+        const products = await fetchProducts();
+        displayProducts(products);
+
+        // Update cart display
+        loadCart();
+
+        // Handle Add-to-Cart button clicks
+        document.addEventListener('click', async function(e) {
+            if (e.target && e.target.classList.contains('btn-add-to-cart')) {
+                const productId = e.target.getAttribute('data-product-id');
+                await addToCart(productId);
             }
+        });
+
+        // Cart button redirect
+        const cartBtn = document.getElementById('cart-btn');
+        if (cartBtn) {
+            cartBtn.addEventListener('click', () => {
+                window.location.href = 'cart.html';
+            });
         }
+    } catch (error) {
+        console.error('Error initializing page:', error);
+    }
+}
+
+init();
 
         init();
     </script>
