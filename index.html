@@ -8,29 +8,31 @@
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>ADORA</title>
-  <style>
+<style>
     .logout-btn {
+        display: none; /* Initially hidden */
         position: relative;
         padding: 10px 20px;
         border: none;
-        background: linear-gradient(45deg, #ff6b6b, #ff4757);
+        background: linear-gradient(45deg, #6a11cb, #2575fc); /* Gradient: Purple to Blue */
         color: white;
+        font-family: 'Poppins', sans-serif;
+        font-size: 14px;
+        font-weight: bold;
         border-radius: 25px;
         cursor: pointer;
-        font-family: 'Arial', sans-serif;
-        font-weight: bold;
         transition: all 0.3s ease;
-        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        box-shadow: 0 4px 10px rgba(0, 0, 0, 0.15);
         overflow: hidden;
     }
 
     .logout-btn:hover {
         transform: scale(1.05);
-        box-shadow: 0 6px 8px rgba(0, 0, 0, 0.15);
+        box-shadow: 0 6px 15px rgba(0, 0, 0, 0.2);
     }
 
     .logout-btn::before {
-        content: '👋';
+        content: '🚪'; /* Door emoji for logout */
         position: absolute;
         left: 10px;
         top: 50%;
@@ -39,12 +41,12 @@
     }
 
     .logout-btn span {
-        margin-left: 25px;
+        margin-left: 30px;
     }
 
     .logout-btn:active {
         transform: scale(0.95);
-        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
     }
 </style>
 
@@ -1352,17 +1354,32 @@
   <!-- 
     - ionicon link
   -->
-  <script>
+ <script>
     document.addEventListener('DOMContentLoaded', () => {
         const logoutBtn = document.getElementById('logout-btn');
-        
+        const profileInitial = document.getElementById('profileInitial'); // Check user profile
+
+        // Check if user is logged in
+        const token = localStorage.getItem('token');
+        const userData = JSON.parse(localStorage.getItem('userData'));
+
+        if (token && userData && profileInitial) {
+            // Display profile initial and logout button only if user is logged in
+            profileInitial.textContent = userData.name.charAt(0).toUpperCase();
+            profileInitial.style.display = 'flex';
+            logoutBtn.style.display = 'inline-block'; // Show logout button
+        } else {
+            // Hide profile and logout button
+            if (profileInitial) profileInitial.style.display = 'none';
+            if (logoutBtn) logoutBtn.style.display = 'none';
+        }
+
         if (logoutBtn) {
             logoutBtn.addEventListener('click', async () => {
                 // Clear cart from localStorage
                 localStorage.removeItem('cart');
-                
-                // Optional: Clear cart from backend if you have a backend endpoint
-                const token = localStorage.getItem('token');
+
+                // Clear cart from backend (optional)
                 if (token) {
                     try {
                         await fetch('https://adora-t8e8.onrender.com/api/cart/clear', {
