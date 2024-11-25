@@ -1413,7 +1413,7 @@
         async function init() {
             const products = await fetchProducts();
             displayProducts(products);
-            updateCartDisplay();
+            loadCart();
 
             document.addEventListener('click', function(e) {
                 if (e.target && e.target.classList.contains('btn-add-to-cart')) {
