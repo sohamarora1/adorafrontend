@@ -1290,34 +1290,32 @@
   </footer>
 
 <script>
-    // Function to check user authentication and update UI accordingly
+    // Function to check if the user is authenticated
     function checkAuth() {
-        const token = localStorage.getItem('token'); // Get the token from localStorage
+        const token = localStorage.getItem('token');
         const profileBtn = document.getElementById('profile-btn');
         const profileInitial = document.getElementById('profileInitial');
 
         if (token) {
-            // If user is logged in, fetch user profile
+            // Fetch user profile if the token exists
             fetch('https://adora-t8e8.onrender.com/api/user/profile', {
                 headers: {
                     'Auth': token
                 }
             })
-                .then(res => res.json())
-                .then(data => {
+                .then((res) => res.json())
+                .then((data) => {
                     if (data.user) {
+                        // Show the user's initial if logged in
                         profileInitial.style.display = 'flex';
                         profileInitial.textContent = data.user.name[0].toUpperCase();
-
-                        // Redirect to profile page when clicked
                         profileBtn.onclick = () => {
                             window.location.href = 'profile.html';
                         };
                     }
                 })
-                .catch(err => {
-                    console.error("Error fetching user profile:", err);
-                    // Log out if the token is invalid
+                .catch((err) => {
+                    console.error('Error fetching user profile:', err);
                     localStorage.removeItem('token');
                     profileInitial.style.display = 'none';
                     profileBtn.onclick = () => {
@@ -1325,7 +1323,7 @@
                     };
                 });
         } else {
-            // If not logged in, redirect to login page
+            // Redirect to login if no token is found
             profileInitial.style.display = 'none';
             profileBtn.onclick = () => {
                 window.location.href = 'login.html';
@@ -1333,19 +1331,19 @@
         }
     }
 
-    // Fetch all products from the backend
+    // Function to fetch products from the backend
     async function fetchProducts() {
         try {
             const response = await fetch('https://adora-t8e8.onrender.com/api/product/all');
             const data = await response.json();
-            return data.products; // Return the list of products
+            return data.products;
         } catch (error) {
             console.error('Error fetching products:', error);
             return [];
         }
     }
 
-    // Create the HTML for a single product card
+    // Function to create a product card dynamically
     function createProductCard(product) {
         return `
             <div class="product-card">
@@ -1360,14 +1358,13 @@
         `;
     }
 
-    // Display all products in their respective sections
+    // Function to display products in their respective sections
     function displayProducts(products) {
         const collegeOutfits = document.querySelector('#college-outfits .product-grid');
         const trendyOutfits = document.querySelector('#trendy-outfits .product-grid');
         const casualOutfits = document.querySelector('#casual-outfits .product-grid');
 
-        // Add each product to the correct section based on its type
-        products.forEach(product => {
+        products.forEach((product) => {
             if (product.category === 'mensection') {
                 const productCard = createProductCard(product);
                 switch (product.type) {
@@ -1385,81 +1382,63 @@
         });
     }
 
-    // Add a product to the cart by calling the backend API
+    // Function to handle adding a product to the cart
     async function addToCart(product) {
-        console.log("Adding product to cart:", product); // Debugging: Ensure the product object is correct
-        const token = localStorage.getItem('token'); // Get the user token
+        const token = localStorage.getItem('token'); // Retrieve token from localStorage
         if (!token) {
-            alert("You need to log in to add items to your cart.");
+            alert('You need to log in to add items to your cart.');
             window.location.href = 'login.html'; // Redirect to login if not authenticated
             return;
         }
 
         try {
+            // Send request to backend to add the product to the user's cart
             const response = await fetch('https://adora-t8e8.onrender.com/api/cart/add', {
                 method: 'POST',
                 headers: {
-                    'Auth': token, // Include the token for authentication
-                    'Content-Type': 'application/json' // Specify JSON content type
+                    'Auth': token, // Pass token for authentication
+                    'Content-Type': 'application/json', // Specify JSON content type
                 },
                 body: JSON.stringify({
-                    productId: product._id,
-                    title: product.title,
-                    price: product.price,
-                    qty: 1, // Set default quantity to 1
-                    imgSrc: product.imgSrc
-                })
+                    productId: product._id, // Product ID
+                    title: product.title, // Product title
+                    price: product.price, // Product price
+                    qty: 1, // Default quantity of 1
+                    imgSrc: product.imgSrc, // Product image source
+                }),
             });
 
-            const data = await response.json(); // Parse the response
-            console.log("Response from server:", data); // Debugging: Check the server response
-
+            const data = await response.json(); // Parse the JSON response
             if (response.ok) {
-                alert('Product added to cart successfully.'); // Success message
-                updateCartDisplay(); // Update cart count (optional)
+                alert('Product added to cart successfully!');
+                updateCartDisplay(); // Update the cart display (optional)
             } else {
-                alert(data.message || 'Failed to add product to cart.'); // Error message
+                alert(data.message || 'Failed to add product to cart.');
             }
         } catch (error) {
-            console.error('Error adding to cart:', error); // Log any errors
+            console.error('Error adding to cart:', error);
             alert('Something went wrong. Please try again.');
         }
     }
 
-    // Update the cart count in the UI (optional feature)
+    // Function to initialize the cart display (optional)
     function updateCartDisplay() {
-        const cartCount = document.getElementById('cart-count');
-        fetch('https://adora-t8e8.onrender.com/api/cart/user', {
-            headers: {
-                'Auth': localStorage.getItem('token')
-            }
-        })
-            .then(res => res.json())
-            .then(data => {
-                if (data.cart && data.cart.items) {
-                    const itemCount = data.cart.items.reduce((total, item) => total + item.qty, 0);
-                    cartCount.textContent = itemCount; // Update the cart count badge
-                }
-            })
-            .catch(err => {
-                console.error("Error updating cart display:", err);
-            });
+        // This function can be used to update the cart badge or total price dynamically
+        // For now, you can leave this empty or implement as needed
     }
 
-    // Initialize the page
+    // Initialize the page and attach event listeners
     async function init() {
-        const products = await fetchProducts(); // Fetch all products from the backend
+        const products = await fetchProducts(); // Fetch all products from backend
         displayProducts(products); // Display the products
-        updateCartDisplay(); // Update the cart count in the UI
 
         // Add event listener for "Add to Cart" buttons
-        document.addEventListener('click', async function (e) {
+        document.addEventListener('click', async (e) => {
             if (e.target && e.target.classList.contains('btn-add-to-cart')) {
-                console.log("Add to Cart button clicked."); // Debugging: Ensure the button click is detected
                 const productId = e.target.getAttribute('data-product-id');
-                const product = products.find(p => p._id === productId); // Find the product by its ID
+                const product = products.find((p) => p._id === productId); // Find the product by its ID
                 if (product) {
-                    await addToCart(product); // Call the `addToCart` function
+                    await addToCart(product); // Call addToCart with the product details
                 }
             }
         });
@@ -1467,15 +1446,15 @@
         // Add event listener for the cart button
         const cartBtn = document.getElementById('cart-btn');
         if (cartBtn) {
-            cartBtn.addEventListener('click', function () {
+            cartBtn.addEventListener('click', () => {
                 window.location.href = 'cart.html'; // Redirect to the cart page
             });
         }
     }
 
-    // Run the initialization function when the page loads
+    // Check authentication on page load
     window.addEventListener('DOMContentLoaded', () => {
-        checkAuth(); // Check and handle user authentication
+        checkAuth(); // Check if the user is logged in
         init(); // Initialize the page
     });
 </script>
