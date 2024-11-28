@@ -1433,29 +1433,30 @@
             cartTotal.textContent = `₹ ${totalPrice.toFixed(2)}`;
         }
     
-        async function init() {
-            const products = await fetchProducts();
-            displayProducts(products);
-            updateCartDisplay();
-    
-            document.addEventListener('click', async function(e) {
-                if (e.target && e.target.classList.contains('btn-add-to-cart')) {
-                    const productId = e.target.getAttribute('data-product-id');
-                    const product = products.find(p => p._id === productId);
-                    if (product) {
-                        addToCart(product);
-                    }
-                }
-            });
-    
-            const cartBtn = document.getElementById('cart-btn');
-            if (cartBtn) {
-                cartBtn.addEventListener('click', function() {
-                    window.location.href = 'cart.html';
-                });
+       async function init() {
+    const products = await fetchProducts(); // Fetch all products from your backend
+    displayProducts(products); // Display the products on the page
+    updateCartDisplay(); // Update the cart icon with the current cart count (optional)
+
+    // Add event listeners for "Add to Cart" buttons
+    document.addEventListener('click', async function (e) {
+        if (e.target && e.target.classList.contains('btn-add-to-cart')) {
+            const productId = e.target.getAttribute('data-product-id');
+            const product = products.find(p => p._id === productId); // Find the product by its ID
+            if (product) {
+                await addToCart(product); // Call the new `addToCart` function
             }
         }
-    
+    });
+
+    // Add event listener for the cart button
+    const cartBtn = document.getElementById('cart-btn');
+    if (cartBtn) {
+        cartBtn.addEventListener('click', function () {
+            window.location.href = 'cart.html'; // Redirect to the cart page
+        });
+    }
+}
         init();
     </script>
 <script>
