@@ -21,102 +21,90 @@
     </div>
 
     <script>
-        const token = localStorage.getItem('token');
-        if (!token) {
-            window.location.href = 'login.html';
+        async function addToCart(productId, title, price, imgSrc) {
+    const token = localStorage.getItem('token'); // Retrieve the token
+
+    if (!token) {
+        // Redirect to login if the user is not logged in
+        alert('Please login to add items to your cart.');
+        localStorage.setItem('returnTo', window.location.href); // Save the current page for redirect after login
+        window.location.href = 'login.html';
+        return;
+    }
+
+    try {
+        // Make a POST request to the backend API
+        const response = await fetch('https://adora-t8e8.onrender.com/api/cart/add', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                'Auth': token, // Include the token in the Auth header
+            },
+            body: JSON.stringify({
+                productId,
+                title,
+                price,
+                qty: 1, // Default quantity when adding to cart
+                imgSrc,
+            }),
+        });
+
+        const data = await response.json();
+
+        if (response.ok) {
+            // Successfully added to cart
+            alert('Product added to your cart!');
+            updateCartDisplay(); // Update cart display (optional)
+        } else {
+            // Handle any errors returned by the backend
+            alert(data.message || 'Failed to add product to cart.');
         }
+    } catch (error) {
+        console.error('Error adding product to cart:', error);
+        alert('Something went wrong while adding to cart. Please try again.');
+    }
+}
 
-        async function fetchCart() {
-            try {
-                const response = await fetch('https://adora-t8e8.onrender.com/api/cart/user', {
-                    headers: {
-                        'Auth': token
-                    }
-                });
-                const data = await response.json();
-                return data;
-            } catch (error) {
-                console.error('Error fetching cart:', error);
-                return { cart: { items: [] }, total: 0 };
-            }
+// Attach an event listener to the "Add to Cart" buttons
+document.addEventListener('click', async function (e) {
+    if (e.target && e.target.classList.contains('btn-add-to-cart')) {
+        const productId = e.target.getAttribute('data-product-id');
+        const products = await fetchProducts(); // Fetch all products
+        const product = products.find((p) => p._id === productId); // Find the selected product
+
+        if (product) {
+            // Call the addToCart function with the product details
+            addToCart(product._id, product.title, product.price, product.imgSrc);
         }
+    }
+});
 
-        async function removeFromCart(productId) {
-            try {
-                await fetch(`https://adora-t8e8.onrender.com/api/cart/remove/${productId}`, {
-                    method: 'DELETE',
-                    headers: {
-                        'Auth': token
-                    }
-                });
-                renderCart();
-            } catch (error) {
-                console.error('Error removing item:', error);
-            }
-        }
+// Optional: Update cart display (if you want to show cart count dynamically)
+async function updateCartDisplay() {
+    const token = localStorage.getItem('token');
+    if (!token) return; // If not logged in, don't update the cart
 
-        async function updateQuantity(productId, change) {
-            try {
-                await fetch('https://adora-t8e8.onrender.com/api/cart/--qty', {
-                    method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/json',
-                        'Auth': token
-                    },
-                    body: JSON.stringify({
-                        productId,
-                        qty: Math.abs(change)
-                    })
-                });
-                renderCart();
-            } catch (error) {
-                console.error('Error updating quantity:', error);
-            }
-        }
+    try {
+        const response = await fetch('https://adora-t8e8.onrender.com/api/cart/user', {
+            headers: {
+                'Auth': token,
+            },
+        });
+        const data = await response.json();
 
-        async function clearCart() {
-            try {
-                await fetch('https://adora-t8e8.onrender.com/api/cart/clear', {
-                    method: 'DELETE',
-                    headers: {
-                        'Auth': token
-                    }
-                });
-                renderCart();
-            } catch (error) {
-                console.error('Error clearing cart:', error);
-            }
-        }
+        // Update the cart count and total on the UI
+        const cartCount = document.getElementById('cart-count');
+        const cartTotal = document.getElementById('cart-total');
 
-        async function renderCart() {
-            const { cart, total } = await fetchCart();
-            const cartItems = document.getElementById('cartItems');
-            const cartTotal = document.getElementById('cartTotal');
+        const itemCount = data.cart?.items.reduce((total, item) => total + item.qty, 0) || 0;
+        const totalPrice = data.cart?.items.reduce((total, item) => total + item.pricePerUnit * item.qty, 0) || 0;
 
-            cartItems.innerHTML = '';
-            cart.items.forEach(item => {
-                const itemElement = document.createElement('div');
-                itemElement.className = 'cart-item';
-                itemElement.innerHTML = `
-                    <img src="${item.imgSrc}" alt="${item.title}">
-                    <div class="item-details">
-                        <h3>${item.title}</h3>
-                        <p>Price: $${item.pricePerUnit}</p>
-                        <div class="quantity-controls">
-                            <button onclick="updateQuantity('${item.productId}', -1)">-</button>
-                            <span>${item.qty}</span>
-                            <button onclick="updateQuantity('${item.productId}', 1)">+</button>
-                            <button class="remove-btn" onclick="removeFromCart('${item.productId}')">Remove</button>
-                        </div>
-                    </div>
-                `;
-                cartItems.appendChild(itemElement);
-            });
-
-            cartTotal.textContent = `Total: $${total}`;
-        }
-
-        renderCart();
+        cartCount.textContent = itemCount; // Update cart item count
+        cartTotal.textContent = `₹ ${totalPrice.toFixed(2)}`; // Update cart total price
+    } catch (error) {
+        console.error('Error updating cart display:', error);
+    }
+}
     </script>
 </body>
 </html>
