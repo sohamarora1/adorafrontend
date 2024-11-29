@@ -195,6 +195,26 @@
             color: #ff416c;
             margin-top: 10px;
         }
+
+        .logout-btn {
+            background-color: #FF4B2B;
+            color: #FFFFFF;
+            border: none;
+            padding: 10px 20px;
+            font-size: 16px;
+            cursor: pointer;
+            border-radius: 5px;
+        }
+
+        .cart-btn {
+            background-color: #5a36a8;
+            color: #FFFFFF;
+            border: none;
+            padding: 10px 20px;
+            font-size: 16px;
+            cursor: pointer;
+            border-radius: 5px;
+        }
     </style>
 </head>
 <body>
@@ -236,10 +256,28 @@
         </div>
     </div>
 
+    <div id="loggedIn">
+        <button class="logout-btn" id="logOut">Log Out</button>
+        <button class="cart-btn" id="addToCart">Add to Cart</button>
+    </div>
+
     <script>
         const signUpButton = document.getElementById('signUp');
         const signInButton = document.getElementById('signIn');
         const container = document.getElementById('container');
+        const loggedInDiv = document.getElementById('loggedIn');
+        const logOutButton = document.getElementById('logOut');
+        const addToCartButton = document.getElementById('addToCart');
+
+        // Check token in local storage
+        const token = localStorage.getItem('token');
+        if (token) {
+            loggedInDiv.style.display = 'block';
+            container.style.display = 'none';
+        } else {
+            loggedInDiv.style.display = 'none';
+            container.style.display = 'flex';
+        }
 
         signUpButton.addEventListener('click', () => {
             container.classList.add("right-panel-active");
@@ -247,6 +285,25 @@
 
         signInButton.addEventListener('click', () => {
             container.classList.remove("right-panel-active");
+        });
+
+        // Logout button functionality
+        logOutButton.addEventListener('click', () => {
+            localStorage.removeItem('token');
+            loggedInDiv.style.display = 'none';
+            container.style.display = 'flex';
+        });
+
+        // Add to Cart functionality
+        addToCartButton.addEventListener('click', () => {
+            const token = localStorage.getItem('token');
+            if (!token) {
+                localStorage.setItem('redirectUrl', window.location.href);
+                container.style.display = 'flex';
+                loggedInDiv.style.display = 'none';
+            } else {
+                alert('Add to Cart: Coming Soon!');
+            }
         });
 
         // Login form submission
@@ -266,14 +323,12 @@
 
                 const data = await response.json();
 
-                // Redirect after login
-if (data.success) {
-  localStorage.setItem('token', data.token);
-  const redirectUrl = localStorage.getItem('redirectUrl') || 'index.html';
-  localStorage.removeItem('redirectUrl');
-  window.location.href = redirectUrl;
-}
-} else {
+                if (data.success) {
+                    localStorage.setItem('token', data.token);
+                    const redirectUrl = localStorage.getItem('redirectUrl') || 'index.html';
+                    localStorage.removeItem('redirectUrl');
+                    window.location.href = redirectUrl;
+                } else {
                     document.getElementById('loginError').textContent = data.message;
                 }
             } catch (error) {
@@ -300,16 +355,14 @@ if (data.success) {
 
                 const data = await response.json();
 
-               // Redirect after login
-if (data.success) {
-  localStorage.setItem('token', data.token);
-  const redirectUrl = localStorage.getItem('redirectUrl') || 'index.html';
-  localStorage.removeItem('redirectUrl');
-  window.location.href = redirectUrl;
-}
-                    else {
-                    document.getElementById('loginError').textContent = data.message;
-                    }
+                if (data.success) {
+                    localStorage.setItem('token', data.token);
+                    const redirectUrl = localStorage.getItem('redirectUrl') || 'index.html';
+                    localStorage.removeItem('redirectUrl');
+                    window.location.href = redirectUrl;
+                } else {
+                    document.getElementById('signupError').textContent = data.message;
+                }
             } catch (error) {
                 console.error('Error:', error);
                 document.getElementById('signupError').textContent = 'An error occurred. Please try again.';
