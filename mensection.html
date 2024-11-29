@@ -1273,6 +1273,45 @@
       </div>
   </footer>
 <script>
+    // Token Validation Function
+    async function validateToken() {
+        const token = localStorage.getItem('token');
+        if (!token) {
+            redirectToLogin();
+            return false;
+        }
+
+        try {
+            const response = await fetch('https://adora-t8e8.onrender.com/api/user/validate-token', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Authorization': `Bearer ${token}`
+                },
+                body: JSON.stringify({ token })
+            });
+
+            if (!response.ok) {
+                redirectToLogin();
+                return false;
+            }
+
+            const data = await response.json();
+            return data.valid;
+        } catch (error) {
+            console.error('Token validation error:', error);
+            redirectToLogin();
+            return false;
+        }
+    }
+
+    // Redirect to login function
+    function redirectToLogin() {
+        localStorage.removeItem('token');
+        localStorage.setItem('redirectUrl', window.location.href);
+        window.location.href = 'login.html';
+    }
+
     // Check user authentication
     function checkAuth() {
         const token = localStorage.getItem('token');
@@ -1299,29 +1338,35 @@
     }
 
     // Fetch products for men's section
-  async function fetchProducts() {
-    const token = localStorage.getItem('token');
-    try {
-        const response = await fetch('https://adora-t8e8.onrender.com/api/product/all', {
-            method: 'GET',
-            headers: {
-                'Auth': token,
-                'Content-Type': 'application/json'
-            },
-            credentials: 'include'
-        });
-        
-        if (!response.ok) {
-            throw new Error(`HTTP error! status: ${response.status}`);
+    async function fetchProducts() {
+        const token = localStorage.getItem('token');
+        try {
+            const response = await fetch('https://adora-t8e8.onrender.com/api/product/all', {
+                method: 'GET',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Authorization': `Bearer ${token}`
+                }
+            });
+
+            if (response.status === 401) {
+                redirectToLogin();
+                return [];
+            }
+
+            if (!response.ok) {
+                throw new Error(`HTTP error! status: ${response.status}`);
+            }
+            
+            const data = await response.json();
+            return data.products;
+        } catch (error) {
+            console.error('Error fetching products:', error);
+            redirectToLogin();
+            return [];
         }
-        
-        const data = await response.json();
-        return data.products;
-    } catch (error) {
-        console.error('Error fetching products:', error);
-        return [];
     }
-}
+
     // Render products dynamically
     function displayProducts(products) {
         const formals = document.querySelector('#college-outfits .product-grid');
@@ -1352,86 +1397,82 @@
         }
     }
 
-  // Add to cart function
-async function addToCart(productId) {
-    const token = localStorage.getItem('token');
-    if (!token) {
-        alert('Please log in to add products to your cart.');
-        localStorage.setItem('redirectUrl', window.location.href);
-        window.location.href = 'login.html';
-        return;
-    }
-
-    try {
-        const response = await fetch('https://adora-t8e8.onrender.com/api/cart/add', {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json',
-                'Auth': token,
-                'Authorization': `Bearer ${token}`, // Add this line
-            },
-            credentials: 'include', // Ensure credentials are included
-            body: JSON.stringify({ 
-                productId, 
-                qty: 1 
-            })
-        });
-
-        // Improved error handling
-        if (!response.ok) {
-            // Try to parse error message
-            const errorData = await response.json().catch(() => null);
-            throw new Error(errorData?.message || `HTTP error! status: ${response.status}`);
+    // Add to cart function
+    async function addToCart(productId) {
+        const token = localStorage.getItem('token');
+        if (!token) {
+            redirectToLogin();
+            return;
         }
 
-        const data = await response.json();
-        alert('Product added to cart!');
-        await updateCartCount();
-    } catch (error) {
-        console.error('Detailed Error adding to cart:', error);
-        
-        // More informative error handling
-        if (error.message.includes('Failed to fetch')) {
-            alert('Network error. Please check your internet connection.');
-        } else if (error.message.includes('Unauthorized')) {
-            alert('Your session has expired. Please log in again.');
-            localStorage.removeItem('token');
-            window.location.href = 'login.html';
-        } else {
+        try {
+            const response = await fetch('https://adora-t8e8.onrender.com/api/cart/add', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Authorization': `Bearer ${token}`
+                },
+                body: JSON.stringify({ 
+                    productId, 
+                    qty: 1 
+                })
+            });
+
+            if (response.status === 401) {
+                redirectToLogin();
+                return;
+            }
+
+            if (!response.ok) {
+                const errorData = await response.json().catch(() => null);
+                throw new Error(errorData?.message || `HTTP error! status: ${response.status}`);
+            }
+
+            const data = await response.json();
+            alert('Product added to cart!');
+            await updateCartCount();
+        } catch (error) {
+            console.error('Detailed Error adding to cart:', error);
             alert(`Error: ${error.message}`);
         }
     }
-}
 
-// Update cart count function
-async function updateCartCount() {
-    const token = localStorage.getItem('token');
-    try {
-        const response = await fetch('https://adora-t8e8.onrender.com/api/cart/user', {
-            method: 'GET',
-            headers: {
-                'Content-Type': 'application/json',
-                'Auth': token,
-                'Authorization': `Bearer ${token}`, // Add this line
-            },
-            credentials: 'include'
-        });
+    // Update cart count
+    async function updateCartCount() {
+        const token = localStorage.getItem('token');
+        try {
+            const response = await fetch('https://adora-t8e8.onrender.com/api/cart/user', {
+                method: 'GET',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Authorization': `Bearer ${token}`
+                }
+            });
 
-        if (!response.ok) {
-            throw new Error(`HTTP error! status: ${response.status}`);
+            if (response.status === 401) {
+                redirectToLogin();
+                return;
+            }
+
+            if (!response.ok) {
+                throw new Error(`HTTP error! status: ${response.status}`);
+            }
+
+            const data = await response.json();
+            const cartCount = data.cart.items.reduce((sum, item) => sum + item.qty, 0);
+            document.getElementById('cart-count').textContent = cartCount;
+        } catch (error) {
+            console.error('Error fetching cart count:', error);
+            document.getElementById('cart-count').textContent = '0';
         }
-
-        const data = await response.json();
-        const cartCount = data.cart.items.reduce((sum, item) => sum + item.qty, 0);
-        document.getElementById('cart-count').textContent = cartCount;
-    } catch (error) {
-        console.error('Error fetching cart count:', error);
-        document.getElementById('cart-count').textContent = '0';
     }
-}
 
     // Initialize the page
     async function init() {
+        // Validate token first
+        const isTokenValid = await validateToken();
+        if (!isTokenValid) return;
+
         checkAuth();
         const products = await fetchProducts();
         displayProducts(products);
