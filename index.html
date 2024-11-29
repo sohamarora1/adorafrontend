@@ -3,10 +3,53 @@
 <html lang="en">
 
 <head>
+  <script src="cart.js"></script>
   <meta charset="UTF-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>ADORA</title>
+<style>
+    .logout-btn {
+        display: none; /* Initially hidden */
+        position: relative;
+        padding: 10px 20px;
+        border: none;
+        background: linear-gradient(45deg, #6a11cb, #2575fc); /* Gradient: Purple to Blue */
+        color: white;
+        font-family: 'Poppins', sans-serif;
+        font-size: 14px;
+        font-weight: bold;
+        border-radius: 25px;
+        cursor: pointer;
+        transition: all 0.3s ease;
+        box-shadow: 0 4px 10px rgba(0, 0, 0, 0.15);
+        overflow: hidden;
+    }
+
+    .logout-btn:hover {
+        transform: scale(1.05);
+        box-shadow: 0 6px 15px rgba(0, 0, 0, 0.2);
+    }
+
+    .logout-btn::before {
+        content: '🚪'; /* Door emoji for logout */
+        position: absolute;
+        left: 10px;
+        top: 50%;
+        transform: translateY(-50%);
+        font-size: 18px;
+    }
+
+    .logout-btn span {
+        margin-left: 30px;
+    }
+
+    .logout-btn:active {
+        transform: scale(0.95);
+        box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    }
+</style>
+
 
   <!-- 
     - favicon
@@ -18,7 +61,17 @@
   <!-- 
     - custom css link
   -->
+  <style>
+    .profile-initial {
+    transition: all 0.3s ease;
+}
+
+#profile-btn:hover .profile-initial {
+    transform: scale(1.1);
+}
+  </style>
   <link rel="stylesheet" href="style2.css">
+  
 
   <!-- 
     - google font link
@@ -26,7 +79,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Urbanist:wght@400;500;600;700;800&display=swap" rel="stylesheet">
-
+<script src="auth.js"></script>
 </head>
 
 <body id="top">
@@ -36,6 +89,12 @@
   -->
 
 <header class="header">
+   <div style="display: flex; align-items: center;">
+        <div id="profileInitial"></div> <!-- User Profile Initial -->
+        <button id="logout-btn" class="logout-btn">
+            <span>Logout</span>
+        </button>
+    </div>
   <div class="alert">
     <div class="container">
       <p class="alert-text">FREE SHIPPING ON ORDERS ABOVE 1000</p>
@@ -62,17 +121,21 @@
       </a>
 
       <div class="header-actions">
-        <button class="header-action-btn" aria-label="user" id="user-btn">
-          <ion-icon name="person-outline" aria-hidden="true"></ion-icon>
-        </button>
+         <button class="header-action-btn" aria-label="user" id="profile-btn">
+        <ion-icon name="person-outline" aria-hidden="true"></ion-icon>
+        <span class="profile-initial" id="profileInitial" style="display: none; position: absolute; top: -5px; right: -5px; background: #5a36a8; color: white; border-radius: 50%; width: 20px; height: 20px; font-size: 12px; display: flex; align-items: center; justify-content: center;"></span>
+    </button>
+        <button id="logout-btn" class="logout-btn">
+    <span>Logout</span>
+</button>
 
-        <button class="header-action-btn" aria-label="favorite item">
+<!--         <button class="header-action-btn" aria-label="favorite item">
           <ion-icon name="star-outline" aria-hidden="true"></ion-icon>
           <span class="btn-badge">0</span>
-        </button>
+        </button> -->
 
         <button class="header-action-btn" aria-label="cart item" id="cart-btn">
-          <data class="btn-text" value="0" id="cart-total">₹ 0.00</data>
+<!--           <data class="btn-text" value="0" id="cart-total">₹ 0.00</data> -->
           <ion-icon name="bag-handle-outline" aria-hidden="true"></ion-icon>
           <span class="btn-badge" id="cart-count">0</span>
         </button>
@@ -156,8 +219,8 @@
 
     <ul class="has-scrollbar" style="display: flex; overflow-x: auto; list-style: none; padding: 0; margin: 0; justify-content: center;">
 
-<!--       First hero card -->
-     <li class="scrollbar-item" style="flex: 0 0 100%; margin: 0;">
+      <!-- First hero card -->
+      <li class="scrollbar-item" style="flex: 0 0 100%; margin: 0;">
         <div class="hero-card has-bg-image" style="background-image: url('assets/1STPAGE.png'); background-size: cover; background-position: center; height: 100vh; width: 100%;">
           <div class="card-content" style="text-align: center; padding: 20px;">
             <h1 class="h1 hero-title" style="color: white;">
@@ -170,17 +233,17 @@
             <a href="#shopredirect" class="btn btn-primary" style="color: white;">Shop Now</a>
           </div>
         </div>
-      </li> 
+      </li>
 
       <!-- Second hero card -->
       <li class="scrollbar-item" style="flex: 0 0 100%; margin: 0;">
-        <a href="#your-link-3" class="hero-card has-bg-image" style="background-image: url('assets/1stposter.png.png'); background-size: cover; background-position: center; height: 100vh; width: 100%;">
+        <a href="#your-link-3" class="hero-card has-bg-image" style="background-image: url('assets/streetwearbanner.png'); background-size: cover; background-position: center; height: 100vh; width: 100%;">
         </a>
       </li>
 
       <!-- Third hero card -->
       <li class="scrollbar-item" style="flex: 0 0 100%; margin: 0;">
-        <a href="#your-link-4" class="hero-card has-bg-image" style="background-image: url('assets/1stposter.png.png'); background-size: cover; background-position: center; height: 100vh; width: 100%;">
+        <a href="#your-link-4" class="hero-card has-bg-image" style="background-image: url('assets/firstbanner.jpg'); background-size: cover; background-position: center; height: 100vh; width: 100%;">
         </a>
       </li>
 
@@ -1225,8 +1288,53 @@
   <!-- 
     - custom js link
   -->
+<!--   <script>
+    // Check authentication status and handle profile button
+    function checkAuth() {
+        const token = localStorage.getItem('token');
+        const profileBtn = document.getElementById('profile-btn');
+        const profileInitial = document.getElementById('profileInitial');
+        
+        if (token) {
+            // User is logged in
+            fetch('https://adora-t8e8.onrender.com/api/user/profile', {
+                headers: {
+                    'Auth': token
+                }
+            })
+            .then(res => res.json())
+            .then(data => {
+                if (data.user) {
+                    profileInitial.style.display = 'flex';
+                    profileInitial.textContent = data.user.name[0].toUpperCase();
+                    
+                    // Add click event to redirect to profile page
+                    profileBtn.onclick = () => {
+                        window.location.href = 'profile.html';
+                    };
+                }
+            })
+            .catch(err => {
+                localStorage.removeItem('token');
+                profileInitial.style.display = 'none';
+                profileBtn.onclick = () => {
+                    window.location.href = 'login.html';
+                };
+            });
+        } else {
+            profileInitial.style.display = 'none';
+            // If not logged in, redirect to login page
+            profileBtn.onclick = () => {
+                window.location.href = 'login.html';
+            };
+        }
+    }
+
+    // Check auth on page load
+    window.addEventListener('DOMContentLoaded', checkAuth);
+</script> -->
   <script src="script2.js" defer></script>
-  <script>
+<!--   <script>
   // Check if user is logged in
   document.addEventListener('DOMContentLoaded', () => {
     const token = localStorage.getItem('token');
@@ -1247,11 +1355,67 @@
     window.location.href = 'cart.html';
   });
 </script>
-
+ -->
 
   <!-- 
     - ionicon link
   -->
+ <script>
+    document.addEventListener('DOMContentLoaded', () => {
+        const logoutBtn = document.getElementById('logout-btn');
+        const profileInitial = document.getElementById('profileInitial'); // Check user profile
+
+        // Check if user is logged in
+        const token = localStorage.getItem('token');
+        const userData = JSON.parse(localStorage.getItem('userData'));
+
+        if (token && userData && profileInitial) {
+            // Display profile initial and logout button only if user is logged in
+            profileInitial.textContent = userData.name.charAt(0).toUpperCase();
+            profileInitial.style.display = 'flex';
+            logoutBtn.style.display = 'inline-block'; // Show logout button
+        } else {
+            // Hide profile and logout button
+            if (profileInitial) profileInitial.style.display = 'none';
+            if (logoutBtn) logoutBtn.style.display = 'none';
+        }
+
+        if (logoutBtn) {
+            logoutBtn.addEventListener('click', async () => {
+                // Clear cart from localStorage
+                localStorage.removeItem('cart');
+
+                // Clear cart from backend (optional)
+                if (token) {
+                    try {
+                        await fetch('https://adora-t8e8.onrender.com/api/cart/clear', {
+                            method: 'DELETE',
+                            headers: {
+                                'Authorization': `Bearer ${token}`
+                            }
+                        });
+                    } catch (error) {
+                        console.error('Error clearing backend cart:', error);
+                    }
+                }
+
+                // Clear authentication-related localStorage items
+                localStorage.removeItem('token');
+                localStorage.removeItem('userData');
+
+                // Update cart display
+                const cartCount = document.getElementById('cart-count');
+                const cartTotal = document.getElementById('cart-total');
+                
+                if (cartCount) cartCount.textContent = '0';
+                if (cartTotal) cartTotal.textContent = '₹ 0.00';
+
+                // Redirect to login page
+                window.location.href = 'login.html';
+            });
+        }
+    });
+</script>
   <script type="module" src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.esm.js"></script>
   <script nomodule src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.js"></script>
 
