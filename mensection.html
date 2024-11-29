@@ -1417,28 +1417,29 @@ async function addToCart(productId) {
 
     try {
         // Send request to add item to cart
-     fetch('http://localhost:3000/api/cart/add', {
-    method: 'POST',
-    headers: {
-        'Content-Type': 'application/json',
-        'Auth': token
-    },
-    body: JSON.stringify({ productId, qty: 1 })
-});
+        const response = await fetch('http://localhost:3000/api/cart/add', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                'Auth': token,
+            },
+            body: JSON.stringify({ productId, qty: 1 }),
+        });
 
-        const data = await response.json();
-        if (response.ok) {
-            alert('Product added to cart successfully!');
-            await updateCartCount(); // Update the cart count in UI
-        } else {
-            throw new Error(data.message || 'Failed to add product to cart');
+        // Check for response status
+        if (!response.ok) {
+            const errorData = await response.json(); // Parse error response
+            throw new Error(errorData.message || 'Failed to add product to cart');
         }
+
+        const data = await response.json(); // Parse success response
+        alert('Product added to cart successfully!');
+        await updateCartCount(); // Update the cart count in UI
     } catch (error) {
         console.error('Error adding to cart:', error);
         alert(error.message || 'Something went wrong. Please try again.');
     }
 }
-
 // Add click event listener for cart button
 document.getElementById('cart-btn').addEventListener('click', () => {
     const token = localStorage.getItem('token');
