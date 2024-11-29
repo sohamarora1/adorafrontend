@@ -4,6 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Login/Register - ADORA</title>
+    <script src="auth.js"></script>
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap');
 
@@ -166,8 +167,8 @@
 
         button {
             border-radius: 20px;
-            border: 1px solid #5a36a8;
-            background-color: #5a36a8;
+            border: 1px solid #FF4B2B;
+            background-color: #FF4B2B;
             color: #FFFFFF;
             font-size: 12px;
             font-weight: bold;
@@ -200,13 +201,13 @@
 <body>
     <div class="container" id="container">
         <div class="form-container sign-up-container">
-            <form id="registerForm">
+            <form id="signupForm">
                 <h1>Create Account</h1>
-                <input type="text" id="registerName" placeholder="Name" required />
-                <input type="email" id="registerEmail" placeholder="Email" required />
-                <input type="password" id="registerPassword" placeholder="Password" required />
+                <input type="text" id="signupName" placeholder="Name" required />
+                <input type="email" id="signupEmail" placeholder="Email" required />
+                <input type="password" id="signupPassword" placeholder="Password" required />
                 <button type="submit">Sign Up</button>
-                <div id="registerError" class="error-message"></div>
+                <div id="signupError" class="error-message"></div>
             </form>
         </div>
         <div class="form-container sign-in-container">
@@ -223,98 +224,140 @@
                 <div class="overlay-panel overlay-left">
                     <h1>Welcome Back!</h1>
                     <p>Log in to unlock a personalized shopping experience powered by AI, tailored just for you</p>
+                    <br>
                     <button class="ghost" id="signIn">Sign In</button>
                 </div>
                 <div class="overlay-panel overlay-right">
                     <h1>Effortless Shopping Starts Here!</h1>
-                    <p>Create an account to enjoy custom recommendations and exclusive offers.</p>
+                    <p>"Create an account to enjoy custom recommendations and exclusive offers."</p>
+                    <br>
                     <button class="ghost" id="signUp">Sign Up</button>
                 </div>
             </div>
         </div>
     </div>
 
-    <script>
-        const signUpButton = document.getElementById('signUp');
-        const signInButton = document.getElementById('signIn');
-        const container = document.getElementById('container');
+   <!-- Keep all your existing HTML and CSS code the same, just replace the JavaScript part at the bottom -->
 
-        signUpButton.addEventListener('click', () => {
-            container.classList.add("right-panel-active");
-        });
+<script>
+    const signUpButton = document.getElementById('signUp');
+    const signInButton = document.getElementById('signIn');
+    const container = document.getElementById('container');
 
-        signInButton.addEventListener('click', () => {
-            container.classList.remove("right-panel-active");
-        });
+    signUpButton.addEventListener('click', () => {
+        container.classList.add("right-panel-active");
+    });
 
-        // Login form submission
-        document.getElementById('loginForm').addEventListener('submit', async (e) => {
-            e.preventDefault();
-            const email = document.getElementById('loginEmail').value;
-            const password = document.getElementById('loginPassword').value;
+    signInButton.addEventListener('click', () => {
+        container.classList.remove("right-panel-active");
+    });
+
+    // Login form submission
+    document.getElementById('loginForm').addEventListener('submit', async (e) => {
+        e.preventDefault();
+        const email = document.getElementById('loginEmail').value;
+        const password = document.getElementById('loginPassword').value;
+        const loginError = document.getElementById('loginError');
+
+        try {
+            const response = await fetch('https://adora-t8e8.onrender.com/api/user/login', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({ email, password }),
+            });
+
+            const data = await response.json();
+
+            if (data.success) {
+                // Store the token
+                Auth.setToken(data.token);
+                
+                // Show success message
+                loginError.style.color = 'green';
+                loginError.textContent = data.message;
+
+                // Redirect after login
+                setTimeout(() => {
+                    const redirectUrl = localStorage.getItem('redirectUrl') || '/index.html';
+                    localStorage.removeItem('redirectUrl');
+                    window.location.href = redirectUrl;
+                }, 1000);
+            } else {
+                loginError.style.color = '#ff416c';
+                loginError.textContent = data.message || 'Login failed. Please try again.';
+            }
+        } catch (error) {
+            console.error('Error:', error);
+            loginError.textContent = 'An error occurred. Please try again.';
+        }
+    });
+
+    // Signup form submission
+    document.getElementById('signupForm').addEventListener('submit', async (e) => {
+        e.preventDefault();
+        const name = document.getElementById('signupName').value;
+        const email = document.getElementById('signupEmail').value;
+        const password = document.getElementById('signupPassword').value;
+        const signupError = document.getElementById('signupError');
+
+        try {
+            const response = await fetch('https://adora-t8e8.onrender.com/api/user/register', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({ name, email, password }),
+            });
+
+            const data = await response.json();
+
+            if (data.success) {
+                // Show success message
+                signupError.style.color = 'green';
+                signupError.textContent = 'Registration successful! Please login.';
+
+                // Clear the form
+                document.getElementById('signupForm').reset();
+
+                // Switch to login panel after 2 seconds
+                setTimeout(() => {
+                    container.classList.remove("right-panel-active");
+                }, 2000);
+            } else {
+                signupError.style.color = '#ff416c';
+                signupError.textContent = data.message || 'Registration failed. Please try again.';
+            }
+        } catch (error) {
+            console.error('Error:', error);
+            signupError.textContent = 'An error occurred. Please try again.';
+        }
+    });
+
+    // Check if there's a redirect URL in localStorage when page loads
+    window.addEventListener('DOMContentLoaded', () => {
+        const redirectUrl = localStorage.getItem('redirectUrl');
+        if (redirectUrl) {
+            // Show a message to the user
             const loginError = document.getElementById('loginError');
+            loginError.style.color = '#ff416c';
+            loginError.textContent = 'Please login to continue';
+        }
+    });
 
-            try {
-                const response = await fetch('http://localhost:1000/api/user/login', {
-                    method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/json'
-                    },
-                    body: JSON.stringify({ email, password })
-                });
-
-                const data = await response.json();
-                
-                if (data.success) {
-                    localStorage.setItem('token', data.token);
-                    loginError.style.color = 'green';
-                    loginError.textContent = 'Login successful!';
-                    setTimeout(() => {
-                        window.location.href = '/profile.html';
-                    }, 1000);
-                } else {
-                    loginError.textContent = data.message;
-                }
-            } catch (error) {
-                console.error('Login error:', error);
-                loginError.textContent = 'Login failed. Please try again.';
-            }
-        });
-
-        // Register form submission
-        document.getElementById('registerForm').addEventListener('submit', async (e) => {
-            e.preventDefault();
-            const name = document.getElementById('registerName').value;
-            const email = document.getElementById('registerEmail').value;
-            const password = document.getElementById('registerPassword').value;
-            const registerError = document.getElementById('registerError');
-
-            try {
-                const response = await fetch('http://localhost:1000/api/user/register', {
-                    method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/json'
-                    },
-                    body: JSON.stringify({ name, email, password })
-                });
-
-                const data = await response.json();
-                
-                if (data.success) {
-                    registerError.style.color = 'green';
-                    registerError.textContent = 'Registration successful! Please login.';
-                    document.getElementById('registerForm').reset();
-                    setTimeout(() => {
-                        container.classList.remove("right-panel-active");
-                    }, 2000);
-                } else {
-                    registerError.textContent = data.message;
-                }
-            } catch (error) {
-                console.error('Registration error:', error);
-                registerError.textContent = 'Registration failed. Please try again.';
-            }
-        });
-    </script>
+    // Validate password strength (optional)
+    document.getElementById('signupPassword').addEventListener('input', function(e) {
+        const password = e.target.value;
+        const signupError = document.getElementById('signupError');
+        
+        if (password.length < 6) {
+            signupError.textContent = 'Password must be at least 6 characters long';
+            signupError.style.color = '#ff416c';
+        } else {
+            signupError.textContent = '';
+        }
+    });
+</script>
 </body>
 </html>
