@@ -1186,30 +1186,14 @@
         <span class="line line-3"></span>
       </button>
 
-<!--       <div class="input-wrapper">
-        <input type="search" name="search" placeholder="CHAT WITH AI" class="search-field">
-        <button class="search-submit" aria-label="search">
-          <ion-icon name="arrow-up-outline" aria-hidden="true"></ion-icon>
-        </button>
-      </div> -->
-
       <a href="index.html" class="logo">
         <img src="assets/logoletter.png" width="100" height="18" alt="ADORA">
       </a>
 
       <div class="header-actions">
-        <button class="header-action-btn" aria-label="user" id="profile-btn">
-        <ion-icon name="person-outline" aria-hidden="true"></ion-icon>
-        <span class="profile-initial" id="profileInitial" style="display: none; position: absolute; top: -5px; right: -5px; background: #5a36a8; color: white; border-radius: 50%; width: 20px; height: 20px; font-size: 12px; display: flex; align-items: center; justify-content: center;"></span>
-    </button>
-<!-- 
-        <button class="header-action-btn" aria-label="favorite item">
-          <ion-icon name="star-outline" aria-hidden="true"></ion-icon>
-          <span class="btn-badge">0</span>
-        </button> -->
-
+        <button class="header-action-btn" id="login-btn" style="display: none;">Login</button>
+        <button class="header-action-btn" id="logout-btn" style="display: none;">Logout</button>
         <button class="header-action-btn" aria-label="cart item" id="cart-btn">
-<!--           <data class="btn-text" value="0" id="cart-total">₹ 0.00</data> -->
           <ion-icon name="bag-handle-outline" aria-hidden="true"></ion-icon>
           <span class="btn-badge" id="cart-count">0</span>
         </button>
@@ -1228,24 +1212,23 @@
   </div>
 </header>
 
-  <h1 style="color:black; text-align:center">Men section</h1>
-    <div class="container">
-        <section id="college-outfits" class="product-section">
-            <h2>formals</h2>
-            <div class="product-grid"></div>
-        </section>
+<h1 style="color:black; text-align:center">Men's Section</h1>
+<div class="container">
+    <section id="college-outfits" class="product-section">
+        <h2>Formals</h2>
+        <div class="product-grid"></div>
+    </section>
 
-        <section id="trendy-outfits" class="product-section">
-            <h2>festive outfits</h2>
-            <div class="product-grid"></div>
-        </section>
+    <section id="trendy-outfits" class="product-section">
+        <h2>Festive Outfits</h2>
+        <div class="product-grid"></div>
+    </section>
 
-        <section id="casual-outfits" class="product-section">
-            <h2>Casual Outfits</h2>
-            <div class="product-grid"></div>
-        </section>
-    </div>
-
+    <section id="casual-outfits" class="product-section">
+        <h2>Casual Outfits</h2>
+        <div class="product-grid"></div>
+    </section>
+</div>
     <footer class="footer">
       <div class="footer-container">
           <div class="footer-section">
@@ -1290,43 +1273,31 @@
   </footer>
 
 <script>
-    // Function to check if the user is authenticated
+   // Function to check if the user is authenticated
     function checkAuth() {
         const token = localStorage.getItem('token');
-        const profileBtn = document.getElementById('profile-btn');
-        const profileInitial = document.getElementById('profileInitial');
+        const loginBtn = document.getElementById('login-btn');
+        const logoutBtn = document.getElementById('logout-btn');
 
         if (token) {
-            // Fetch user profile if the token exists
-            fetch('https://adora-t8e8.onrender.com/api/user/profile', {
-                headers: {
-                    'Auth': token
-                }
-            })
-                .then((res) => res.json())
-                .then((data) => {
-                    if (data.user) {
-                        // Show the user's initial if logged in
-                        profileInitial.style.display = 'flex';
-                        profileInitial.textContent = data.user.name[0].toUpperCase();
-                        profileBtn.onclick = () => {
-                            window.location.href = 'profile.html';
-                        };
-                    }
-                })
-                .catch((err) => {
-                    console.error('Error fetching user profile:', err);
-                    localStorage.removeItem('token');
-                    profileInitial.style.display = 'none';
-                    profileBtn.onclick = () => {
-                        window.location.href = 'login.html';
-                    };
-                });
+            // User is logged in: Show logout button
+            loginBtn.style.display = 'none';
+            logoutBtn.style.display = 'block';
+
+            // Logout button click event
+            logoutBtn.onclick = () => {
+                localStorage.removeItem('token'); // Remove the token
+                window.location.reload(); // Refresh the page
+            };
         } else {
-            // Redirect to login if no token is found
-            profileInitial.style.display = 'none';
-            profileBtn.onclick = () => {
-                window.location.href = 'login.html';
+            // User is not logged in: Show login button
+            loginBtn.style.display = 'block';
+            logoutBtn.style.display = 'none';
+
+            // Login button click event
+            loginBtn.onclick = () => {
+                localStorage.setItem('redirectUrl', window.location.href); // Save current page URL
+                window.location.href = 'login.html'; // Redirect to login page
             };
         }
     }
@@ -1383,35 +1354,31 @@
     }
 
     // Function to handle adding a product to the cart
-    async function addToCart(product) {
-        const token = localStorage.getItem('token'); // Retrieve token from localStorage
+    async function addToCart(productId) {
+        const token = localStorage.getItem('token');
         if (!token) {
+            // Redirect to login if not authenticated
             alert('You need to log in to add items to your cart.');
-            window.location.href = 'login.html'; // Redirect to login if not authenticated
+            localStorage.setItem('redirectUrl', window.location.href); // Save current URL
+            window.location.href = 'login.html';
             return;
         }
 
+        // Send request to backend to add the product to the cart
         try {
-            // Send request to backend to add the product to the user's cart
             const response = await fetch('https://adora-t8e8.onrender.com/api/cart/add', {
                 method: 'POST',
                 headers: {
-                    'Auth': token, // Pass token for authentication
-                    'Content-Type': 'application/json', // Specify JSON content type
+                    'Auth': token,
+                    'Content-Type': 'application/json',
                 },
-                body: JSON.stringify({
-                    productId: product._id, // Product ID
-                    title: product.title, // Product title
-                    price: product.price, // Product price
-                    qty: 1, // Default quantity of 1
-                    imgSrc: product.imgSrc, // Product image source
-                }),
+                body: JSON.stringify({ productId, qty: 1 }), // Set quantity to 1
             });
 
-            const data = await response.json(); // Parse the JSON response
+            const data = await response.json();
             if (response.ok) {
                 alert('Product added to cart successfully!');
-                updateCartDisplay(); // Update the cart display (optional)
+                updateCartDisplay(); // Update cart count (optional)
             } else {
                 alert(data.message || 'Failed to add product to cart.');
             }
@@ -1423,40 +1390,29 @@
 
     // Function to initialize the cart display (optional)
     function updateCartDisplay() {
-        // This function can be used to update the cart badge or total price dynamically
-        // For now, you can leave this empty or implement as needed
+        // Placeholder for updating cart display (e.g., cart count)
     }
 
     // Initialize the page and attach event listeners
     async function init() {
-        const products = await fetchProducts(); // Fetch all products from backend
-        displayProducts(products); // Display the products
+        const products = await fetchProducts();
+        displayProducts(products);
 
-        // Add event listener for "Add to Cart" buttons
-        document.addEventListener('click', async (e) => {
+        // Attach event listener to Add to Cart buttons
+        document.addEventListener('click', (e) => {
             if (e.target && e.target.classList.contains('btn-add-to-cart')) {
                 const productId = e.target.getAttribute('data-product-id');
-                const product = products.find((p) => p._id === productId); // Find the product by its ID
-                if (product) {
-                    await addToCart(product); // Call addToCart with the product details
-                }
+                addToCart(productId);
             }
         });
-
-        // Add event listener for the cart button
-        const cartBtn = document.getElementById('cart-btn');
-        if (cartBtn) {
-            cartBtn.addEventListener('click', () => {
-                window.location.href = 'cart.html'; // Redirect to the cart page
-            });
-        }
     }
 
-    // Check authentication on page load
+    // Check authentication and initialize the page on load
     window.addEventListener('DOMContentLoaded', () => {
-        checkAuth(); // Check if the user is logged in
-        init(); // Initialize the page
+        checkAuth();
+        init();
     });
+
 </script>
 </body>
 </html>
