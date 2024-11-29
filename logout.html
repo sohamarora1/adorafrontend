@@ -1,0 +1,204 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Logging Out - ADORA</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap');
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Poppins', sans-serif;
+        }
+
+        body {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            background: linear-gradient(45deg, #E5D9F2, #F5EFFF);
+        }
+
+        .logout-container {
+            background-color: rgba(255, 255, 255, 0.9);
+            border-radius: 10px;
+            box-shadow: 0 14px 28px rgba(0,0,0,0.25), 0 10px 10px rgba(0,0,0,0.22);
+            padding: 40px;
+            text-align: center;
+            max-width: 400px;
+            width: 90%;
+        }
+
+        .logout-icon {
+            font-size: 50px;
+            margin-bottom: 20px;
+            color: #5a36a8;
+        }
+
+        h1 {
+            color: #5a36a8;
+            margin-bottom: 20px;
+            font-size: 24px;
+        }
+
+        p {
+            color: #666;
+            margin-bottom: 30px;
+            line-height: 1.5;
+        }
+
+        .loader {
+            border: 4px solid #f3f3f3;
+            border-radius: 50%;
+            border-top: 4px solid #5a36a8;
+            width: 40px;
+            height: 40px;
+            animation: spin 1s linear infinite;
+            margin: 0 auto 20px auto;
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        .buttons {
+            display: none; /* Initially hidden */
+        }
+
+        .button {
+            background-color: #5a36a8;
+            color: white;
+            border: none;
+            padding: 12px 30px;
+            border-radius: 25px;
+            cursor: pointer;
+            font-size: 14px;
+            margin: 10px;
+            transition: all 0.3s ease;
+            text-decoration: none;
+            display: inline-block;
+        }
+
+        .button:hover {
+            background-color: #472b86;
+            transform: translateY(-2px);
+        }
+
+        .button.secondary {
+            background-color: transparent;
+            border: 2px solid #5a36a8;
+            color: #5a36a8;
+        }
+
+        .button.secondary:hover {
+            background-color: #5a36a8;
+            color: white;
+        }
+
+        .status-message {
+            margin-bottom: 20px;
+            font-weight: 500;
+        }
+
+        .success {
+            color: #4CAF50;
+        }
+
+        .error {
+            color: #f44336;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+
+        .fade-in {
+            animation: fadeIn 0.5s ease-in;
+        }
+    </style>
+</head>
+<body>
+    <div class="logout-container">
+        <div class="logout-icon">👋</div>
+        <h1>Logging Out</h1>
+        <div class="loader" id="loader"></div>
+        <p class="status-message" id="statusMessage">Please wait while we securely log you out...</p>
+        
+        <div class="buttons" id="buttons">
+            <a href="/login.html" class="button">Log In Again</a>
+            <a href="/index.html" class="button secondary">Go to Home</a>
+        </div>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const loader = document.getElementById('loader');
+            const statusMessage = document.getElementById('statusMessage');
+            const buttons = document.getElementById('buttons');
+
+            async function performLogout() {
+                try {
+                    // Get the token from localStorage
+                    const token = localStorage.getItem('token');
+
+                    if (!token) {
+                        showError('No active session found.');
+                        return;
+                    }
+
+                    // Optional: Send logout request to server
+                    // await fetch('http://localhost:1000/api/user/logout', {
+                    //     method: 'POST',
+                    //     headers: {
+                    //         'Authorization': `Bearer ${token}`
+                    //     }
+                    // });
+
+                    // Clear all authentication data
+                    localStorage.removeItem('token');
+                    localStorage.removeItem('userData');
+                    
+                    // Show success message after a brief delay
+                    setTimeout(() => {
+                        showSuccess('You have been successfully logged out!');
+                    }, 1500);
+
+                } catch (error) {
+                    console.error('Logout error:', error);
+                    showError('An error occurred during logout. Please try again.');
+                }
+            }
+
+            function showSuccess(message) {
+                loader.style.display = 'none';
+                statusMessage.textContent = message;
+                statusMessage.className = 'status-message success fade-in';
+                buttons.style.display = 'block';
+                buttons.className = 'buttons fade-in';
+            }
+
+            function showError(message) {
+                loader.style.display = 'none';
+                statusMessage.textContent = message;
+                statusMessage.className = 'status-message error fade-in';
+                buttons.style.display = 'block';
+                buttons.className = 'buttons fade-in';
+            }
+
+            // Start logout process
+            performLogout();
+        });
+
+        // Prevent going back to authenticated pages
+        window.history.forward();
+        function noBack() {
+            window.history.forward();
+        }
+    </script>
+</body>
+</html>
