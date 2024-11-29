@@ -210,30 +210,37 @@
         const resultSection = document.getElementById('resultSection');
         const resultDiv = document.getElementById('result');
         const answers = {};
-
+    
+        // Function to go to the next question
         function nextQuestion() {
             const currentQuestion = questions[currentQuestionIndex];
+    
+            // Ensure an option is selected
             const selectedOption = currentQuestion.querySelector('input[type="radio"]:checked');
-
-            if (selectedOption) {
-                // Save the answer
-                answers[currentQuestion.id] = selectedOption.value;
-
-                // Move to the next question
-                currentQuestion.classList.remove('active');
-                currentQuestionIndex++;
-
-                if (currentQuestionIndex < questions.length) {
-                    questions[currentQuestionIndex].classList.add('active');
-                } else {
-                    showResults();
-                }
-            } else {
+            if (!selectedOption) {
                 alert('Please select an answer before proceeding!');
+                return; // Stop function execution if no selection is made
+            }
+    
+            // Save the selected answer
+            answers[currentQuestion.id] = selectedOption.value;
+    
+            // Hide the current question
+            currentQuestion.classList.remove('active');
+    
+            // Increment the question index
+            currentQuestionIndex++;
+    
+            // Show the next question or the result section
+            if (currentQuestionIndex < questions.length) {
+                questions[currentQuestionIndex].classList.add('active');
+            } else {
+                showResults();
             }
         }
-
+    
         function showResults() {
+           
             let advice = `
                 <p>Your ideal outfit is <strong>${answers['question1']}</strong>.</p>
                 <p>When shopping, you prioritize <strong>${answers['question2']}</strong>.</p>
@@ -241,10 +248,9 @@
                 <p>Your accessory choice is <strong>${answers['question4']}</strong>.</p>
                 <p>Your approach to fashion is <strong>${answers['question5']}</strong>.</p>
             `;
-
-            // Add final advice based on preferences
-            advice += <p>Based on your preferences, focus on blending ${answers['question3']} with ${answers['question4']}. Experiment with ${answers['question2']} styles to create your signature look!</p>;
-
+   
+            advice += <p>Based on your preferences, focus on blending <strong>${answers['question3']}</strong> with <strong>${answers['question4']}</strong>. Experiment with <strong>${answers['question2']}</strong> styles to create your signature look!</p>;
+    
             resultDiv.innerHTML = advice;
             resultSection.style.display = 'block';
         }
