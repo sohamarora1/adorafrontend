@@ -240,124 +240,197 @@
    <!-- Keep all your existing HTML and CSS code the same, just replace the JavaScript part at the bottom -->
 
 <script>
-    const signUpButton = document.getElementById('signUp');
-    const signInButton = document.getElementById('signIn');
-    const container = document.getElementById('container');
+  // Add this at the top of your script to manage authentication
+const Auth = {
+    setToken: function(token) {
+        console.log('Setting token:', token);
+        localStorage.setItem('token', token);
+    },
+    getToken: function() {
+        return localStorage.getItem('token');
+    },
+    removeToken: function() {
+        localStorage.removeItem('token');
+    }
+};
 
-    signUpButton.addEventListener('click', () => {
-        container.classList.add("right-panel-active");
-    });
+// Login form submission
+document.getElementById('loginForm').addEventListener('submit', async (e) => {
+    e.preventDefault();
+    const email = document.getElementById('loginEmail').value;
+    const password = document.getElementById('loginPassword').value;
+    const loginError = document.getElementById('loginError');
 
-    signInButton.addEventListener('click', () => {
-        container.classList.remove("right-panel-active");
-    });
+    try {
+        // Debug: Log login attempt
+        console.log('Login Attempt:', { email });
 
-    // Login form submission
-    document.getElementById('loginForm').addEventListener('submit', async (e) => {
-        e.preventDefault();
-        const email = document.getElementById('loginEmail').value;
-        const password = document.getElementById('loginPassword').value;
-        const loginError = document.getElementById('loginError');
+        const response = await fetch('https://adora-t8e8.onrender.com/api/user/login', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({ email, password }),
+        });
 
-        try {
-            const response = await fetch('https://adora-t8e8.onrender.com/api/user/login', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                },
-                body: JSON.stringify({ email, password }),
-            });
+        // Debug: Log full response
+        console.log('Login Response Status:', response.status);
 
-            const data = await response.json();
+        const data = await response.json();
 
-            if (data.success) {
-                // Store the token
-                Auth.setToken(data.token);
+        // Debug: Log response data
+        console.log('Login Response Data:', data);
+
+        if (data.success) {
+            // Verify token exists
+            if (!data.token) {
+                throw new Error('No token received');
+            }
+
+            // Store the token using Auth method
+            Auth.setToken(data.token);
+            
+            // Verify token was stored
+            console.log('Stored Token:', Auth.getToken());
+
+            // Show success message
+            loginError.style.color = 'green';
+            loginError.textContent = data.message || 'Login successful!';
+
+            // Redirect after login
+            setTimeout(() => {
+                // Prioritize stored redirect URL, fallback to index
+                const redirectUrl = localStorage.getItem('redirectUrl') || '/index.html';
                 
-                // Show success message
-                loginError.style.color = 'green';
-                loginError.textContent = data.message;
-
-                // Redirect after login
-                setTimeout(() => {
-                    const redirectUrl = localStorage.getItem('redirectUrl') || '/index.html';
-                    localStorage.removeItem('redirectUrl');
-                    window.location.href = redirectUrl;
-                }, 1000);
-            } else {
-                loginError.style.color = '#ff416c';
-                loginError.textContent = data.message || 'Login failed. Please try again.';
-            }
-        } catch (error) {
-            console.error('Error:', error);
-            loginError.textContent = 'An error occurred. Please try again.';
-        }
-    });
-
-    // Signup form submission
-    document.getElementById('signupForm').addEventListener('submit', async (e) => {
-        e.preventDefault();
-        const name = document.getElementById('signupName').value;
-        const email = document.getElementById('signupEmail').value;
-        const password = document.getElementById('signupPassword').value;
-        const signupError = document.getElementById('signupError');
-
-        try {
-            const response = await fetch('https://adora-t8e8.onrender.com/api/user/register', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                },
-                body: JSON.stringify({ name, email, password }),
-            });
-
-            const data = await response.json();
-
-            if (data.success) {
-                // Show success message
-                signupError.style.color = 'green';
-                signupError.textContent = 'Registration successful! Please login.';
-
-                // Clear the form
-                document.getElementById('signupForm').reset();
-
-                // Switch to login panel after 2 seconds
-                setTimeout(() => {
-                    container.classList.remove("right-panel-active");
-                }, 2000);
-            } else {
-                signupError.style.color = '#ff416c';
-                signupError.textContent = data.message || 'Registration failed. Please try again.';
-            }
-        } catch (error) {
-            console.error('Error:', error);
-            signupError.textContent = 'An error occurred. Please try again.';
-        }
-    });
-
-    // Check if there's a redirect URL in localStorage when page loads
-    window.addEventListener('DOMContentLoaded', () => {
-        const redirectUrl = localStorage.getItem('redirectUrl');
-        if (redirectUrl) {
-            // Show a message to the user
-            const loginError = document.getElementById('loginError');
-            loginError.style.color = '#ff416c';
-            loginError.textContent = 'Please login to continue';
-        }
-    });
-
-    // Validate password strength (optional)
-    document.getElementById('signupPassword').addEventListener('input', function(e) {
-        const password = e.target.value;
-        const signupError = document.getElementById('signupError');
-        
-        if (password.length < 6) {
-            signupError.textContent = 'Password must be at least 6 characters long';
-            signupError.style.color = '#ff416c';
+                // Clear redirect URL
+                localStorage.removeItem('redirectUrl');
+                
+                // Redirect
+                window.location.href = redirectUrl;
+            }, 1000);
         } else {
-            signupError.textContent = '';
+            // Handle login failure
+            loginError.style.color = '#ff416c';
+            loginError.textContent = data.message || 'Login failed. Please try again.';
         }
-    });
+    } catch (error) {
+        // Comprehensive error logging
+        console.error('Login Error:', error);
+        
+        loginError.style.color = '#ff416c';
+        loginError.textContent = error.message || 'An unexpected error occurred. Please try again.';
+    }
+});
+
+// Signup form submission
+document.getElementById('signupForm').addEventListener('submit', async (e) => {
+    e.preventDefault();
+    const name = document.getElementById('signupName').value;
+    const email = document.getElementById('signupEmail').value;
+    const password = document.getElementById('signupPassword').value;
+    const signupError = document.getElementById('signupError');
+
+    try {
+        // Debug: Log signup attempt
+        console.log('Signup Attempt:', { name, email });
+
+        const response = await fetch('https://adora-t8e8.onrender.com/api/user/register', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({ name, email, password }),
+        });
+
+        // Debug: Log full response
+        console.log('Signup Response Status:', response.status);
+
+        const data = await response.json();
+
+        // Debug: Log response data
+        console.log('Signup Response Data:', data);
+
+        if (data.success) {
+            // Show success message
+            signupError.style.color = 'green';
+            signupError.textContent = 'Registration successful! Please login.';
+
+            // Clear the form
+            document.getElementById('signupForm').reset();
+
+            // Switch to login panel after 2 seconds
+            setTimeout(() => {
+                container.classList.remove("right-panel-active");
+            }, 2000);
+        } else {
+            // Handle registration failure
+            signupError.style.color = '#ff416c';
+            signupError.textContent = data.message || 'Registration failed. Please try again.';
+        }
+    } catch (error) {
+        // Comprehensive error logging
+        console.error('Signup Error:', error);
+        
+        signupError.style.color = '#ff416c';
+        signupError.textContent = error.message || 'An unexpected error occurred. Please try again.';
+    }
+});
+
+// Enhanced password validation
+document.getElementById('signupPassword').addEventListener('input', function(e) {
+    const password = e.target.value;
+    const signupError = document.getElementById('signupError');
+    
+    // More comprehensive password validation
+    const validationRules = [
+        { 
+            test: password.length >= 8, 
+            message: 'Password must be at least 8 characters long' 
+        },
+        { 
+            test: /[A-Z]/.test(password), 
+            message: 'Password must contain at least one uppercase letter' 
+        },
+        { 
+            test: /[a-z]/.test(password), 
+            message: 'Password must contain at least one lowercase letter' 
+        },
+        { 
+            test: /[0-9]/.test(password), 
+            message: 'Password must contain at least one number' 
+        },
+        { 
+            test: /[!@#$%^&*()]/.test(password), 
+            message: 'Password must contain at least one special character' 
+        }
+    ];
+
+    // Find the first failed validation rule
+    const failedRule = validationRules.find(rule => !rule.test);
+
+    if (failedRule) {
+        signupError.textContent = failedRule.message;
+        signupError.style.color = '#ff416c';
+    } else {
+        signupError.textContent = '';
+    }
+});
+
+// Page load event listener
+window.addEventListener('DOMContentLoaded', () => {
+    const redirectUrl = localStorage.getItem('redirectUrl');
+    if (redirectUrl) {
+        // Show a message to the user
+        const loginError = document.getElementById('loginError');
+        loginError.style.color = '#ff416c';
+        loginError.textContent = 'Please login to continue';
+    }
+
+    // Optional: Clear any existing tokens on page load for security
+    if (window.location.pathname.includes('login.html')) {
+        Auth.removeToken();
+    }
+});
 </script>
 </body>
 </html>
