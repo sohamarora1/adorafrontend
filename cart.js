@@ -1,88 +1,78 @@
-async function syncLocalCartToBackend() {
-    const localCart = JSON.parse(localStorage.getItem('cart')) || [];
-    const token = localStorage.getItem('token');
+const cartContainer = document.querySelector('.cart-container');
+const cartItems = document.querySelector('.cart-items');
+const totalPriceElement = document.querySelector('#total-price');
+const checkoutBtn = document.querySelector('#checkout-btn');
 
-    if (!token) {
-        alert('Please log in to sync your cart.');
-        return;
-    }
-
+async function fetchCartData() {
     try {
-        for (const item of localCart) {
-            await fetch('https://adora-t8e8.onrender.com/api/cart/add', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                    'Auth': token,
-                },
-                body: JSON.stringify({ productId: item.id, qty: item.qty }),
-            });
-        }
-
-        // Clear the local cart after syncing
-        localStorage.removeItem('cart');
-    } catch (error) {
-        console.error('Error syncing cart:', error);
-    }
-}
-
-async function fetchUserCart() {
-    const token = localStorage.getItem('token');
-
-    try {
+        const token = localStorage.getItem('token');
         const response = await fetch('https://adora-t8e8.onrender.com/api/cart/user', {
             method: 'GET',
             headers: {
                 'Auth': token,
             },
         });
-
         const data = await response.json();
         return data.cart.items;
     } catch (error) {
-        console.error('Error fetching user cart:', error);
+        console.error('Error fetching cart data:', error);
         return [];
     }
 }
 
 function renderCartItems(items) {
-    const cartItemsContainer = document.getElementById('cart-items');
-    const totalPriceElement = document.getElementById('total-price');
-
-    cartItemsContainer.innerHTML = '';
-    let totalPrice = 0;
-
-    items.forEach(item => {
-        const cartItem = `
-            <div class="cart-item">
-                <img src="${item.imgSrc}" alt="${item.title}" />
+    const cartItemsHtml = items.map(item => `
+        <div class="cart-item">
+            <img src="${item.imgSrc}" alt="${item.title}">
+            <div class="cart-item-info">
                 <h3>${item.title}</h3>
                 <p>₹${item.price.toFixed(2)}</p>
                 <p>Quantity: ${item.qty}</p>
+                <button class="remove-from-cart" data-product-id="${item.productId}">Remove</button>
             </div>
-        `;
-        cartItemsContainer.innerHTML += cartItem;
-        totalPrice += item.price * item.qty;
-    });
+        </div>
+    `).join('');
+    cartItems.innerHTML = cartItemsHtml;
+}
 
+function updateCartSummary(items) {
+    const totalPrice = items.reduce((acc, item) => acc + item.price * item.qty, 0);
     totalPriceElement.textContent = totalPrice.toFixed(2);
 }
 
-async function initCartPage() {
+async function handleRemoveFromCart(productId) {
     const token = localStorage.getItem('token');
-
-    if (!token) {
-        alert('Please log in to access your cart.');
-        window.location.href = 'login.html';
-        return;
+    try {
+        await fetch(`https://adora-t8e8.onrender.com/api/cart/remove/${productId}`, {
+            method: 'DELETE',
+            headers: {
+                'Auth': token,
+            },
+        });
+        loadCartData(); // Refresh cart after removing item
+    } catch (error) {
+        console.error('Error removing item from cart:', error);
     }
-
-    // Sync local cart to backend
-    await syncLocalCartToBackend();
-
-    // Fetch user-specific cart and render it
-    const userCart = await fetchUserCart();
-    renderCartItems(userCart);
 }
 
-window.addEventListener('DOMContentLoaded', initCartPage);
+async function handleCheckout() {
+    const token = localStorage.getItem('token');
+    // Implement checkout logic here, such as contacting the backend to process the order
+}
+
+async function loadCartData() {
+    const items = await fetchCartData();
+    renderCartItems(items);
+    updateCartSummary(items);
+}
+
+window.addEventListener('DOMContentLoaded', () => {
+    loadCartData();
+    cartItems.addEventListener('click', (e) => {
+        if (e.target.classList.contains('remove-from-cart')) {
+            const productId = e.target.getAttribute('data-product-id');
+            handleRemoveFromCart(productId);
+        }
+    });
+    checkoutBtn.addEventListener('click', handleCheckout);
+});
