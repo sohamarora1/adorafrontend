@@ -1295,131 +1295,151 @@
           <p>&copy; 2023 Your Company Name. All rights reserved.</p>
       </div>
   </footer>
+<script>
+function checkAuth() {
+    const token = localStorage.getItem('token');
+    const loginBtn = document.getElementById('login-btn');
+    const logoutBtn = document.getElementById('logout-btn');
 
-      <script>
-            function checkAuth() {
-        const token = localStorage.getItem('token');
-        const loginBtn = document.getElementById('login-btn');
-        const logoutBtn = document.getElementById('logout-btn');
+    if (token) {
+        // User is logged in
+        loginBtn.style.display = 'none';
+        logoutBtn.style.display = 'block';
 
-        if (token) {
-            loginBtn.style.display = 'none';
-            logoutBtn.style.display = 'block';
+        logoutBtn.onclick = () => {
+            localStorage.removeItem('token'); // Clear the token
+            localStorage.removeItem('cart'); // Clear the local cart
+            window.location.reload();
+        };
+    } else {
+        // User is not logged in
+        loginBtn.style.display = 'block';
+        logoutBtn.style.display = 'none';
 
-            logoutBtn.onclick = () => {
-                localStorage.removeItem('token');
-                window.location.reload();
-            };
-        } else {
-            loginBtn.style.display = 'block';
-            logoutBtn.style.display = 'none';
+        loginBtn.onclick = () => {
+            localStorage.setItem('redirectUrl', window.location.href); // Save redirect URL
+            window.location.href = 'login.html'; // Redirect to login page
+        };
+    }
+}
 
-            loginBtn.onclick = () => {
-                localStorage.setItem('redirectUrl', window.location.href);
-                window.location.href = 'login.html';
-            };
+async function fetchProducts() {
+    try {
+        const response = await fetch('https://adora-t8e8.onrender.com/api/product/all');
+        const data = await response.json();
+        return data.products;
+    } catch (error) {
+        console.error('Error fetching products:', error);
+        return [];
+    }
+}
+
+function createProductCard(product) {
+    const token = localStorage.getItem('token'); // Check if user is logged in
+    const addToCartButton = token
+        ? `<button class="btn-add-to-cart" data-product-id="${product._id}">Add to Cart</button>`
+        : `<button class="btn-add-to-cart disabled" disabled>Add to Cart</button>`;
+
+    return `
+        <div class="product-card">
+            <img src="${product.imgSrc}" alt="${product.title}" class="product-image">
+            <div class="product-info">
+                <h3 class="product-title">${product.title}</h3>
+                <p class="product-price">₹${product.price.toFixed(2)}</p>
+                <p class="product-description">${product.description}</p>
+                ${addToCartButton}
+            </div>
+        </div>
+    `;
+}
+
+function displayProducts(products) {
+    const collegeOutfits = document.querySelector('#college-outfits .product-grid');
+    const trendyOutfits = document.querySelector('#trendy-outfits .product-grid');
+    const casualOutfits = document.querySelector('#casual-outfits .product-grid');
+
+    products.forEach(product => {
+        if (product.category === 'mensection') {
+            const productCard = createProductCard(product);
+            switch (product.type) {
+                case 'formals':
+                    collegeOutfits.innerHTML += productCard;
+                    break;
+                case 'festives':
+                    trendyOutfits.innerHTML += productCard;
+                    break;
+                case 'casuals':
+                    casualOutfits.innerHTML += productCard;
+                    break;
+            }
         }
+    });
+}
+
+function addToCart(product) {
+    const token = localStorage.getItem('token');
+    if (!token) {
+        alert('Please log in to add items to your cart.');
+        return;
     }
 
-        async function fetchProducts() {
-            try {
-                const response = await fetch('https://adora-t8e8.onrender.com/api/product/all');
-                const data = await response.json();
-                return data.products;
-            } catch (error) {
-                console.error('Error fetching products:', error);
-                return [];
+    let cart = JSON.parse(localStorage.getItem('cart')) || [];
+    const existingItem = cart.find(item => item._id === product._id);
+
+    if (existingItem) {
+        existingItem.qty += 1;
+    } else {
+        cart.push({ ...product, qty: 1 });
+    }
+
+    localStorage.setItem('cart', JSON.stringify(cart));
+    updateCartDisplay();
+    alert('Product added to cart successfully');
+}
+
+function updateCartDisplay() {
+    const cart = JSON.parse(localStorage.getItem('cart')) || [];
+    const cartCount = document.getElementById('cart-count');
+    const cartTotal = document.getElementById('cart-total');
+
+    const itemCount = cart.reduce((total, item) => total + item.qty, 0);
+    const totalPrice = cart.reduce((total, item) => total + (item.price * item.qty), 0);
+
+    cartCount.textContent = itemCount;
+    cartTotal.textContent = `₹ ${totalPrice.toFixed(2)}`;
+}
+
+async function init() {
+    const products = await fetchProducts();
+    displayProducts(products);
+    updateCartDisplay();
+
+    document.addEventListener('click', async function (e) {
+        if (e.target && e.target.classList.contains('btn-add-to-cart')) {
+            const productId = e.target.getAttribute('data-product-id');
+            const product = products.find(p => p._id === productId);
+            if (product) {
+                addToCart(product);
             }
         }
-    
-        function createProductCard(product) {
-            return `
-                <div class="product-card">
-                    <img src="${product.imgSrc}" alt="${product.title}" class="product-image">
-                    <div class="product-info">
-                        <h3 class="product-title">${product.title}</h3>
-                        <p class="product-price">₹${product.price.toFixed(2)}</p>
-                        <p class="product-description">${product.description}</p>
-                        <button class="btn-add-to-cart" data-product-id="${product._id}">Add to Cart</button>
-                    </div>
-                </div>
-            `;
-        }
-    
-        function displayProducts(products) {
-            const collegeOutfits = document.querySelector('#college-outfits .product-grid');
-            const trendyOutfits = document.querySelector('#trendy-outfits .product-grid');
-            const casualOutfits = document.querySelector('#casual-outfits .product-grid');
-    
-            products.forEach(product => {
-                if (product.category === 'mensection') {
-                    const productCard = createProductCard(product);
-                    switch (product.type) {
-                        case 'formals':
-                            collegeOutfits.innerHTML += productCard;
-                            break;
-                        case 'festives':
-                            trendyOutfits.innerHTML += productCard;
-                            break;
-                        case 'casuals':
-                            casualOutfits.innerHTML += productCard;
-                            break;
-                    }
-                }
-            });
-        }
-    
-        function addToCart(product) {
-            let cart = JSON.parse(localStorage.getItem('cart')) || [];
-            const existingItem = cart.find(item => item._id === product._id);
-    
-            if (existingItem) {
-                existingItem.qty += 1;
-            } else {
-                cart.push({ ...product, qty: 1 });
+    });
+
+    const cartBtn = document.getElementById('cart-btn');
+    if (cartBtn) {
+        cartBtn.addEventListener('click', function () {
+            const token = localStorage.getItem('token');
+            if (!token) {
+                alert('Please log in to view your cart.');
+                return;
             }
-    
-            localStorage.setItem('cart', JSON.stringify(cart));
-            updateCartDisplay();
-            alert('Product added to cart successfully');
-        }
-    
-        function updateCartDisplay() {
-            const cart = JSON.parse(localStorage.getItem('cart')) || [];
-            const cartCount = document.getElementById('cart-count');
-            const cartTotal = document.getElementById('cart-total');
-    
-            const itemCount = cart.reduce((total, item) => total + item.qty, 0);
-            const totalPrice = cart.reduce((total, item) => total + (item.price * item.qty), 0);
-    
-            cartCount.textContent = itemCount;
-            cartTotal.textContent = `₹ ${totalPrice.toFixed(2)}`;
-        }
-    
-        async function init() {
-            const products = await fetchProducts();
-            displayProducts(products);
-            updateCartDisplay();
-    
-            document.addEventListener('click', async function(e) {
-                if (e.target && e.target.classList.contains('btn-add-to-cart')) {
-                    const productId = e.target.getAttribute('data-product-id');
-                    const product = products.find(p => p._id === productId);
-                    if (product) {
-                        addToCart(product);
-                    }
-                }
-            });
-    
-            const cartBtn = document.getElementById('cart-btn');
-            if (cartBtn) {
-                cartBtn.addEventListener('click', function() {
-                    window.location.href = 'cart.html';
-                });
-            }
-        }
-    
-        init();
-    </script>
+            window.location.href = 'cart.html';
+        });
+    }
+
+    checkAuth(); // Check login/logout state on page load
+}
+
+init();
+</script>
 </body>
 </html>
