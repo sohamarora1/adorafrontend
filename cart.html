@@ -3,249 +3,56 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Shopping Cart - Trendify</title>
-    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.1/css/all.min.css">
+    <title>Cart</title>
     <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
-        body {
-            font-family: 'Roboto', sans-serif;
-            background-color: #f5f5f5;
-            color: #333;
-        }
-        .container {
-            max-width: 1200px;
-            margin: 0 auto;
-            padding: 40px 20px;
-        }
-        h1 {
-            text-align: center;
-            margin-bottom: 40px;
-            color: #2c3e50;
-            font-size: 2.5em;
-        }
-        .cart-item {
-            display: flex;
-            align-items: center;
-            background-color: #fff;
-            border-radius: 10px;
-            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-            margin-bottom: 20px;
-            overflow: hidden;
-            transition: all 0.3s ease;
-        }
-        .cart-item:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
-        }
-        .cart-item img {
-            width: 120px;
-            height: 120px;
-            object-fit: cover;
-        }
-        .cart-item-details {
-            flex-grow: 1;
-            padding: 20px;
-        }
-        .cart-item-details h3 {
-            font-size: 1.2em;
-            margin-bottom: 10px;
-            color: #2c3e50;
-        }
-        .cart-item-details p {
-            font-size: 1em;
-            color: #7f8c8d;
-            margin-bottom: 5px;
-        }
-        .cart-item-actions {
-            display: flex;
-            align-items: center;
-            padding: 20px;
-        }
-        .cart-item-actions button {
-            background-color: transparent;
-            border: none;
-            cursor: pointer;
-            font-size: 1.2em;
-            color: #3498db;
-            transition: color 0.3s ease;
-        }
-        .cart-item-actions button:hover {
-            color: #2980b9;
-        }
-        .quantity-control {
-            display: flex;
-            align-items: center;
-            margin-right: 20px;
-        }
-        .quantity-control span {
-            margin: 0 10px;
-            font-weight: bold;
-        }
-        #cart-total {
-            text-align: right;
-            font-size: 1.5em;
-            margin-top: 20px;
-            color: #2c3e50;
-        }
-        #clear-cart, #checkout-btn {
-            display: block;
-            margin: 20px auto;
-            padding: 10px 20px;
-            border: none;
-            border-radius: 5px;
-            font-size: 1em;
-            cursor: pointer;
-            transition: background-color 0.3s ease;
-            text-align: center;
-        }
-        #clear-cart {
-            background-color: #e74c3c;
-            color: #fff;
-        }
-        #clear-cart:hover {
-            background-color: #c0392b;
-        }
-        #checkout-btn {
-            background-color: #27ae60;
-            color: #fff;
-        }
-        #checkout-btn:hover {
-            background-color: #229954;
-        }
-    </style>
+        .cart-container {
+    display: flex;
+    justify-content: space-between;
+}
+
+.cart-items {
+    flex: 2;
+}
+
+.cart-summary {
+    flex: 1;
+    padding-left: 20px;
+}
+
+.cart-item {
+    display: flex;
+    margin-bottom: 20px;
+}
+
+.cart-item img {
+    width: 80px;
+    height: 80px;
+    margin-right: 20px;
+}
+
+.cart-item-info {
+    display: flex;
+    flex-direction: column;
+}
+    </style><!-- Link to your CSS file -->
 </head>
 <body>
-    <div class="container">
-        <h1>Your Shopping Cart</h1>
-        <div id="cart-items"></div>
-        <div id="cart-total"></div>
-        <button id="clear-cart">Clear Cart</button>
-        <button id="checkout-btn">Checkout</button>
-    </div>
-  <script>
-    const cartItemsContainer = document.getElementById('cart-items');
-    const totalPriceElement = document.getElementById('total-price');
-    const checkoutBtn = document.getElementById('checkout-btn');
+    <header>
+        <!-- Add your header content here, e.g., logo, navigation -->
+        <h1>Shopping Cart</h1>
+    </header>
 
-    // Sync local cart to the backend
-    async function syncLocalCartToBackend() {
-        const token = localStorage.getItem('token'); // Get the token from localStorage
-        const localCart = JSON.parse(localStorage.getItem('cart')) || []; // Fetch the local cart
-
-        if (!token) {
-            alert('Please log in to sync your cart.');
-            window.location.href = 'login.html'; // Redirect to login if token is missing
-            return;
-        }
-
-        try {
-            // Send each product in the local cart to the backend
-            for (const item of localCart) {
-                await fetch('https://adora-t8e8.onrender.com/api/cart/add', {
-                    method: 'POST',
-                    headers: {
-                        'Auth': token,
-                        'Content-Type': 'application/json',
-                    },
-                    body: JSON.stringify({
-                        productId: item._id,
-                        qty: item.qty,
-                    }),
-                });
-            }
-
-            // Clear the local cart after sync to avoid duplicate syncing
-            localStorage.removeItem('cart');
-            console.log('Local cart synced to backend.');
-        } catch (error) {
-            console.error('Error syncing local cart with backend:', error);
-        }
-    }
-
-    // Fetch the user's cart from the backend
-    async function fetchUserCart() {
-        const token = localStorage.getItem('token');
-
-        if (!token) {
-            alert('Please log in to view your cart.');
-            window.location.href = 'login.html'; // Redirect to login if token is missing
-            return { items: [] }; // Return an empty cart
-        }
-
-        try {
-            const response = await fetch('https://adora-t8e8.onrender.com/api/cart/user', {
-                method: 'GET',
-                headers: {
-                    'Auth': token,
-                    'Content-Type': 'application/json',
-                },
-            });
-
-            if (!response.ok) {
-                throw new Error(`Failed to fetch cart, status: ${response.status}`);
-            }
-
-            const data = await response.json();
-            return data.cart; // Return the cart object
-        } catch (error) {
-            console.error('Error fetching user cart:', error);
-            return { items: [] }; // Return an empty cart if an error occurs
-        }
-    }
-
-    // Render cart items on the page
-    function renderCartItems(items) {
-        if (!items.length) {
-            cartItemsContainer.innerHTML = '<p>Your cart is empty.</p>';
-            totalPriceElement.textContent = '0.00';
-            return;
-        }
-
-        const cartItemsHtml = items.map((item) => `
-            <div class="cart-item">
-                <img src="${item.imgSrc}" alt="${item.title}" style="width: 80px; height: 80px;">
-                <div>
-                    <h3>${item.title}</h3>
-                    <p>Price: ₹${item.price.toFixed(2)}</p>
-                    <p>Quantity: ${item.qty}</p>
-                </div>
+    <main>
+        <div class="cart-container">
+            <div class="cart-items"></div>
+            <div class="cart-summary">
+                <h2>Summary</h2>
+                <p>Total: ₹<span id="total-price">0.00</span></p>
+                <button id="checkout-btn">Checkout</button>
             </div>
-        `).join('');
-
-        cartItemsContainer.innerHTML = cartItemsHtml;
-    }
-
-    // Update the total price
-    function updateCartSummary(items) {
-        const totalPrice = items.reduce((sum, item) => sum + item.price * item.qty, 0);
-        totalPriceElement.textContent = totalPrice.toFixed(2);
-    }
-
-    // Initialize the cart page
-    async function initCartPage() {
-        await syncLocalCartToBackend(); // Sync the local cart to the backend
-        const userCart = await fetchUserCart(); // Fetch the user-specific cart
-        renderCartItems(userCart.items); // Render cart items on the page
-        updateCartSummary(userCart.items); // Update the total price
-    }
-
-    // Handle checkout (placeholder - implement as needed)
-    async function handleCheckout() {
-        alert('Checkout functionality not implemented yet.');
-    }
-
-    // Execute on page load
-    document.addEventListener('DOMContentLoaded', () => {
-        initCartPage();
-
-        // Attach event listener to the checkout button
-        checkoutBtn.addEventListener('click', handleCheckout);
-    });
-</script>
+        </div>
+    </main>
+    
+    <script src="cart.js"></script> <!-- Link to your JavaScript file -->
 </body>
 </html>
