@@ -4,7 +4,6 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Men's Section - Trendify</title>
-<script src="auth.js"></script>
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap');
 
@@ -13,13 +12,7 @@
     height: 100vh;
     margin: 0;
     padding: 0;
-  }.profile-initial {
-    transition: all 0.3s ease;
-}
-
-#profile-btn:hover .profile-initial {
-    transform: scale(1.1);
-}
+  }
   
 :root {
 
@@ -1172,65 +1165,93 @@
 </head>
 <body>
    
-<header class="header">
-  <div class="alert">
-    <div class="container">
-      <p class="alert-text">FREE SHIPPING ON ORDERS ABOVE 1000</p>
+  <header class="header">
+
+    <div class="alert">
+      <div class="container">
+        <p class="alert-text">FREE SHIPPING ON ORDERS ABOVE 1000</p>
+      </div>
     </div>
-  </div>
 
-  <div class="header-top" data-header>
-    <div class="container">
-      <button class="nav-open-btn" aria-label="open menu" data-nav-toggler>
-        <span class="line line-1"></span>
-        <span class="line line-2"></span>
-        <span class="line line-3"></span>
-      </button>
+    <div class="header-top" data-header>
+      <div class="container">
 
-      <a href="index.html" class="logo">
-        <img src="assets/logoletter.png" width="100" height="18" alt="ADORA">
-      </a>
+        <button class="nav-open-btn" aria-label="open menu" data-nav-toggler>
+          <span class="line line-1"></span>
+          <span class="line line-2"></span>
+          <span class="line line-3"></span>
+        </button>
 
-      <div class="header-actions">
-    <button class="header-action-btn" id="login-btn" style="display: none;">Login</button>
-    <button class="header-action-btn" id="logout-btn" style="display: none;">Logout</button>
-    <button class="header-action-btn" aria-label="cart item" id="cart-btn">
-        <ion-icon name="bag-handle-outline" aria-hidden="true"></ion-icon>
-        <span class="btn-badge" id="cart-count">0</span>
+        <div class="input-wrapper">
+          <input type="search" name="search" placeholder="CHAT WITH AI" class="search-field">
+        
+          <button class="search-submit" aria-label="search">
+            <ion-icon name="arrow-up-outline" aria-hidden="true"></ion-icon>
+          </button>
+        </div>
+        
+
+        <a href="index.html" class="logo">
+          <img src="assets/logoletter.png" width="100" height="18" alt="ADORA">
+        </a>
+
+       
+  <div class="header-actions">
+    <button class="header-action-btn" aria-label="user">
+      <ion-icon name="person-outline" aria-hidden="true"></ion-icon>
     </button>
-</div>
-     
 
-      <nav class="navbar">
-        <ul class="navbar-list">
-          <li><a href="index.html" class="navbar-link has-after">Home</a></li>
-          <li><a href="men.html" class="navbar-link has-after">Men</a></li>
-          <li><a href="women.html" class="navbar-link has-after">Women</a></li>
-          <li><a href="blog.html" class="navbar-link has-after">Blog</a></li>
-          <li><a href="profile.html" class="navbar-link has-after" id="profile-link">Profile</a></li>
-        </ul>
-      </nav>
-    </div>
+    <button class="header-action-btn" aria-label="favourite item">
+      <ion-icon name="star-outline" aria-hidden="true"></ion-icon>
+      <span class="btn-badge">0</span>
+    </button>
+
+    <button class="header-action-btn" aria-label="cart item" id="cart-btn">
+      <data class="btn-text" value="0" id="cart-total">₹ 0.00</data>
+      <ion-icon name="bag-handle-outline" aria-hidden="true"></ion-icon>
+      <span class="btn-badge" id="cart-count">0</span>
+    </button>
   </div>
-</header>
 
-<h1 style="color:black; text-align:center">Men's Section</h1>
-<div class="container">
-    <section id="college-outfits" class="product-section">
-        <h2>Formals</h2>
-        <div class="product-grid"></div>
-    </section>
+  <nav class="navbar">
+    <ul class="navbar-list">
+      <li>
+        <a href="#home" class="navbar-link has-after">Home</a>
+      </li>
+      <li>
+        <a href="#collection" class="navbar-link has-after">OCCASIONS</a>
+      </li>
+      <li>
+        <a href="#shop" class="navbar-link has-after">TRENDING</a>
+      </li>
+      <li>
+        <a href="#blog" class="navbar-link has-after">BLOG</a>
+      </li>
+    </ul>
+  </nav>
 
-    <section id="trendy-outfits" class="product-section">
-        <h2>Festive Outfits</h2>
-        <div class="product-grid"></div>
-    </section>
+      </div>
+    </div>
 
-    <section id="casual-outfits" class="product-section">
-        <h2>Casual Outfits</h2>
-        <div class="product-grid"></div>
-    </section>
-</div>
+  </header>
+  <h1 style="color:black; text-align:center">Men section</h1>
+    <div class="container">
+        <section id="college-outfits" class="product-section">
+            <h2>formals</h2>
+            <div class="product-grid"></div>
+        </section>
+
+        <section id="trendy-outfits" class="product-section">
+            <h2>festive outfits</h2>
+            <div class="product-grid"></div>
+        </section>
+
+        <section id="casual-outfits" class="product-section">
+            <h2>Casual Outfits</h2>
+            <div class="product-grid"></div>
+        </section>
+    </div>
+
     <footer class="footer">
       <div class="footer-container">
           <div class="footer-section">
@@ -1273,174 +1294,107 @@
           <p>&copy; 2023 Your Company Name. All rights reserved.</p>
       </div>
   </footer>
-<script>
-    // Check user authentication
-    function checkAuth() {
-        const token = localStorage.getItem('token');
-        const loginBtn = document.getElementById('login-btn');
-        const logoutBtn = document.getElementById('logout-btn');
 
-        if (token) {
-            loginBtn.style.display = 'none';
-            logoutBtn.style.display = 'block';
-
-            logoutBtn.onclick = () => {
-                localStorage.removeItem('token');
-                window.location.reload();
-            };
-        } else {
-            loginBtn.style.display = 'block';
-            logoutBtn.style.display = 'none';
-
-            loginBtn.onclick = () => {
-                localStorage.setItem('redirectUrl', window.location.href);
-                window.location.href = 'login.html';
-            };
+      <script>
+        async function fetchProducts() {
+            try {
+                const response = await fetch('https://adora-t8e8.onrender.com/api/product/all');
+                const data = await response.json();
+                return data.products;
+            } catch (error) {
+                console.error('Error fetching products:', error);
+                return [];
+            }
         }
-    }
-
-    // Fetch products for men's section
-  async function fetchProducts() {
-    const token = localStorage.getItem('token');
-    try {
-        const response = await fetch('https://adora-t8e8.onrender.com/api/product/all', {
-            method: 'GET',
-            headers: {
-                'Auth': token,
-                'Content-Type': 'application/json'
-            },
-            credentials: 'include'
-        });
-        
-        if (!response.ok) {
-            throw new Error(`HTTP error! status: ${response.status}`);
-        }
-        
-        const data = await response.json();
-        return data.products;
-    } catch (error) {
-        console.error('Error fetching products:', error);
-        return [];
-    }
-}
-    // Render products dynamically
-    function displayProducts(products) {
-        const formals = document.querySelector('#college-outfits .product-grid');
-        const festives = document.querySelector('#trendy-outfits .product-grid');
-        const casuals = document.querySelector('#casual-outfits .product-grid');
-
-        for (const product of products) {
-            if (product.category === 'mensection') {
-                const productCard = `
-                    <div class="product-card">
-                        <img src="${product.imgSrc}" alt="${product.title}" class="product-image">
-                        <div class="product-info">
-                            <h3 class="product-title">${product.title}</h3>
-                            <p class="product-price">₹${product.price.toFixed(2)}</p>
-                            <p class="product-description">${product.description}</p>
-                            <button class="btn-add-to-cart" data-product-id="${product._id}">Add to Cart</button>
-                        </div>
+    
+        function createProductCard(product) {
+            return `
+                <div class="product-card">
+                    <img src="${product.imgSrc}" alt="${product.title}" class="product-image">
+                    <div class="product-info">
+                        <h3 class="product-title">${product.title}</h3>
+                        <p class="product-price">₹${product.price.toFixed(2)}</p>
+                        <p class="product-description">${product.description}</p>
+                        <button class="btn-add-to-cart" data-product-id="${product._id}">Add to Cart</button>
                     </div>
-                `;
-                if (product.type === 'formals') {
-                    formals.innerHTML += productCard;
-                } else if (product.type === 'festives') {
-                    festives.innerHTML += productCard;
-                } else if (product.type === 'casuals') {
-                    casuals.innerHTML += productCard;
+                </div>
+            `;
+        }
+    
+        function displayProducts(products) {
+            const collegeOutfits = document.querySelector('#college-outfits .product-grid');
+            const trendyOutfits = document.querySelector('#trendy-outfits .product-grid');
+            const casualOutfits = document.querySelector('#casual-outfits .product-grid');
+    
+            products.forEach(product => {
+                if (product.category === 'mensection') {
+                    const productCard = createProductCard(product);
+                    switch (product.type) {
+                        case 'formals':
+                            collegeOutfits.innerHTML += productCard;
+                            break;
+                        case 'festives':
+                            trendyOutfits.innerHTML += productCard;
+                            break;
+                        case 'casuals':
+                            casualOutfits.innerHTML += productCard;
+                            break;
+                    }
                 }
-            }
+            });
         }
-    }
-
- async function addToCart(productId) {
-    const token = localStorage.getItem('token');
-    if (!token) {
-        alert('Please log in to add products to your cart.');
-        localStorage.setItem('redirectUrl', window.location.href);
-        window.location.href = 'login.html';
-        return;
-    }
-
-    try {
-        // Debug: Check the token
-        console.log('Token:', token);
-
-        // Make the API call to add the product to the cart
-        const response = await fetch('https://adora-t8e8.onrender.com/api/cart/add', {
-            method: 'POST',
-            headers: {
-                'Auth': token,
-                'Content-Type': 'application/json'
-            },
-            credentials: 'include',
-            body: JSON.stringify({ productId, qty: 1 })
-        });
-
-        // Debug: Check the response status
-        console.log('Response status:', response.status);
-
-        if (!response.ok) {
-            // Handle different HTTP errors
-            if (response.status === 401) {
-                alert('Session expired. Please log in again.');
-                localStorage.removeItem('token');
-                window.location.href = 'login.html';
+    
+        function addToCart(product) {
+            let cart = JSON.parse(localStorage.getItem('cart')) || [];
+            const existingItem = cart.find(item => item._id === product._id);
+    
+            if (existingItem) {
+                existingItem.qty += 1;
             } else {
-                throw new Error(`HTTP error! status: ${response.status}`);
+                cart.push({ ...product, qty: 1 });
+            }
+    
+            localStorage.setItem('cart', JSON.stringify(cart));
+            updateCartDisplay();
+            alert('Product added to cart successfully');
+        }
+    
+        function updateCartDisplay() {
+            const cart = JSON.parse(localStorage.getItem('cart')) || [];
+            const cartCount = document.getElementById('cart-count');
+            const cartTotal = document.getElementById('cart-total');
+    
+            const itemCount = cart.reduce((total, item) => total + item.qty, 0);
+            const totalPrice = cart.reduce((total, item) => total + (item.price * item.qty), 0);
+    
+            cartCount.textContent = itemCount;
+            cartTotal.textContent = `₹ ${totalPrice.toFixed(2)}`;
+        }
+    
+        async function init() {
+            const products = await fetchProducts();
+            displayProducts(products);
+            updateCartDisplay();
+    
+            document.addEventListener('click', async function(e) {
+                if (e.target && e.target.classList.contains('btn-add-to-cart')) {
+                    const productId = e.target.getAttribute('data-product-id');
+                    const product = products.find(p => p._id === productId);
+                    if (product) {
+                        addToCart(product);
+                    }
+                }
+            });
+    
+            const cartBtn = document.getElementById('cart-btn');
+            if (cartBtn) {
+                cartBtn.addEventListener('click', function() {
+                    window.location.href = 'cart.html';
+                });
             }
         }
-
-        const data = await response.json();
-        alert('Product added to cart!');
-        await updateCartCount();
-    } catch (error) {
-        // Debug: Log the error
-        console.error('Error adding to cart:', error);
-        alert('Something went wrong. Please try again.');
-    }
-}
-   async function updateCartCount() {
-    const token = localStorage.getItem('token');
-    try {
-        const response = await fetch('https://adora-t8e8.onrender.com/api/cart/user', {
-            headers: {
-                'Auth': token,
-                'Content-Type': 'application/json'
-            },
-            credentials: 'include'
-        });
-
-        if (!response.ok) {
-            throw new Error(`HTTP error! status: ${response.status}`);
-        }
-
-        const data = await response.json();
-        const cartCount = data.cart.items.reduce((sum, item) => sum + item.qty, 0);
-        document.getElementById('cart-count').textContent = cartCount;
-    } catch (error) {
-        console.error('Error fetching cart count:', error);
-        document.getElementById('cart-count').textContent = '0';
-    }
-}
-    // Initialize the page
-    async function init() {
-        checkAuth();
-        const products = await fetchProducts();
-        displayProducts(products);
-
-        document.addEventListener('click', async (e) => {
-            if (e.target && e.target.classList.contains('btn-add-to-cart')) {
-                const productId = e.target.getAttribute('data-product-id');
-                await addToCart(productId);
-            }
-        });
-
-        await updateCartCount();
-    }
-
-    // Run on page load
-    window.addEventListener('DOMContentLoaded', init);
-</script>
+    
+        init();
+    </script>
 </body>
 </html>
