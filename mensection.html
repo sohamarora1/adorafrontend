@@ -1296,6 +1296,30 @@
   </footer>
 
       <script>
+            function checkAuth() {
+        const token = localStorage.getItem('token');
+        const loginBtn = document.getElementById('login-btn');
+        const logoutBtn = document.getElementById('logout-btn');
+
+        if (token) {
+            loginBtn.style.display = 'none';
+            logoutBtn.style.display = 'block';
+
+            logoutBtn.onclick = () => {
+                localStorage.removeItem('token');
+                window.location.reload();
+            };
+        } else {
+            loginBtn.style.display = 'block';
+            logoutBtn.style.display = 'none';
+
+            loginBtn.onclick = () => {
+                localStorage.setItem('redirectUrl', window.location.href);
+                window.location.href = 'login.html';
+            };
+        }
+    }
+
         async function fetchProducts() {
             try {
                 const response = await fetch('https://adora-t8e8.onrender.com/api/product/all');
