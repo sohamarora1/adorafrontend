@@ -1,0 +1,175 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Admin Product Dashboard</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+            background-color: #f4f4f4;
+        }
+        .login-container, .dashboard-container {
+            background-color: white;
+            padding: 30px;
+            border-radius: 8px;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+        }
+        input, select {
+            width: 100%;
+            padding: 10px;
+            margin: 10px 0;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+        }
+        button {
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+        button:hover {
+            background-color: #45a049;
+        }
+        #productList {
+            margin-top: 20px;
+        }
+        .product-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 10px;
+            border-bottom: 1px solid #eee;
+        }
+        .error {
+            color: red;
+            margin-bottom: 10px;
+        }
+    </style>
+</head>
+<body>
+    <div id="loginScreen" class="login-container">
+        <h2>Admin Login</h2>
+        <input type="text" id="adminId" placeholder="Admin ID">
+        <input type="password" id="adminPassword" placeholder="Password">
+        <div id="loginError" class="error"></div>
+        <button onclick="login()">Login</button>
+    </div>
+
+    <div id="dashboardScreen" style="display:none;" class="dashboard-container">
+        <h2>Product Management Dashboard</h2>
+        
+        <h3>Add New Product</h3>
+        <input type="text" id="title" placeholder="Title">
+        <input type="text" id="description" placeholder="Description">
+        <input type="number" id="price" placeholder="Price">
+        <input type="text" id="category" placeholder="Category">
+        <input type="text" id="type" placeholder="Type">
+        <input type="number" id="qty" placeholder="Quantity">
+        <input type="text" id="imgSrc" placeholder="Image URL">
+        <button onclick="addProduct()">Add Product</button>
+
+        <div id="productList">
+            <h3>Existing Products</h3>
+            <div id="productItems"></div>
+        </div>
+    </div>
+
+    <script>
+        const API_BASE_URL = 'https://adora-t8e8.onrender.com/api/product/';
+
+        function login() {
+            const adminId = document.getElementById('adminId').value;
+            const adminPassword = document.getElementById('adminPassword').value;
+            const loginError = document.getElementById('loginError');
+
+            if (adminId === 'soha' && adminPassword === 'adding') {
+                document.getElementById('loginScreen').style.display = 'none';
+                document.getElementById('dashboardScreen').style.display = 'block';
+                fetchProducts();
+            } else {
+                loginError.textContent = 'Invalid credentials. Try again.';
+            }
+        }
+
+        async function addProduct() {
+            const product = {
+                title: document.getElementById('title').value,
+                description: document.getElementById('description').value,
+                price: parseFloat(document.getElementById('price').value),
+                category: document.getElementById('category').value,
+                type: document.getElementById('type').value,
+                qty: parseInt(document.getElementById('qty').value),
+                imgSrc: document.getElementById('imgSrc').value
+            };
+
+            try {
+                const response = await fetch(API_BASE_URL + 'add', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify(product)
+                });
+
+                if (response.ok) {
+                    alert('Product added successfully');
+                    fetchProducts();
+                    // Clear input fields
+                    ['title', 'description', 'price', 'category', 'type', 'qty', 'imgSrc'].forEach(id => {
+                        document.getElementById(id).value = '';
+                    });
+                } else {
+                    alert('Failed to add product');
+                }
+            } catch (error) {
+                console.error('Error:', error);
+                alert('An error occurred');
+            }
+        }
+
+        async function fetchProducts() {
+            try {
+                const response = await fetch(API_BASE_URL + 'get');
+                const products = await response.json();
+                const productItems = document.getElementById('productItems');
+                productItems.innerHTML = '';
+
+                products.forEach(product => {
+                    const productDiv = document.createElement('div');
+                    productDiv.classList.add('product-item');
+                    productDiv.innerHTML = `
+                        ${product.title} - $${product.price} 
+                        <button onclick="deleteProduct('${product._id}')">Delete</button>
+                    `;
+                    productItems.appendChild(productDiv);
+                });
+            } catch (error) {
+                console.error('Error fetching products:', error);
+            }
+        }
+
+        async function deleteProduct(productId) {
+            try {
+                const response = await fetch(API_BASE_URL + `delete/${productId}`, {
+                    method: 'DELETE'
+                });
+
+                if (response.ok) {
+                    alert('Product deleted successfully');
+                    fetchProducts();
+                } else {
+                    alert('Failed to delete product');
+                }
+            } catch (error) {
+                console.error('Error:', error);
+                alert('An error occurred');
+            }
+        }
+    </script>
+</body>
+</html>
