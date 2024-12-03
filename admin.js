@@ -1,5 +1,5 @@
 // script.js
-const API_URL = 'http://your-api-url'; // Replace with your actual API URL
+const API_URL = 'https://adora-t8e8.onrender.com/api'; // Replace with your actual API URL
 
 // Form elements
 const productForm = document.getElementById('productForm');
