@@ -3,112 +3,191 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Shopping Cart - Trendify</title>
-    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&display=swap" rel="stylesheet">
+    <title>Trendify - Your Shopping Cart</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.1/css/all.min.css">
     <style>
-        /* Previous CSS remains the same */
+        :root {
+            --primary-color: #4a90e2;
+            --secondary-color: #5f27cd;
+            --text-color: #2c3e50;
+            --background-color: #f4f6f9;
+            --card-background: #ffffff;
+            --transition-speed: 0.3s;
+        }
+
         * {
             margin: 0;
             padding: 0;
             box-sizing: border-box;
         }
+
         body {
-            font-family: 'Roboto', sans-serif;
-            background-color: #f5f5f5;
-            color: #333;
+            font-family: 'Inter', sans-serif;
+            background-color: var(--background-color);
+            color: var(--text-color);
+            line-height: 1.6;
         }
-        .container {
-            max-width: 1200px;
-            margin: 0 auto;
-            padding: 40px 20px;
+
+        .shopping-cart-container {
+            max-width: 900px;
+            margin: 40px auto;
+            background-color: var(--card-background);
+            border-radius: 20px;
+            box-shadow: 0 15px 35px rgba(50, 50, 93, 0.1), 0 5px 15px rgba(0, 0, 0, 0.07);
+            overflow: hidden;
         }
-        h1 {
-            text-align: center;
-            margin-bottom: 40px;
-            color: #2c3e50;
-            font-size: 2.5em;
+
+        .cart-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 25px 30px;
+            background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+            color: white;
         }
+
+        .cart-header h1 {
+            font-size: 1.8rem;
+            font-weight: 700;
+            display: flex;
+            align-items: center;
+        }
+
+        .cart-header h1 i {
+            margin-right: 15px;
+            font-size: 2rem;
+        }
+
+        .cart-items {
+            padding: 20px 30px;
+        }
+
         .cart-item {
             display: flex;
             align-items: center;
-            background-color: #fff;
-            border-radius: 10px;
-            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-            margin-bottom: 20px;
-            overflow: hidden;
-            transition: all 0.3s ease;
+            padding: 20px;
+            border-bottom: 1px solid #e9ecef;
+            transition: all var(--transition-speed) ease;
         }
+
         .cart-item:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
+            background-color: #f8f9fa;
+            transform: translateX(10px);
         }
+
         .cart-item img {
             width: 120px;
             height: 120px;
             object-fit: cover;
+            border-radius: 15px;
+            margin-right: 25px;
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
+            transition: transform var(--transition-speed) ease;
         }
-        .cart-item-details {
+
+        .cart-item:hover img {
+            transform: scale(1.05);
+        }
+
+        .item-details {
             flex-grow: 1;
-            padding: 20px;
         }
-        .cart-item-details h3 {
-            font-size: 1.2em;
+
+        .item-details h3 {
+            font-size: 1.2rem;
+            font-weight: 600;
             margin-bottom: 10px;
-            color: #2c3e50;
         }
-        .cart-item-details p {
-            font-size: 1em;
-            color: #7f8c8d;
-            margin-bottom: 5px;
-        }
-        .cart-item-actions {
-            display: flex;
-            align-items: center;
-            padding: 20px;
-        }
-        .cart-item-actions button {
-            background-color: transparent;
-            border: none;
-            cursor: pointer;
-            font-size: 1.2em;
-            color: #3498db;
-            transition: color 0.3s ease;
-        }
-        .cart-item-actions button:hover {
-            color: #2980b9;
-        }
+
         .quantity-control {
             display: flex;
             align-items: center;
-            margin-right: 20px;
+            background-color: #f1f3f5;
+            border-radius: 30px;
+            overflow: hidden;
         }
-        .quantity-control span {
-            margin: 0 10px;
-            font-weight: bold;
-        }
-        #cart-total {
-            text-align: right;
-            font-size: 1.5em;
-            margin-top: 20px;
-            color: #2c3e50;
-        }
-        #clear-cart {
-            display: block;
-            margin: 20px auto;
-            padding: 10px 20px;
-            background-color: #e74c3c;
-            color: #fff;
+
+        .quantity-control button {
+            background: none;
             border: none;
-            border-radius: 5px;
-            font-size: 1em;
+            padding: 10px 15px;
             cursor: pointer;
-            transition: background-color 0.3s ease;
+            transition: background-color var(--transition-speed) ease;
         }
-        #clear-cart:hover {
-            background-color: #c0392b;
+
+        .quantity-control button:hover {
+            background-color: rgba(0, 0, 0, 0.05);
         }
-        /* New styles for checkout modal */
+
+        .quantity-control span {
+            padding: 0 15px;
+            font-weight: 600;
+        }
+
+        .cart-actions {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 20px 30px;
+            background-color: #f8f9fa;
+        }
+
+        .cart-total {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: var(--secondary-color);
+        }
+
+        .btn {
+            display: inline-flex;
+            align-items: center;
+            padding: 12px 25px;
+            border-radius: 30px;
+            text-decoration: none;
+            font-weight: 600;
+            transition: all var(--transition-speed) ease;
+            border: none;
+            cursor: pointer;
+        }
+
+        .btn-checkout {
+            background-color: var(--primary-color);
+            color: white;
+            box-shadow: 0 10px 20px rgba(74, 144, 226, 0.3);
+        }
+
+        .btn-checkout:hover {
+            background-color: var(--secondary-color);
+            transform: translateY(-5px);
+            box-shadow: 0 15px 25px rgba(74, 144, 226, 0.4);
+        }
+
+        .btn-clear {
+            background-color: #ff6b6b;
+            color: white;
+            margin-right: 15px;
+        }
+
+        .btn-clear:hover {
+            background-color: #ee5253;
+            transform: translateY(-3px);
+        }
+
+        .empty-cart {
+            text-align: center;
+            padding: 50px;
+            color: #7f8c8d;
+        }
+
+        @media (max-width: 768px) {
+            .cart-item {
+                flex-direction: column;
+                text-align: center;
+            }
+        }
+
+        /* Checkout Modal Styles */
         .modal {
             display: none;
             position: fixed;
@@ -118,116 +197,47 @@
             width: 100%;
             height: 100%;
             overflow: auto;
-            background-color: rgba(0,0,0,0.5);
+            background-color: rgba(0,0,0,0.4);
+            backdrop-filter: blur(5px);
         }
+
         .modal-content {
-            background-color: #fefefe;
+            background-color: white;
             margin: 10% auto;
-            padding: 20px;
-            border-radius: 10px;
-            width: 80%;
-            max-width: 600px;
-            position: relative;
+            padding: 30px;
+            border-radius: 20px;
+            max-width: 500px;
+            box-shadow: 0 20px 50px rgba(0,0,0,0.1);
+            animation: modalSlideUp 0.5s ease;
         }
-        .close-modal {
-            color: #aaa;
-            float: right;
-            font-size: 28px;
-            font-weight: bold;
-            cursor: pointer;
-        }
-        #address-form, #order-summary {
-            margin-top: 20px;
-        }
-        #checkout-btn {
-            display: block;
-            width: 100%;
-            padding: 15px;
-            background-color: #2ecc71;
-            color: white;
-            border: none;
-            border-radius: 5px;
-            margin-top: 20px;
-            cursor: pointer;
-        }
-        #payment-options {
-            display: flex;
-            justify-content: space-between;
-            margin-top: 20px;
-        }
-        .payment-method {
-            flex: 1;
-            padding: 15px;
-            margin: 0 10px;
-            border: 2px solid #3498db;
-            border-radius: 5px;
-            text-align: center;
-            cursor: pointer;
-            transition: all 0.3s ease;
-        }
-        .payment-method:hover {
-            background-color: #f1f1f1;
-        }
-        .payment-method.selected {
-            background-color: #3498db;
-            color: white;
-        }
-        #order-confirmation {
-            text-align: center;
-            padding: 20px;
+
+        @keyframes modalSlideUp {
+            from { transform: translateY(50px); opacity: 0; }
+            to { transform: translateY(0); opacity: 1; }
         }
     </style>
 </head>
 <body>
-    <div class="container">
-        <h1>Your Shopping Cart</h1>
-        <div id="cart-items"></div>
-        <div id="cart-total"></div>
-        <div id="delivery-fee"></div>
-        <button id="clear-cart">Clear Cart</button>
-        <button id="proceed-checkout">Proceed to Checkout</button>
-    </div>
-
-    <!-- Address Modal -->
-    <div id="address-modal" class="modal">
-        <div class="modal-content">
-            <span class="close-modal">&times;</span>
-            <h2>Select or Add Address</h2>
-            <div id="saved-addresses"></div>
-            <form id="address-form">
-                <input type="text" id="fullName" placeholder="Full Name" required>
-                <input type="text" id="addressLine" placeholder="Address" required>
-                <input type="text" id="city" placeholder="City" required>
-                <input type="text" id="state" placeholder="State" required>
-                <input type="text" id="country" placeholder="Country" required>
-                <input type="text" id="pincode" placeholder="Pincode" required>
-                <input type="tel" id="phoneNumber" placeholder="Phone Number" required>
-                <button type="submit">Save Address</button>
-            </form>
+    <div class="shopping-cart-container">
+        <div class="cart-header">
+            <h1><i class="fas fa-shopping-cart"></i>Your Cart</h1>
         </div>
-    </div>
-
-    <!-- Order Summary Modal -->
-    <div id="order-summary-modal" class="modal">
-        <div class="modal-content">
-            <span class="close-modal">&times;</span>
-            <div id="order-summary"></div>
-            <div id="payment-options">
-                <div class="payment-method" data-method="cod">
-                    <h3>Cash on Delivery</h3>
-                </div>
-                <div class="payment-method" data-method="upi">
-                    <h3>UPI (Coming Soon)</h3>
-                </div>
+        <div id="cart-items" class="cart-items"></div>
+        <div class="cart-actions">
+            <div id="cart-total" class="cart-total">Total: ₹0.00</div>
+            <div>
+                <button id="clear-cart" class="btn btn-clear"><i class="fas fa-trash-alt"></i> Clear Cart</button>
+                <button id="proceed-checkout" class="btn btn-checkout"><i class="fas fa-credit-card"></i> Checkout</button>
             </div>
-            <button id="confirm-order">Buy Now</button>
         </div>
     </div>
 
-    <!-- Order Confirmation Modal -->
-    <div id="order-confirmation-modal" class="modal">
+    <div id="checkout-modal" class="modal">
         <div class="modal-content">
-            <div id="order-confirmation"></div>
+            <h2>Checkout Details</h2>
+            <form id="checkout-form">
+                <!-- Checkout form fields -->
+            </form>
         </div>
     </div>
 
@@ -235,7 +245,6 @@
         function displayCart() {
             const cartItemsContainer = document.getElementById('cart-items');
             const cartTotalElement = document.getElementById('cart-total');
-            const deliveryFeeElement = document.getElementById('delivery-fee');
             
             if (!cartItemsContainer || !cartTotalElement) {
                 console.error('Cart elements not found');
@@ -245,9 +254,13 @@
             const cart = JSON.parse(localStorage.getItem('cart')) || [];
     
             if (cart.length === 0) {
-                cartItemsContainer.innerHTML = '<p style="text-align: center; font-size: 1.2em; color: #7f8c8d;">Your cart is empty.</p>';
+                cartItemsContainer.innerHTML = `
+                    <div class="empty-cart">
+                        <i class="fas fa-shopping-bag" style="font-size: 4rem; color: #bdc3c7;"></i>
+                        <p>Your cart is empty. Start shopping!</p>
+                    </div>
+                `;
                 cartTotalElement.textContent = 'Total: ₹0.00';
-                deliveryFeeElement.textContent = '';
                 return;
             }
     
@@ -258,7 +271,7 @@
                 cartHTML += `
                     <div class="cart-item">
                         <img src="${item.imgSrc}" alt="${item.title}">
-                        <div class="cart-item-details">
+                        <div class="item-details">
                             <h3>${item.title}</h3>
                             <p>Price: ₹${item.price.toFixed(2)}</p>
                         </div>
@@ -268,7 +281,6 @@
                                 <span>${item.qty}</span>
                                 <button class="increase-qty" data-index="${index}"><i class="fas fa-plus"></i></button>
                             </div>
-                            <button class="remove-item" data-index="${index}"><i class="fas fa-trash"></i></button>
                         </div>
                     </div>
                 `;
@@ -276,15 +288,9 @@
             });
     
             cartItemsContainer.innerHTML = cartHTML;
-            
-            let deliveryFee = total < 1000 ? 100 : 0;
-            total += deliveryFee;
-            
-            cartTotalElement.textContent = `Subtotal: ₹${(total - deliveryFee).toFixed(2)}`;
-            deliveryFeeElement.textContent = `Delivery Fee: ₹${deliveryFee.toFixed(2)}`;
-            document.getElementById('cart-total').insertAdjacentHTML('afterend', `<div>Total: ₹${total.toFixed(2)}</div>`);
+            cartTotalElement.textContent = `Total: ₹${total.toFixed(2)}`;
         }
-
+    
         function updateCart(index, action) {
             let cart = JSON.parse(localStorage.getItem('cart')) || [];
     
@@ -302,129 +308,11 @@
             localStorage.setItem('cart', JSON.stringify(cart));
             displayCart();
         }
-
-        // Address and Checkout Functionality
-        async function fetchSavedAddresses() {
-            try {
-                const response = await fetch('/address/get');
-                const data = await response.json();
-                const savedAddressesContainer = document.getElementById('saved-addresses');
-                
-                if (data.userAddress) {
-                    const address = data.userAddress;
-                    savedAddressesContainer.innerHTML = `
-                        <div>
-                            <h3>Saved Address</h3>
-                            <p>${address.fullName}</p>
-                            <p>${address.address}, ${address.city}</p>
-                            <p>${address.state}, ${address.country} - ${address.pincode}</p>
-                            <p>Phone: ${address.phoneNumber}</p>
-                        </div>
-                    `;
-                }
-            } catch (error) {
-                console.error('Error fetching addresses:', error);
-            }
-        }
-
-        function showModal(modalId) {
-            document.getElementById(modalId).style.display = 'block';
-        }
-
-        function hideModal(modalId) {
-            document.getElementById(modalId).style.display = 'none';
-        }
-
-        function generateOrderConfirmation() {
-            const orderId = Math.floor(100000 + Math.random() * 900000);
-            const trackingId = `TR${Math.floor(10000 + Math.random() * 90000)}`;
-            
-            document.getElementById('order-confirmation').innerHTML = `
-                <h2>Order Confirmed!</h2>
-                <p>Order ID: ${orderId}</p>
-                <p>Tracking ID: ${trackingId}</p>
-                <p>Tracking Company: SpeedyShip Logistics</p>
-                <p>Order updates will be sent via SMS and Email.</p>
-            `;
-            hideModal('order-summary-modal');
-            showModal('order-confirmation-modal');
-        }
-
+    
         document.addEventListener('DOMContentLoaded', function() {
             displayCart();
-
-            // Event Listeners
-            document.getElementById('proceed-checkout').addEventListener('click', function() {
-                fetchSavedAddresses();
-                showModal('address-modal');
-            });
-
-            document.querySelectorAll('.close-modal').forEach(closeBtn => {
-                closeBtn.addEventListener('click', function() {
-                    hideModal(this.closest('.modal').id);
-                });
-            });
-
-            document.getElementById('address-form').addEventListener('submit', function(e) {
-                e.preventDefault();
-                // Here you would typically send the address to your backend
-                hideModal('address-modal');
-                
-                // Generate order summary
-                const cart = JSON.parse(localStorage.getItem('cart')) || [];
-                const orderSummaryContainer = document.getElementById('order-summary');
-                let orderHTML = '<h2>Order Summary</h2>';
-                let total = 0;
-
-                cart.forEach(item => {
-                    orderHTML += `
-                        <div>
-                            <p>${item.title} x ${item.qty}</p>
-                            <p>₹${(item.price * item.qty).toFixed(2)}</p>
-                        </div>
-                    `;
-                    total += item.price * item.qty;
-                });
-
-                // Add delivery fee logic
-                const deliveryFee = total < 1000 ? 100 : 0;
-                total += deliveryFee;
-
-                orderHTML += `
-                    <div>
-                        <strong>Delivery Fee: ₹${deliveryFee.toFixed(2)}</strong>
-                        <strong>Total: ₹${total.toFixed(2)}</strong>
-                    </div>
-                `;
-
-                orderSummaryContainer.innerHTML = orderHTML;
-                showModal('order-summary-modal');
-            });
-
-            // Payment Method Selection
-            document.querySelectorAll('.payment-method').forEach(method => {
-                method.addEventListener('click', function() {
-                    document.querySelectorAll('.payment-method').forEach(m => m.classList.remove('selected'));
-                    this.classList.add('selected');
-                });
-            });
-
-            // Confirm Order
-            document.getElementById('confirm-order').addEventListener('click', function() {
-                const selectedMethod = document.querySelector('.payment-method.selected');
-                if (selectedMethod) {
-                    if (selectedMethod.dataset.method === 'cod') {
-                        generateOrderConfirmation();
-                        localStorage.removeItem('cart');
-                    } else {
-                        alert('UPI payment is coming soon!');
-                    }
-                } else {
-                    alert('Please select a payment method');
-                }
-            });
         });
-
+    
         document.addEventListener('click', function(e) {
             const index = e.target.closest('[data-index]')?.getAttribute('data-index');
     
@@ -432,16 +320,23 @@
                 updateCart(parseInt(index), 'decrease');
             } else if (e.target.closest('.increase-qty')) {
                 updateCart(parseInt(index), 'increase');
-            } else if (e.target.closest('.remove-item')) {
-                updateCart(parseInt(index), 'remove');
             }
         });
-
+    
         const clearCartBtn = document.getElementById('clear-cart');
+        const checkoutBtn = document.getElementById('proceed-checkout');
+        const checkoutModal = document.getElementById('checkout-modal');
+    
         if (clearCartBtn) {
             clearCartBtn.addEventListener('click', function() {
                 localStorage.removeItem('cart');
                 displayCart();
+            });
+        }
+    
+        if (checkoutBtn) {
+            checkoutBtn.addEventListener('click', function() {
+                checkoutModal.style.display = 'block';
             });
         }
     </script>
