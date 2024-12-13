@@ -1,0 +1,457 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Trendify - Checkout</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.1/css/all.min.css">
+    <style>
+        :root {
+            --primary-color: #4a90e2;
+            --secondary-color: #5f27cd;
+            --text-color: #2c3e50;
+            --background-color: #f4f6f9;
+            --card-background: #ffffff;
+            --transition-speed: 0.3s;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: var(--background-color);
+            color: var(--text-color);
+            line-height: 1.6;
+        }
+
+        .checkout-container {
+            max-width: 900px;
+            margin: 40px auto;
+            background-color: var(--card-background);
+            border-radius: 20px;
+            box-shadow: 0 15px 35px rgba(50, 50, 93, 0.1), 0 5px 15px rgba(0, 0, 0, 0.07);
+            overflow: hidden;
+        }
+
+        .checkout-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 25px 30px;
+            background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+            color: white;
+        }
+
+        .checkout-header h1 {
+            font-size: 1.8rem;
+            font-weight: 700;
+            display: flex;
+            align-items: center;
+        }
+
+        .checkout-content {
+            padding: 30px;
+        }
+
+        .checkout-step {
+            display: none;
+        }
+
+        .checkout-step.active {
+            display: block;
+        }
+
+        /* Order Summary Styles */
+        .order-summary-item {
+            display: flex;
+            align-items: center;
+            margin-bottom: 15px;
+            padding: 10px;
+            background-color: #f8f9fa;
+            border-radius: 10px;
+        }
+
+        .order-summary-item img {
+            width: 80px;
+            height: 80px;
+            object-fit: cover;
+            border-radius: 10px;
+            margin-right: 15px;
+        }
+
+        .order-summary-details {
+            flex-grow: 1;
+        }
+
+        /* Address Styles */
+        .address-container {
+            display: flex;
+            gap: 20px;
+        }
+
+        .address-option {
+            flex: 1;
+            border: 2px solid #e9ecef;
+            border-radius: 10px;
+            padding: 20px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .address-option:hover, .address-option.selected {
+            border-color: var(--primary-color);
+            box-shadow: 0 10px 20px rgba(74, 144, 226, 0.1);
+        }
+
+        /* Payment Styles */
+        .payment-method {
+            display: flex;
+            gap: 20px;
+            margin-top: 20px;
+        }
+
+        .payment-option {
+            flex: 1;
+            border: 2px solid #e9ecef;
+            border-radius: 10px;
+            padding: 20px;
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .payment-option:hover, .payment-option.selected {
+            border-color: var(--primary-color);
+            box-shadow: 0 10px 20px rgba(74, 144, 226, 0.1);
+        }
+
+        /* Confirmation Styles */
+        .order-confirmation {
+            text-align: center;
+            padding: 50px;
+        }
+
+        .btn {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            padding: 12px 25px;
+            border-radius: 30px;
+            text-decoration: none;
+            font-weight: 600;
+            transition: all var(--transition-speed) ease;
+            border: none;
+            cursor: pointer;
+            width: 100%;
+        }
+
+        .btn-primary {
+            background-color: var(--primary-color);
+            color: white;
+            box-shadow: 0 10px 20px rgba(74, 144, 226, 0.3);
+        }
+
+        .btn-primary:hover {
+            background-color: var(--secondary-color);
+            transform: translateY(-3px);
+        }
+
+        .btn-secondary {
+            background-color: #f8f9fa;
+            color: var(--text-color);
+            border: 1px solid #e9ecef;
+        }
+
+        .btn-secondary:hover {
+            background-color: #f1f3f5;
+        }
+
+        /* Address Form Styles */
+        .address-form {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 15px;
+        }
+
+        .form-group {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .form-group label {
+            margin-bottom: 5px;
+            font-weight: 600;
+        }
+
+        .form-group input {
+            padding: 10px;
+            border: 1px solid #e9ecef;
+            border-radius: 8px;
+        }
+
+        @media (max-width: 768px) {
+            .address-container, .address-form {
+                flex-direction: column;
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="checkout-container">
+        <!-- Checkout Header -->
+        <div class="checkout-header">
+            <h1><i class="fas fa-shopping-cart"></i> Checkout Process</h1>
+        </div>
+
+        <!-- Checkout Content -->
+        <div class="checkout-content">
+            <!-- Step 1: Order Summary -->
+            <div id="order-summary-step" class="checkout-step active">
+                <h2>Order Summary</h2>
+                <div id="order-summary-items"></div>
+                <div id="order-total" class="order-total"></div>
+                <button id="proceed-to-address" class="btn btn-primary">
+                    Buy Now <i class="fas fa-arrow-right ml-2"></i>
+                </button>
+            </div>
+
+            <!-- Step 2: Address Selection -->
+            <div id="address-step" class="checkout-step">
+                <h2>Shipping Address</h2>
+                
+                <!-- Existing Address Section -->
+                <div id="saved-address-section">
+                    <h3>Saved Addresses</h3>
+                    <div class="address-container" id="saved-addresses">
+                        <!-- Dynamically populated saved addresses -->
+                    </div>
+                </div>
+
+                <!-- Add New Address Section -->
+                <div id="add-address-section" class="mt-4">
+                    <h3>Add New Address</h3>
+                    <form id="address-form" class="address-form">
+                        <div class="form-group">
+                            <label for="fullName">Full Name</label>
+                            <input type="text" id="fullName" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="phoneNumber">Phone Number</label>
+                            <input type="tel" id="phoneNumber" required>
+                        </div>
+                        <div class="form-group" style="grid-column: span 2;">
+                            <label for="address">Address</label>
+                            <input type="text" id="address" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="city">City</label>
+                            <input type="text" id="city" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="state">State</label>
+                            <input type="text" id="state" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="country">Country</label>
+                            <input type="text" id="country" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="pincode">Pincode</label>
+                            <input type="text" id="pincode" required>
+                        </div>
+                        <div class="form-group" style="grid-column: span 2;">
+                            <button id="save-address" class="btn btn-primary">Save Address</button>
+                        </div>
+                    </form>
+                </div>
+
+                <div class="mt-4">
+                    <button id="proceed-to-payment" class="btn btn-primary">
+                        Proceed to Payment <i class="fas fa-arrow-right ml-2"></i>
+                    </button>
+                </div>
+            </div>
+
+            <!-- Step 3: Payment Selection -->
+            <div id="payment-step" class="checkout-step">
+                <h2>Payment Method</h2>
+                <div class="payment-method">
+                    <div class="payment-option" data-method="cod">
+                        <i class="fas fa-money-bill-wave fa-2x"></i>
+                        <h3>Cash on Delivery</h3>
+                    </div>
+                    <div class="payment-option" data-method="upi">
+                        <i class="fas fa-mobile-alt fa-2x"></i>
+                        <h3>UPI (Coming Soon)</h3>
+                    </div>
+                </div>
+                <div class="mt-4">
+                    <button id="confirm-order" class="btn btn-primary">
+                        Confirm Order <i class="fas fa-check ml-2"></i>
+                    </button>
+                </div>
+            </div>
+
+            <!-- Step 4: Order Confirmation -->
+            <div id="confirmation-step" class="checkout-step">
+                <div class="order-confirmation">
+                    <i class="fas fa-check-circle fa-5x text-success" style="color: #2ecc71;"></i>
+                    <h2>Order Confirmed!</h2>
+                    <p>Thank you for your purchase.</p>
+                    <div id="order-details"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Authentication Check
+        function checkAuth() {
+            const token = localStorage.getItem('token');
+            if (!token) {
+                // Redirect to login if not authenticated
+                localStorage.setItem('redirectUrl', window.location.href);
+                window.location.href = 'login.html';
+            }
+        }
+
+        // Order Summary Functions
+        function displayOrderSummary() {
+            const cart = JSON.parse(localStorage.getItem('cart')) || [];
+            const orderSummaryContainer = document.getElementById('order-summary-items');
+            const orderTotalElement = document.getElementById('order-total');
+            
+            let total = 0;
+            let summaryHTML = '';
+
+            cart.forEach(item => {
+                summaryHTML += `
+                    <div class="order-summary-item">
+                        <img src="${item.imgSrc}" alt="${item.title}">
+                        <div class="order-summary-details">
+                            <h3>${item.title}</h3>
+                            <p>Quantity: ${item.qty}</p>
+                            <p>Price: ₹${(item.price * item.qty).toFixed(2)}</p>
+                        </div>
+                    </div>
+                `;
+                total += item.price * item.qty;
+            });
+
+            orderSummaryContainer.innerHTML = summaryHTML;
+            orderTotalElement.innerHTML = `
+                <h3>Total: ₹${total.toFixed(2)}</h3>
+            `;
+        }
+
+        // Address Management Functions
+        async function getSavedAddresses() {
+            try {
+                const response = await fetch('https://adora-t8e8.onrender.com/api/address/get', {
+                    headers: {
+                        'Authorization': `Bearer ${localStorage.getItem('token')}`
+                    }
+                });
+                const data = await response.json();
+
+                const savedAddressesContainer = document.getElementById('saved-addresses');
+                if (data.userAddress) {
+                    savedAddressesContainer.innerHTML = `
+                        <div class="address-option" data-address-id="${data.userAddress._id}">
+                            <h3>${data.userAddress.fullName}</h3>
+                            <p>${data.userAddress.address}</p>
+                            <p>${data.userAddress.city}, ${data.userAddress.state} ${data.userAddress.pincode}</p>
+                            <p>${data.userAddress.phoneNumber}</p>
+                        </div>
+                    `;
+                } else {
+                    savedAddressesContainer.innerHTML = '<p>No saved addresses found.</p>';
+                }
+            } catch (error) {
+                console.error('Error fetching addresses:', error);
+            }
+        }
+
+        async function saveAddress(e) {
+            e.preventDefault();
+            const fullName = document.getElementById('fullName').value;
+            const address = document.getElementById('address').value;
+            const city = document.getElementById('city').value;
+            const state = document.getElementById('state').value;
+            const country = document.getElementById('country').value;
+            const pincode = document.getElementById('pincode').value;
+            const phoneNumber = document.getElementById('phoneNumber').value;
+
+            try {
+                const response = await fetch('https://adora-t8e8.onrender.com/api/address/add', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'Authorization': `Bearer ${localStorage.getItem('token')}`
+                    },
+                    body: JSON.stringify({
+                        fullName, address, city, state, country, pincode, phoneNumber
+                    })
+                });
+                const data = await response.json();
+                
+                // Refresh saved addresses
+                getSavedAddresses();
+                
+                // Reset form
+                e.target.reset();
+            } catch (error) {
+                console.error('Error saving address:', error);
+            }
+        }
+
+        // Payment and Order Confirmation
+          function generateOrderConfirmation() {
+            // Generate random tracking details
+            const logisticCompanies = [
+                'SpeedyShip Logistics', 
+                'QuickTrack Delivery', 
+                'RapidExpress Couriers', 
+                'SwiftSend Shipping'
+            ];
+            
+            const randomCompany = logisticCompanies[Math.floor(Math.random() * logisticCompanies.length)];
+            const trackingId = `${randomCompany.substring(0, 3).toUpperCase()}${Math.floor(Math.random() * 1000000)}`;
+
+            const orderDetailsElement = document.getElementById('order-details');
+            orderDetailsElement.innerHTML = `
+                <p><strong>Tracking Company:</strong> ${randomCompany}</p>
+                <p><strong>Tracking ID:</strong> ${trackingId}</p>
+            `;
+        }
+
+        // Event Listeners
+        document.addEventListener('DOMContentLoaded', () => {
+            checkAuth();
+            displayOrderSummary();
+            getSavedAddresses();
+
+            document.getElementById('address-form').addEventListener('submit', saveAddress);
+
+            document.getElementById('proceed-to-address').addEventListener('click', () => {
+                document.getElementById('order-summary-step').classList.remove('active');
+                document.getElementById('address-step').classList.add('active');
+            });
+
+            document.getElementById('proceed-to-payment').addEventListener('click', () => {
+                document.getElementById('address-step').classList.remove('active');
+                document.getElementById('payment-step').classList.add('active');
+            });
+
+            document.getElementById('confirm-order').addEventListener('click', () => {
+                document.getElementById('payment-step').classList.remove('active');
+                document.getElementById('confirmation-step').classList.add('active');
+                generateOrderConfirmation();
+            });
+        });
