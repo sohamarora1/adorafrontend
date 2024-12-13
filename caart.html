@@ -7,106 +7,154 @@
     <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.1/css/all.min.css">
     <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
-        body {
-            font-family: 'Roboto', sans-serif;
-            background-color: #f5f5f5;
-            color: #333;
-        }
-        .container {
-            max-width: 1200px;
-            margin: 0 auto;
-            padding: 40px 20px;
-        }
-        h1 {
-            text-align: center;
-            margin-bottom: 40px;
-            color: #2c3e50;
-            font-size: 2.5em;
-        }
-        .cart-item {
-            display: flex;
-            align-items: center;
-            background-color: #fff;
-            border-radius: 10px;
-            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-            margin-bottom: 20px;
-            overflow: hidden;
-            transition: all 0.3s ease;
-        }
-        .cart-item:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
-        }
-        .cart-item img {
-            width: 120px;
-            height: 120px;
-            object-fit: cover;
-        }
-        .cart-item-details {
-            flex-grow: 1;
-            padding: 20px;
-        }
-        .cart-item-details h3 {
-            font-size: 1.2em;
-            margin-bottom: 10px;
-            color: #2c3e50;
-        }
-        .cart-item-details p {
-            font-size: 1em;
-            color: #7f8c8d;
-            margin-bottom: 5px;
-        }
-        .cart-item-actions {
-            display: flex;
-            align-items: center;
-            padding: 20px;
-        }
-        .cart-item-actions button {
-            background-color: transparent;
-            border: none;
-            cursor: pointer;
-            font-size: 1.2em;
-            color: #3498db;
-            transition: color 0.3s ease;
-        }
-        .cart-item-actions button:hover {
-            color: #2980b9;
-        }
-        .quantity-control {
-            display: flex;
-            align-items: center;
-            margin-right: 20px;
-        }
-        .quantity-control span {
-            margin: 0 10px;
-            font-weight: bold;
-        }
-        #cart-total {
-            text-align: right;
-            font-size: 1.5em;
-            margin-top: 20px;
-            color: #2c3e50;
-        }
-        #clear-cart {
-            display: block;
-            margin: 20px auto;
-            padding: 10px 20px;
-            background-color: #e74c3c;
-            color: #fff;
-            border: none;
-            border-radius: 5px;
-            font-size: 1em;
-            cursor: pointer;
-            transition: background-color 0.3s ease;
-        }
-        #clear-cart:hover {
-            background-color: #c0392b;
-        }
+        /* Enhanced Styling with Animations and Hover Effects */
+body {
+    font-family: 'Roboto', sans-serif;
+    background-color: #f4f4f4;
+    margin: 0;
+    padding: 0;
+    line-height: 1.6;
+}
+
+.container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 20px;
+    background-color: white;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    border-radius: 10px;
+}
+
+.cart-item {
+    display: flex;
+    align-items: center;
+    padding: 15px;
+    border-bottom: 1px solid #e0e0e0;
+    transition: all 0.3s ease;
+}
+
+.cart-item:hover {
+    background-color: #f9f9f9;
+    transform: translateX(10px);
+}
+
+.cart-item img {
+    width: 100px;
+    height: 100px;
+    object-fit: cover;
+    border-radius: 10px;
+    margin-right: 20px;
+    transition: transform 0.3s ease;
+}
+
+.cart-item:hover img {
+    transform: scale(1.1);
+}
+
+.quantity-control {
+    display: flex;
+    align-items: center;
+    background-color: #f1f1f1;
+    border-radius: 20px;
+    overflow: hidden;
+}
+
+.quantity-control button {
+    background: none;
+    border: none;
+    padding: 10px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.quantity-control button:hover {
+    background-color: #e0e0e0;
+}
+
+#proceed-checkout, #clear-cart {
+    padding: 15px 30px;
+    margin: 10px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    font-weight: bold;
+}
+
+#proceed-checkout {
+    background-color: #3498db;
+    color: white;
+}
+
+#clear-cart {
+    background-color: #e74c3c;
+    color: white;
+}
+
+#proceed-checkout:hover {
+    background-color: #2980b9;
+    transform: translateY(-3px);
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2);
+}
+
+#clear-cart:hover {
+    background-color: #c0392b;
+    transform: translateY(-3px);
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2);
+}
+
+/* Order Confirmation Animations */
+@keyframes truckAnimation {
+    0% { transform: translateX(-100%); }
+    100% { transform: translateX(100vw); }
+}
+
+@keyframes checkmarkAppear {
+    0% { transform: scale(0); opacity: 0; }
+    100% { transform: scale(1); opacity: 1; }
+}
+
+.order-confirmation-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 50px;
+    background-color: #f9f9f9;
+    border-radius: 15px;
+}
+
+.order-confirmation-truck {
+    position: relative;
+    width: 200px;
+    height: 100px;
+    background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 50" width="200" height="100"><path d="M10 30 L40 30 Q50 30 50 20 L50 10 Q50 0 40 0 L10 0 Q0 0 0 10 L0 30 Z" fill="%232ecc71"/><rect x="50" y="10" width="30" height="20" fill="%233498db"/><circle cx="20" cy="35" r="5" fill="%23333"/><circle cx="70" cy="35" r="5" fill="%23333"/></svg>');
+    background-size: contain;
+    background-repeat: no-repeat;
+    animation: truckAnimation 3s linear infinite;
+}
+
+.order-confirmation-checkmark {
+    width: 100px;
+    height: 100px;
+    background-color: #2ecc71;
+    clip-path: polygon(14% 44%, 0 65%, 50 100%, 100 16%, 80 0%, 43 62%);
+    animation: checkmarkAppear 0.5s ease-in-out;
+}
+
+/* Enhanced Modal Styles */
+.modal-content {
+    background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+    border-radius: 15px;
+    box-shadow: 0 15px 30px rgba(0, 0, 0, 0.1);
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+    .cart-item {
+        flex-direction: column;
+        text-align: center;
+    }
+}
     </style>
 </head>
 <body>
