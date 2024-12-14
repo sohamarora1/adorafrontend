@@ -233,7 +233,7 @@
     </div>
 
     <script>
-  // Tracking ID Generation Function
+// Tracking ID Generation Function
     function generateTrackingId() {
         const prefix = ['TF', 'AD', 'TR'];
         const randomPrefix = prefix[Math.floor(Math.random() * prefix.length)];
@@ -301,7 +301,7 @@
                 method: 'GET',
                 headers: {
                     'Content-Type': 'application/json',
-                    'Authorization': `Bearer ${token}`
+                    'auth': token
                 }
             });
 
@@ -363,7 +363,7 @@
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
-                    'Authorization': `Bearer ${token}`
+                    'auth': token
                 },
                 body: JSON.stringify(formData)
             });
@@ -431,7 +431,7 @@
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
-                    'Authorization': `Bearer ${token}`
+                    'auth': token
                 },
                 body: JSON.stringify({
                     items: cart,
