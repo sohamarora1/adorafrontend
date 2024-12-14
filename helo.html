@@ -1,0 +1,218 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Checkout - Trendify</title>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Roboto', sans-serif;
+            background-color: #f5f5f5;
+            color: #333;
+        }
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 40px 20px;
+            background: #fff;
+            border-radius: 10px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+        h1 {
+            text-align: center;
+            margin-bottom: 30px;
+            color: #2c3e50;
+            font-size: 2em;
+        }
+        .form-group {
+            margin-bottom: 20px;
+        }
+        label {
+            font-weight: 500;
+            display: block;
+            margin-bottom: 5px;
+        }
+        input {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            font-size: 1em;
+        }
+        button {
+            display: block;
+            width: 100%;
+            padding: 10px 20px;
+            background-color: #27ae60;
+            color: #fff;
+            border: none;
+            border-radius: 5px;
+            font-size: 1em;
+            cursor: pointer;
+        }
+        button:hover {
+            background-color: #229954;
+        }
+        .summary {
+            text-align: center;
+            font-size: 1.2em;
+            margin-top: 20px;
+        }
+        #error-message {
+            color: red;
+            text-align: center;
+            margin-bottom: 20px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Checkout</h1>
+        <div id="error-message"></div>
+        <form id="checkout-form">
+            <div class="form-group">
+                <label for="full-name">Full Name</label>
+                <input type="text" id="full-name" placeholder="Enter your full name" required>
+            </div>
+            <div class="form-group">
+                <label for="address">Full Address</label>
+                <input type="text" id="address" placeholder="Enter your full address" required>
+            </div>
+            <div class="form-group">
+                <label for="city">City</label>
+                <input type="text" id="city" placeholder="Enter your city" required>
+            </div>
+            <div class="form-group">
+                <label for="state">State</label>
+                <input type="text" id="state" placeholder="Enter your state" required>
+            </div>
+            <div class="form-group">
+                <label for="country">Country</label>
+                <input type="text" id="country" placeholder="Enter your country" required>
+            </div>
+            <div class="form-group">
+                <label for="pincode">Pincode</label>
+                <input type="text" id="pincode" placeholder="Enter your pincode" required>
+            </div>
+            <div class="form-group">
+                <label for="phone-number">Phone Number</label>
+                <input type="tel" id="phone-number" placeholder="Enter your phone number" required>
+            </div>
+            <div class="form-group">
+                <label for="card-number">Card Number</label>
+                <input type="text" id="card-number" placeholder="1234 5678 9012 3456" required>
+            </div>
+            <div class="form-group">
+                <label for="expiry">Expiry Date</label>
+                <input type="month" id="expiry" required>
+            </div>
+            <div class="form-group">
+                <label for="cvv">CVV</label>
+                <input type="text" id="cvv" placeholder="123" maxlength="3" required>
+            </div>
+            <button type="submit">Pay Now</button>
+        </form>
+        <div class="summary" id="summary"></div>
+    </div>
+    <script>
+        document.addEventListener('DOMContentLoaded', async function() {
+            // Fetch cart details
+            const cart = JSON.parse(localStorage.getItem('cart')) || [];
+            let total = 0;
+            cart.forEach(item => {
+                total += item.price * item.qty;
+            });
+            const deliveryCharge = total > 1000 ? 0 : 100;
+            const finalTotal = total + deliveryCharge;
+            document.getElementById('summary').innerHTML = `
+                <p>Subtotal: ₹${total.toFixed(2)}</p>
+                <p>Delivery: ₹${deliveryCharge.toFixed(2)}</p>
+                <p><strong>Total: ₹${finalTotal.toFixed(2)}</strong></p>
+            `;
+
+            // Fetch user's saved address
+            try {
+                const token = localStorage.getItem('token');
+                if (!token) {
+                    throw new Error('No authentication token found');
+                }
+
+                const response = await fetch('/api/address/get', {
+                    method: 'GET',
+                    headers: {
+                        'Authorization': `Bearer ${token}`,
+                        'Content-Type': 'application/json'
+                    }
+                });
+
+                if (!response.ok) {
+                    throw new Error('Failed to fetch address');
+                }
+
+                const data = await response.json();
+                const userAddress = data.userAddress;
+
+                if (userAddress) {
+                    document.getElementById('full-name').value = userAddress.fullName || '';
+                    document.getElementById('address').value = userAddress.address || '';
+                    document.getElementById('city').value = userAddress.city || '';
+                    document.getElementById('state').value = userAddress.state || '';
+                    document.getElementById('country').value = userAddress.country || '';
+                    document.getElementById('pincode').value = userAddress.pincode || '';
+                    document.getElementById('phone-number').value = userAddress.phoneNumber || '';
+                }
+            } catch (error) {
+                document.getElementById('error-message').textContent = 
+                    'Unable to fetch saved address. Please fill in your details manually.';
+                console.error('Address fetch error:', error);
+            }
+        });
+
+        document.getElementById('checkout-form').addEventListener('submit', async function(e) {
+            e.preventDefault();
+            
+            // Prepare address data
+            const addressData = {
+                fullName: document.getElementById('full-name').value,
+                address: document.getElementById('address').value,
+                city: document.getElementById('city').value,
+                state: document.getElementById('state').value,
+                country: document.getElementById('country').value,
+                pincode: document.getElementById('pincode').value,
+                phoneNumber: document.getElementById('phone-number').value
+            };
+
+            try {
+                const token = localStorage.getItem('token');
+                if (!token) {
+                    throw new Error('No authentication token found');
+                }
+
+                // Save address to backend
+                const saveAddressResponse = await fetch('/api/address/add', {
+                    method: 'POST',
+                    headers: {
+                        'Authorization': `Bearer ${token}`,
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify(addressData)
+                });
+
+                if (!saveAddressResponse.ok) {
+                    throw new Error('Failed to save address');
+                }
+
+                // Simulate payment (replace with actual payment processing)
+                alert('Payment successful. Thank you for shopping!');
+                localStorage.removeItem('cart');
+                window.location.href = 'thankyou.html';
+            } catch (error) {
+                document.getElementById('error-message').textContent = 
+                    'An error occurred during checkout. Please try again.';
+                console.error('Checkout error:', error);
+            }
+        });
+    </script>
+</body>
+</html>
