@@ -234,27 +234,12 @@
 <!-- <script src="auth.js"></script> -->
     <script>
 // Tracking ID Generation Function
-    function generateTrackingId() {
-        const prefix = ['TF', 'AD', 'TR'];
-        const randomPrefix = prefix[Math.floor(Math.random() * prefix.length)];
-        const randomNumbers = Math.floor(100000 + Math.random() * 900000);
-        return `${randomPrefix}${randomNumbers}`;
-    }
+  
 
     // Logistics companies for random selection
-    const LOGISTICS_COMPANIES = [
-        'SpeedyShip Logistics', 
-        'QuickDrop Express', 
-        'RapidRoll Delivery', 
-        'SwiftSend Couriers', 
-        'FastTrack Shipping'
-    ];
 
     // Track Order Event Listener
-    document.getElementById('track-order').addEventListener('click', (e) => {
-        e.preventDefault();
-        alert('Order tracking feature coming soon! Stay tuned.');
-    });
+  
 
     // Initial Load: Fetch Saved Address and Display Order Summary
     document.addEventListener('DOMContentLoaded', () => {
@@ -414,56 +399,86 @@
         
 
     // Confirm Order
-    document.getElementById('confirm-order').addEventListener('click', async () => {
-        const token = localStorage.getItem('token');
-        const cart = JSON.parse(localStorage.getItem('cart')) || [];
+   function generateTrackingId() {
+    const prefix = ['TF', 'AD', 'TR'];
+    const randomPrefix = prefix[Math.floor(Math.random() * prefix.length)];
+    const randomNumbers = Math.floor(100000 + Math.random() * 900000);
+    return `${randomPrefix}${randomNumbers}`;
+}
 
-        if (!token) {
-            alert('Please log in to complete your order.');
-            return;
-        }
+// Logistics companies for random selection
+const LOGISTICS_COMPANIES = [
+    'SpeedyShip Logistics', 
+    'QuickDrop Express', 
+    'RapidRoll Delivery', 
+    'SwiftSend Couriers', 
+    'FastTrack Shipping'
+];
 
-        const logisticsCompany = LOGISTICS_COMPANIES[Math.floor(Math.random() * LOGISTICS_COMPANIES.length)];
-        const trackingId = generateTrackingId();
+// Simulated Email Sending Function
+function simulateEmailSend(orderDetails) {
+    console.log('Simulated Email Sending...');
+    console.log('To: dummy@gmail.com');
+    console.log('Subject: Order Confirmation');
+    console.log('Body:', JSON.stringify(orderDetails, null, 2));
+    
+    // Optional: You could use a service like EmailJS in a real-world scenario
+    // This is just a simulated log
+}
 
-        try {
-            const response = await fetch('https://adora-t8e8.onrender.com/api/orders/create', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                    'auth': token
-                },
-                body: JSON.stringify({
-                    items: cart,
-                    trackingId: trackingId,
-                    logisticsCompany: logisticsCompany,
-                    paymentMethod: 'Cash on Delivery'
-                })
-            });
+// Confirm Order Event Listener
+document.getElementById('confirm-order').addEventListener('click', () => {
+    // Get cart items
+    const cart = JSON.parse(localStorage.getItem('cart')) || [];
+    
+    // Calculate Total Amount
+    const totalAmount = cart.reduce((total, item) => total + (item.price * item.qty), 0);
+    
+    // Generate Tracking Details
+    const trackingId = generateTrackingId();
+    const logisticsCompany = LOGISTICS_COMPANIES[Math.floor(Math.random() * LOGISTICS_COMPANIES.length)];
+    
+    // Prepare Order Details
+    const orderDetails = {
+        items: cart,
+        totalAmount: totalAmount.toFixed(2),
+        trackingId: trackingId,
+        logisticsCompany: logisticsCompany,
+        orderDate: new Date().toLocaleString()
+    };
+    
+    // Simulate Email Send
+    simulateEmailSend(orderDetails);
+    
+    // Update Order Confirmation Stage
+    document.getElementById('payment-stage').style.display = 'none';
+    document.getElementById('order-confirmation-stage').style.display = 'block';
+    
+    // Populate Order Details
+    document.getElementById('order-details').innerHTML = `
+        <p>Order Confirmed Successfully!</p>
+        <p>Total Amount: ₹${orderDetails.totalAmount}</p>
+        <p>Logistics Company: ${orderDetails.logisticsCompany}</p>
+        <p>Tracking ID: <strong>${orderDetails.trackingId}</strong></p>
+        <p>Order Date: ${orderDetails.orderDate}</p>
+        <h4>Order Items:</h4>
+        ${cart.map(item => `
+            <div>
+                ${item.title} - Qty: ${item.qty} - ₹${(item.price * item.qty).toFixed(2)}
+            </div>
+        `).join('')}
+    `;
+    
+    // Clear Cart
+    localStorage.removeItem('cart');
+    
+    // Optional: Animate Confirmation
+    const confirmationIcon = document.querySelector('#order-confirmation-stage .fa-check-circle');
+    confirmationIcon.classList.add('animate__animated', 'animate__heartBeat');
+});
 
-            if (!response.ok) {
-                const errorText = await response.text();
-                console.error('Error creating order:', response.status, errorText);
-                alert('Failed to create order. Please try again.');
-                return;
-            }
-
-            const orderData = await response.json();
-
-            document.getElementById('payment-stage').style.display = 'none';
-            document.getElementById('order-confirmation-stage').style.display = 'block';
-            
-            document.getElementById('order-details').innerHTML = `
-                <p>Order Number: <strong>${orderData.orderNumber}</strong></p>
-                <p>Your order will be shipped via ${logisticsCompany}</p>
-                <p>Tracking ID: <strong>${trackingId}</strong></p>
-            `;
-
-            // Clear cart after order confirmation
-            localStorage.removeItem('cart');
-
-        } catch (error) {
-            console.error('Network error:', error);
-            alert('Network error. Please check your connection and try again.');
-        }
-    });</script></body></html>
+// Track Order Event Listener (Simulation)
+document.getElementById('track-order').addEventListener('click', (e) => {
+    e.preventDefault();
+    alert('Order tracking feature coming soon! Stay tuned.');
+});</script></body></html>
