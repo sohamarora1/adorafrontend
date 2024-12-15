@@ -1466,53 +1466,84 @@ async function init() {
     const searchField = document.querySelector('.search-field');
     const searchSubmit = document.querySelector('.search-submit');
 
-    function performSearch() {
-        const searchTerm = searchField.value.toLowerCase().trim();
-        
-        // Clear previous product displays
-        const productGrids = document.querySelectorAll('.product-grid');
-        productGrids.forEach(grid => grid.innerHTML = '');
+   function performSearch() {
+    const searchTerm = searchField.value.toLowerCase().trim();
+    
+    // Clear previous product displays
+    const productGrids = document.querySelectorAll('.product-grid');
+    productGrids.forEach(grid => grid.innerHTML = '');
 
-        // If search term is empty, display all products
-        if (searchTerm === '') {
-            displayProducts(products);
-            return;
+    // If search term is empty, display all products
+    if (searchTerm === '') {
+        displayProducts(products);
+        return;
+    }
+
+    // Prepare to track products for each section
+    const sectionProducts = {
+        'formals': [],
+        'festives': [],
+        'casuals': []
+    };
+
+    // Filter products based on search term
+    const filteredProducts = products.filter(product => 
+        product.title.toLowerCase().includes(searchTerm) && 
+        product.category === 'mensection'
+    );
+
+    // Categorize filtered products
+    filteredProducts.forEach(product => {
+        switch (product.type) {
+            case 'formals':
+                sectionProducts.formals.push(product);
+                break;
+            case 'festives':
+                sectionProducts.festives.push(product);
+                break;
+            case 'casuals':
+                sectionProducts.casuals.push(product);
+                break;
         }
+    });
 
-        // Filter products based on search term
-        const filteredProducts = products.filter(product => 
-            product.title.toLowerCase().includes(searchTerm) && 
-            product.category === 'mensection'
-        );
+    // Display products for each section or show no products message
+    const sections = [
+        { 
+            gridSelector: '#college-outfits .product-grid', 
+            type: 'formals', 
+            sectionName: 'Formals' 
+        },
+        { 
+            gridSelector: '#trendy-outfits .product-grid', 
+            type: 'festives', 
+            sectionName: 'Festive Outfits' 
+        },
+        { 
+            gridSelector: '#casual-outfits .product-grid', 
+            type: 'casuals', 
+            sectionName: 'Casual Outfits' 
+        }
+    ];
 
-        // Display filtered products
-        if (filteredProducts.length > 0) {
-            filteredProducts.forEach(product => {
-                const productCard = createProductCard(product);
-                switch (product.type) {
-                    case 'formals':
-                        document.querySelector('#college-outfits .product-grid').innerHTML += productCard;
-                        break;
-                    case 'festives':
-                        document.querySelector('#trendy-outfits .product-grid').innerHTML += productCard;
-                        break;
-                    case 'casuals':
-                        document.querySelector('#casual-outfits .product-grid').innerHTML += productCard;
-                        break;
-                }
+    sections.forEach(section => {
+        const grid = document.querySelector(section.gridSelector);
+        
+        if (sectionProducts[section.type].length > 0) {
+            // Display products for this section
+            sectionProducts[section.type].forEach(product => {
+                grid.innerHTML += createProductCard(product);
             });
         } else {
-            // Display no results message
-            const noResultsMessage = `
+            // Show no products message for this section
+            grid.innerHTML = `
                 <div class="no-results" style="width: 100%; text-align: center; padding: 20px;">
-                    <p>No products found matching your search.</p>
+                    <p>No products found for ${section.sectionName} section.</p>
                 </div>
             `;
-            document.querySelector('#college-outfits .product-grid').innerHTML = noResultsMessage;
-            document.querySelector('#trendy-outfits .product-grid').innerHTML = '';
-            document.querySelector('#casual-outfits .product-grid').innerHTML = '';
         }
-    }
+    });
+}
 
     // Add event listeners for search
     searchField.addEventListener('input', performSearch);
