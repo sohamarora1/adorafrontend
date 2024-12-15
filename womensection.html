@@ -1437,10 +1437,85 @@ async function init() {
         });
     }
 
+    // Search functionality
+    const searchField = document.querySelector('.search-field');
+    const searchSubmit = document.querySelector('.search-submit');
+
+    function performSearch() {
+        const searchTerm = searchField.value.toLowerCase().trim();
+        
+        // Clear previous product displays
+        const productGrids = document.querySelectorAll('.product-grid');
+        productGrids.forEach(grid => grid.innerHTML = '');
+
+        // If search term is empty, display all products
+        if (searchTerm === '') {
+            displayProducts(products);
+            return;
+        }
+
+        // Prepare to track products for each section
+        const sectionProducts = {
+            'collegeoutfits': [],
+            'festiveoutfits': [],
+            'partywear': []
+        };
+
+        // Filter products based on search term
+        const filteredProducts = products.filter(product => 
+            product.title.toLowerCase().includes(searchTerm) && 
+            product.category === 'womensection'
+        );
+
+        // Categorize filtered products
+        filteredProducts.forEach(product => {
+            switch (product.type) {
+                case 'collegeoutfits':
+                    sectionProducts.collegeoutfits.push(product);
+                    break;
+                case 'festiveoutfits':
+                    sectionProducts.festiveoutfits.push(product);
+                    break;
+                case 'partywear':
+                    sectionProducts.partywear.push(product);
+                    break;
+            }
+        });
+
+        // Display products for each section or show no products message
+        const sections = [
+            { gridSelector: '#college-outfits .product-grid', type: 'collegeoutfits', sectionName: 'College Outfits' },
+            { gridSelector: '#trendy-outfits .product-grid', type: 'festiveoutfits', sectionName: 'Festive Outfits' },
+            { gridSelector: '#casual-outfits .product-grid', type: 'partywear', sectionName: 'Casual Outfits' }
+        ];
+
+        sections.forEach(section => {
+            const grid = document.querySelector(section.gridSelector);
+            
+            if (sectionProducts[section.type].length > 0) {
+                // Display products for this section
+                sectionProducts[section.type].forEach(product => {
+                    grid.innerHTML += createProductCard(product);
+                });
+            } else {
+                // Show no products message for this section
+                grid.innerHTML = `
+                    <div class="no-results" style="width: 100%; text-align: center; padding: 20px;">
+                        <p>No products found for ${section.sectionName} section.</p>
+                    </div>
+                `;
+            }
+        });
+    }
+
+    searchField.addEventListener('input', performSearch);
+    searchSubmit.addEventListener('click', performSearch);
+
     checkAuth(); // Check login/logout state on page load
 }
 
 init();
 </script>
+
 </body>
 </html>
