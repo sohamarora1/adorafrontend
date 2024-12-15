@@ -272,6 +272,7 @@
 
             if (data.success) {
                 // Store the token
+                localStorage.setItem('token', data.token);
                 auth.setToken(data.token);
                 
                 // Show success message
