@@ -25,28 +25,27 @@ class Auth {
         }
     }
 
-    static getToken() {
-        try {
-            const storedTokenData = localStorage.getItem(this.TOKEN_KEY);
-            
-            if (!storedTokenData) return null;
+   static getToken() {
+    try {
+        const storedTokenData = localStorage.getItem(this.TOKEN_KEY);
+        
+        if (!storedTokenData) return null;
 
-            const { token, timestamp } = JSON.parse(storedTokenData);
+        const { token, timestamp } = JSON.parse(storedTokenData);
 
-            // Optional: Token expiration check (e.g., 7 days)
-            const TOKEN_EXPIRATION = 7 * 24 * 60 * 60 * 1000; // 7 days in milliseconds
-            if (Date.now() - timestamp > TOKEN_EXPIRATION) {
-                this.removeToken();
-                return null;
-            }
-
-            return token;
-        } catch (error) {
-            console.error('Error retrieving token:', error);
+        // Optional: Token expiration check (e.g., 7 days)
+        const TOKEN_EXPIRATION = 7 * 24 * 60 * 60 * 1000; // 7 days in milliseconds
+        if (Date.now() - timestamp > TOKEN_EXPIRATION) {
+            this.removeToken();
             return null;
         }
-    }
 
+        return token;  // Return ONLY the token string
+    } catch (error) {
+        console.error('Error retrieving token:', error);
+        return null;
+    }
+}
     static removeToken() {
         try {
             localStorage.removeItem(this.TOKEN_KEY);
