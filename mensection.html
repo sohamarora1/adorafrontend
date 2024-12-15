@@ -1443,22 +1443,61 @@ async function init() {
     const products = await fetchProducts();
     displayProducts(products);
     updateCartDisplay();
- // Search functionality
+ // Add search functionality
     const searchField = document.querySelector('.search-field');
-    const searchSubmitBtn = document.querySelector('.search-submit');
+    const searchSubmit = document.querySelector('.search-submit');
 
-    searchSubmitBtn.addEventListener('click', () => {
-        const searchTerm = searchField.value;
-        performSearch(products, searchTerm);
-    });
+    function performSearch() {
+        const searchTerm = searchField.value.toLowerCase().trim();
+        
+        // Clear previous product displays
+        const productGrids = document.querySelectorAll('.product-grid');
+        productGrids.forEach(grid => grid.innerHTML = '');
 
-    // Allow search on pressing Enter
-    searchField.addEventListener('keypress', (e) => {
-        if (e.key === 'Enter') {
-            const searchTerm = searchField.value;
-            performSearch(products, searchTerm);
+        // If search term is empty, display all products
+        if (searchTerm === '') {
+            displayProducts(products);
+            return;
         }
-    });
+
+        // Filter products based on search term
+        const filteredProducts = products.filter(product => 
+            product.title.toLowerCase().includes(searchTerm) && 
+            product.category === 'mensection'
+        );
+
+        // Display filtered products
+        if (filteredProducts.length > 0) {
+            filteredProducts.forEach(product => {
+                const productCard = createProductCard(product);
+                switch (product.type) {
+                    case 'formals':
+                        document.querySelector('#college-outfits .product-grid').innerHTML += productCard;
+                        break;
+                    case 'festives':
+                        document.querySelector('#trendy-outfits .product-grid').innerHTML += productCard;
+                        break;
+                    case 'casuals':
+                        document.querySelector('#casual-outfits .product-grid').innerHTML += productCard;
+                        break;
+                }
+            });
+        } else {
+            // Display no results message
+            const noResultsMessage = `
+                <div class="no-results" style="width: 100%; text-align: center; padding: 20px;">
+                    <p>No products found matching your search.</p>
+                </div>
+            `;
+            document.querySelector('#college-outfits .product-grid').innerHTML = noResultsMessage;
+            document.querySelector('#trendy-outfits .product-grid').innerHTML = '';
+            document.querySelector('#casual-outfits .product-grid').innerHTML = '';
+        }
+    }
+
+    // Add event listeners for search
+    searchField.addEventListener('input', performSearch);
+    searchSubmit.addEventListener('click', performSearch);
     document.addEventListener('click', async function (e) {
         if (e.target && e.target.classList.contains('btn-add-to-cart')) {
             const productId = e.target.getAttribute('data-product-id');
