@@ -1,1579 +1,1106 @@
-body {
-    background: linear-gradient(to right, #dfe9fc,#dfe9fc);  
-    height: 100vh;
-    margin: 0;
-    padding: 0;
-  }
-  
-:root {
 
-    /**
-     * colors
-     */
-  
-    --hoockers-green_20: hsl(148, 20%, 38%, 0.2);
-    --pale-spring-bud: hsl(60, 68%, 85%);
-    --hoockers-green: hsl(148, 20%, 38%);
-    --spanish-gray: hsl(0, 0%, 61%);
-    --light-gray: hsl(0, 0%, 80%);
-    --cultured-1: hsl(0, 0%, 97%);
-    --cultured-2: hsl(60, 6%, 93%);
-    --gray-web: hsl(0, 0%, 49%);
-    --white_30: hsl(0, 0%, 100%, 0.3);
-    --black_70: hsla(0, 0%, 0%, 0.7);
-    --black_50: hsla(0, 0%, 0%, 0.5);
-    --black_15: hsla(0, 0%, 0%, 0.15);
-    --black_10: hsla(0, 0%, 0%, 0.1);
-    --black_5: hsla(0, 0%, 0%, 0.05);
-    --white: hsl(0, 0%, 100%);
-    --black: hsl(0, 0%, 0%);
-  
-    /**
-     * gradient color
-     */
-  
-    --gradient: linear-gradient(to right, transparent 50%, var(--white_30) 100%);
-  
-    /**
-     * typography
-     */
-  
-    --ff-urbanist: 'Urbanist', sans-serif;
-  
-    --fs-1: 4.8rem;
-    --fs-2: 4rem;
-    --fs-3: 3.4rem;
-    --fs-4: 2.4rem;
-    --fs-5: 2rem;
-    --fs-6: 1.8rem;
-    --fs-7: 1.5rem;
-    --fs-8: 1.4rem;
-    --fs-9: 1.3rem;
-  
-    --fw-400: 400;
-    --fw-500: 500;
-    --fw-600: 600;
-    --fw-700: 700;
-    --fw-800: 800;
-  
-    /**
-     * spacing
-     */
-  
-    --section-padding: 35px;
-  
-    /**
-     * shadow
-     */
-  
-    --shadow-1: 0 8px 16px var(--black_15);
-    --shadow-2: 0 4px 10px var(--black_5);
-  
-    /**
-     * radius
-     */
-  
-    --radius-3: 3px;
-  
-    /**
-     * transition
-     */
-  
-    --transition-1: 0.25s ease;
-    --transition-2: 0.5s ease;
-    --transition-3: 1s ease;
-    --cubic-in: cubic-bezier(0.51, 0.03, 0.64, 0.28);
-    --cubic-out: cubic-bezier(0.33, 0.85, 0.4, 0.96);
-  
-  }
-  /-----------------------------------\
-    #RESET
-  \-----------------------------------/
-  
-  *,
-  *::before,
-  *::after {
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
-  }
-  
-  li { list-style: none; }
-  
-  a,
-  img,
-  span,
-  input,
-  button,
-  ion-icon { display: block; }
-  
-  a {
-    text-decoration: none;
-    color: inherit;
-  }
-  
-  img { height: auto; }
-  
-  input,
-  button {
-    background: none;
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>ADORA</title>
+
+  <!-- 
+    - favicon
+  -->
+  <link rel="icon" href="assets/LETTERGRADIENT.png" type="image/png">
+
+
+
+  <!-- 
+    - custom css link
+  -->
+  <link rel="stylesheet" href="style2.css">
+
+  <!-- 
+    - google font link
+  -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Urbanist:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+
+</head>
+
+<body id="top">
+
+  <!-- 
+    - #HEADER
+  -->
+
+<header class="header">
+  <div class="alert">
+    <div class="container">
+      <p class="alert-text">FREE SHIPPING ON ORDERS ABOVE 1000</p>
+    </div>
+  </div>
+
+  <div class="header-top" data-header>
+    <div class="container">
+      <button class="nav-open-btn" aria-label="open menu" data-nav-toggler>
+        <span class="line line-1"></span>
+        <span class="line line-2"></span>
+        <span class="line line-3"></span>
+      </button>
+
+<!--       <div class="input-wrapper">
+        <input type="search" name="search" placeholder="CHAT WITH AI" class="search-field">
+        <button class="search-submit" aria-label="search">
+          <ion-icon name="arrow-up-outline" aria-hidden="true"></ion-icon>
+        </button>
+      </div> -->
+
+      <a href="index.html" class="logo">
+        <img src="assets/logoletter.png" width="100" height="18" alt="ADORA">
+      </a>
+
+      <div class="header-actions">
+        <button class="header-action-btn" aria-label="user" id="user-btn">
+          <ion-icon name="person-outline" aria-hidden="true"></ion-icon>
+        </button>
+
+<!--         <button class="header-action-btn" aria-label="favorite item">
+          <ion-icon name="star-outline" aria-hidden="true"></ion-icon>
+          <span class="btn-badge">0</span>
+        </button> -->
+
+        <button class="header-action-btn" aria-label="cart item" id="cart-btn">
+<!--       <data class="btn-text" value="0" id="cart-total">₹ 0.00</data> -->
+      <a href="cart.html"><ion-icon name="bag-handle-outline" aria-hidden="true"></ion-icon></a>
+<!--       <span class="btn-badge" id="cart-count">0</span> -->
+    </button>
+<!--          <button onclick="window.location.href='/logout.html'">Logout</button> -->
+      </div>
+
+      <nav class="navbar">
+        <ul class="navbar-list">
+          <li><a href="index.html" class="navbar-link has-after">Home</a></li>
+          <li><a href="mensection.html" class="navbar-link has-after">Men</a></li>
+          <li><a href="womensection.html" class="navbar-link has-after">Women</a></li>
+         
+          <li><a href="style.html" class="navbar-link has-after" id="profile-link">Style</a></li>
+        </ul>
+      </nav>
+    </div>
+  </div>
+</header>
+
+
+
+
+
+  <!-- 
+    - #MOBILE NAVBAR
+  -->
+
+  <div class="sidebar">
+    <div class="mobile-navbar" data-navbar>
+
+      <div class="wrapper">
+        <a href="#" class="logo">
+          <img src="./assets/images/logo.png" width="179" height="26" alt="adoraassets/">
+        </a>
+
+        <button class="nav-close-btn" aria-label="close menu" data-nav-toggler>
+          <ion-icon name="close-outline" aria-hidden="true"></ion-icon>
+        </button>
+      </div>
+
+      <ul class="navbar-list">
+
+        <li>
+          <a href="#home" class="navbar-link" data-nav-link>Home</a>
+        </li>
+
+        <li>
+          <a href="#collection" class="navbar-link" data-nav-link>Collection</a>
+        </li>
+
+        <li>
+          <a href="#shop" class="navbar-link" data-nav-link>Shop</a>
+        </li>
+
+        <li>
+          <a href="#offer" class="navbar-link" data-nav-link>Offer</a>
+        </li>
+<!-- 
+        <li>
+          <a href="#blog" class="navbar-link" data-nav-link>Blog</a>
+        </li> -->
+
+      </ul>
+
+    </div>
+
+    <div class="overlay" data-nav-toggler data-overlay></div>
+  </div> 
+
+
+
+
+  <main>
+    <article>
+
+      <!-- 
+        - #BANNER
+      -->
+         
+
+  <section class="section hero" id="home" aria-label="hero" data-section>
+        <div class="container" style="max-width: 100%; padding: 0; margin: 0 auto;">
+      
+          <ul class="has-scrollbar" style="display: flex; overflow-x: auto; list-style: none; padding: 0; margin: 0; justify-content: center; gap: 30px;">
+      
+            <!-- First hero card -->
+            <li class="scrollbar-item" style="flex: 0 0 80%; margin: 0; border-radius: 20px; overflow: hidden;">
+              <div class="hero-card has-bg-image" 
+                style="background-image: url('assets/1STPAGE.png'); background-size: cover; background-position: center; height: 75vh; border-radius: 20px; overflow: hidden; display: flex; align-items: center; justify-content: center; padding: 20px;">
+                <div class="card-content" style="text-align: center; background: rgba(0, 0, 0, 0.5); border-radius: 15px; padding: 15px;">
+                  <h1 class="h1 hero-title" style="color: white; font-size: 2rem;">
+                    Discover Your Style <br> with AI-Powered Shopping
+                  </h1>
+                  <p class="hero-text" style="color: white; margin: 10px 0;">
+                    Experience a personalized shopping journey like never before.
+                  </p>
+                  <p class="price" style="color: white; font-size: 1.5rem;">Starting at ₹ 299</p>
+                  <a href="#shopredirect" class="btn btn-primary" style="color: white; padding: 10px 20px; border-radius: 5px;">Shop Now</a>
+                </div>
+              </div>
+            </li>
+      
+            <!-- Second hero card -->
+            <li class="scrollbar-item" style="flex: 0 0 80%; margin: 0; border-radius: 20px; overflow: hidden;">
+              <a href="#your-link-3" class="hero-card has-bg-image" 
+                style="background-image: url('assets/1stposter.png.png'); background-size: cover; background-position: center; height: 75vh; width: 100%; border-radius: 20px;">
+              </a>
+            </li>
+      
+            <!-- Third hero card -->
+            <li class="scrollbar-item" style="flex: 0 0 80%; margin: 0; border-radius: 20px; overflow: hidden;">
+              <a href="#your-link-4" class="hero-card has-bg-image" 
+                style="background-image: url('assets/1stposter.png.png'); background-size: cover; background-position: center; height: 75vh; width: 100%; border-radius: 20px;">
+              </a>
+            </li>
+      
+            <!-- Fourth hero card -->
+            <li class="scrollbar-item" style="flex: 0 0 80%; margin: 0; border-radius: 20px; overflow: hidden;">
+              <a href="#your-link-4" class="hero-card has-bg-image" 
+                style="background-image: url('assets/WhatsApp Image 2024-10-13 at 15.20.20_bd228a63.jpg'); background-size: cover; background-position: center; height: 75vh; width: 100%; border-radius: 20px;">
+              </a>
+            </li>
+      
+            <!-- Fifth hero card -->
+            <li class="scrollbar-item" style="flex: 0 0 80%; margin: 0; border-radius: 20px; overflow: hidden;">
+              <a href="#your-link-2" class="hero-card has-bg-image" 
+                style="background-image: url('assets/concertfits.png'); background-size: cover; background-position: center; height: 75vh; width: 100%; border-radius: 20px;">
+              </a>
+            </li>
+      
+          </ul>
+      
+        </div>
+      </section>   
+      <h1 style="text-align: center;"><b>WHAT'S THE OCCASION?</b></h1>
+      <br>
+      <H3 style="text-align: center;">WOMEN</H3>
+
+      <section class="section collection" id="collection" aria-label="collection" data-section>
+        <div class="container">
+
+          <ul class="collection-list">
+
+            <li>
+              <div class="collection-card has-before hover:shine">
+
+                <h2 class="h2 card-title">COLLEGE OUTFITS</h2>
+
+                <p class="card-text">Starting at ₹ 299</p>
+
+                <a href="#" class="btn-link">
+                  <span class="span">Discover Now</span>
+
+                  <ion-icon name="arrow-forward" aria-hidden="true"></ion-icon>
+                </a>
+
+                <a href="womensection.html"> <div class="has-bg-image" style="background-image: url('assets/COLLEGE.png')"></div></a>
+
+              </div>
+            </li>
+
+            <li>
+              <div class="collection-card has-before hover:shine">
+
+                <h2 class="h2 card-title">Festive Outfits</h2>
+
+                <p class="card-text">Starting at ₹ 799</p>
+
+                <a href="#" class="btn-link">
+                  <span class="span">Discover Now</span>
+
+                  <ion-icon name="arrow-forward" aria-hidden="true"></ion-icon>
+                </a>
+
+                <a href="womensection.html"> <div class="has-bg-image" style="background-image: url('assets/festive.png')"></div></a>
+
+              </div>
+            </li>
+            <li>
+              <div class="collection-card has-before hover:shine">
+
+                <h2 class="h2 card-title">Party OUTFITS</h2>
+
+                <p class="card-text">Starting at ₹ 1299</p>
+
+                <a href="#" class="btn-link">
+                  <span class="span">Discover Now</span>
+
+                  <ion-icon name="arrow-forward" aria-hidden="true"></ion-icon>
+                </a>
+
+                <a href="womensection.html"> <div class="has-bg-image" style="background-image: url('assets/party.png')"></div></a>
+
+              </div>
+            </li>
+
+          </ul>
+
+        </div>
+      </section>
+      <!-- MEN SECTION!! -->
+      <h3 style="text-align: center;">MEN</h3>
+      <section class="section collection" id="collection" aria-label="collection" data-section>
+        <div class="container">
+
+          <ul class="collection-list">
+
+            <li>
+              <div class="collection-card has-before hover:shine">
+
+                <h2 class="h2 card-title">Formals</h2>
+
+                <p class="card-text">Starting at ₹ 499</p>
+
+                <a href="#" class="btn-link">
+                  <span class="span">Shop Now</span>
+
+                  <ion-icon name="arrow-forward" aria-hidden="true"></ion-icon>
+                </a>
+
+                <a href="mensection.html"> <div class="has-bg-image" style="background-image: url('assets/formalmen.png')"></div>
+                </a>
+              </div>
+            </li>
+
+            <li>
+              <div class="collection-card has-before hover:shine">
+
+                <h2 class="h2 card-title">Festive Outfits</h2>
+
+                <p class="card-text">Starting at ₹ 599</p>
+
+                <a href="#" class="btn-link">
+                  <span class="span">Discover Now</span>
+
+                  <ion-icon name="arrow-forward" aria-hidden="true"></ion-icon>
+                </a>
+
+                <a href="mensection.html"></a><div class="has-bg-image" style="background-image: url('assets/festivemen.png')"></div>
+              </a>
+              </div>
+            </li>
+
+            <li>
+              <div class="collection-card has-before hover:shine">
+
+                <h2 class="h2 card-title">Casuals</h2>
+
+                <p class="card-text">Starting at ₹ 299</p>
+
+                <a href="#" class="btn-link">
+                  <span class="span">Discover Now</span>
+
+                  <ion-icon name="arrow-forward" aria-hidden="true"></ion-icon>
+                </a>
+
+                <a href="mensection.html">   <div class="has-bg-image" style="background-image: url('assets/mencasual.png')"></div>
+                  </a>
+              </div>
+            </li>
+
+          </ul>
+
+        </div>
+      </section>
+
+
+
+
+
+      <!-- 
+        - #SHOP
+      -->
+      <H1 id="shopredirect" style="text-align:center">SEE WHAT'S TRENDING</H1>
+
+      <section class="section shop" id="shop" aria-label="shop" data-section>
+        <div class="container">
+
+          <div class="title-wrapper">
+            <h2 class="h2 section-title">Women's Style Aesthetics</h2>
+
+            <a href="femalestyle.html" class="btn-link">
+              <span class="span">See All</span>
+
+              <ion-icon name="arrow-forward" aria-hidden="true"></ion-icon>
+            </a>
+          </div>
+
+          <ul class="has-scrollbar">
+
+            <li class="scrollbar-item">
+              <div class="shop-card">
+
+                <div class="card-banner img-holder" style="--width: 540; --height: 720;">
+                  <img src="assets/1.png" width="540" height="720"
+                    alt="Facial cleanser" class="img-cover">
+
+                  
+
+                </div>
+
+                <div class="card-content">
+
+                  <h3>
+                    <a href="femalestyle.html" class="card-title"><h3>Fall Favorites</h3></a>
+                  </h3>
+
+                </div>
+
+              </div>
+            </li>
+
+            <li class="scrollbar-item">
+              <div class="shop-card">
+
+                <div class="card-banner img-holder" style="--width: 540; --height: 720;">
+                  <img src="assets/2.png" width="540" height="720" loading="lazy"
+                    alt="women style" class="img-cover">
+                    <span class="badge" aria-label="20% off">-20%</span>         
+                </div>
+
+                <div class="card-content">     
+                  <h3>
+                    <a href="femalestyle.html" class="card-title"><h3>K-POP INSPO</h3></a>
+                  </h3>
+                </div>
+
+              </div>
+            </li>
+            <li class="scrollbar-item">
+              <div class="shop-card">
+
+                <div class="card-banner img-holder" style="--width: 540; --height: 720;">
+                  <img src="assets/3.png" width="540" height="720"
+                    alt="women style" class="img-cover">
+
+            
+                </div>
+
+                <div class="card-content">
+
+          
+                  <h3>
+                    <a href="femalestyle.html" class="card-title"><h3>DENIM</h3></a>
+                  </h3>
+
+          
+
+                </div>
+
+              </div>
+            </li>
+            <li class="scrollbar-item">
+              <div class="shop-card">
+
+                <div class="card-banner img-holder" style="--width: 540; --height: 720;">
+                  <img src="assets/4new.png" width="540" height="720"
+                    alt="women style" class="img-cover">
+                </div>
+
+                <div class="card-content">
+
+          
+                  <h3>
+                    <a href="womenstyle.html" class="card-title"><h3>Bollywood inspo</h3></a>
+                  </h3>
+
+          
+
+                </div>
+
+              </div>
+            </li>
+            <li class="scrollbar-item">
+              <div class="shop-card">
+
+                <div class="card-banner img-holder" style="--width: 540; --height: 720;">
+                  <img src="assets/5new.png" width="540" height="720"
+                    alt="femalestyle" class="img-cover">
+
+            
+                </div>
+
+                <div class="card-content">
+
+          
+                  <h3>
+                    <a href="femalestyle.html" class="card-title"><h3>Modern Drapes</h3></a>
+                  </h3>
+
+          
+
+                </div>
+
+              </div>
+            </li>
+            <li class="scrollbar-item">
+              <div class="shop-card">
+
+                <div class="card-banner img-holder" style="--width: 540; --height: 720;">
+                  <img src="assets/6new.png" width="540" height="720"
+                    alt="femalestyle" class="img-cover">
+
+            
+                </div>
+
+                <div class="card-content">
+
+          
+                  <h3>
+                    <a href="femalestyle.html" class="card-title"><h3>Soft girl Inspo</h3></a>
+                  </h3>
+
+          
+
+                </div>
+
+              </div>
+            </li>
+            
+          </ul>
+
+        </div>
+      </section>
+      <!-- MEN STYLE AESTHETIC -->
+      <section class="section shop" id="shop" aria-label="shop" data-section>
+        <div class="container">
+
+          <div class="title-wrapper">
+            <h2 class="h2 section-title">MEN'S Style Aesthetics</h2>
+
+            <a href="malestyle.html" class="btn-link">
+              <span class="span">See All</span>
+
+              <ion-icon name="arrow-forward" aria-hidden="true"></ion-icon>
+            </a>
+          </div>
+
+          <ul class="has-scrollbar">
+
+            <li class="scrollbar-item">
+              <div class="shop-card">
+
+                <div class="card-banner img-holder" style="--width: 540; --height: 720;">
+                  <img src="assets/1men.png" width="540" height="720"
+                    alt="menstyle" class="img-cover">
+
+                  <span class="badge" aria-label="20% off">-20%</span>
+                </div>
+
+                <div class="card-content">
+
+                  <h3>
+                    <a href="malestyle.html" class="card-title"><h3>MINIMALIST</h3></a>
+                  </h3>
+
+
+                </div>
+
+              </div>
+            </li>
+
+            <li class="scrollbar-item">
+              <div class="shop-card">
+
+                <div class="card-banner img-holder" style="--width: 540; --height: 720;">
+                  <img src="assets/2men.png" width="540" height="720" 
+                    alt="malestyle" class="img-cover">
+
+            
+                </div>
+
+                <div class="card-content">
+
+          
+                  <h3>
+                    <a href="malestyle.html" class="card-title"><h3>STREET-WEAR</h3></a>
+                  </h3>
+
+          
+
+                </div>
+
+              </div>
+            </li>
+            <li class="scrollbar-item">
+              <div class="shop-card">
+
+                <div class="card-banner img-holder" style="--width: 540; --height: 720;">
+                  <img src="assets/3men.png" width="540" height="720" 
+                    alt="malestyle" class="img-cover">
+
+            
+                </div>
+
+                <div class="card-content">
+
+          
+                  <h3>
+                    <a href="malestyle.html" class="card-title"><h3>Seasonal Collections</h3></a>
+                  </h3>
+
+          
+
+                </div>
+
+              </div>
+            </li>
+            <li class="scrollbar-item">
+              <div class="shop-card">
+
+                <div class="card-banner img-holder" style="--width: 540; --height: 720;">
+                  <img src="assets/4men.png" width="540" height="720"
+                    alt="malestyle" class="img-cover">
+
+            
+                </div>
+
+                <div class="card-content">
+
+          
+                  <h3>
+                    <a href="malestyle.html" class="card-title"><h3>Active Wear</h3></a>
+                  </h3>
+
+          
+
+                </div>
+
+              </div>
+            </li>
+            <li class="scrollbar-item">
+              <div class="shop-card">
+
+                <div class="card-banner img-holder" style="--width: 540; --height: 720;">
+                  <img src="assets/5men.png" width="540" height="720" 
+                    alt="malestyle.html" class="img-cover">
+
+            
+                </div>
+
+                <div class="card-content">
+
+          
+                  <h3>
+                    <a href="malestyle" class="card-title"><h3>OLD-MONEY STYLE</h3></a>
+                  </h3>
+
+          
+
+                </div>
+
+              </div>
+            </li>
+
+          </ul>
+
+        </div>
+      </section>
+
+
+
+
+
+      <!-- 
+        - #BANNER
+      -->
+      <h1 id="profile" style="text-align: center;">
+        Style Profile
+      </h1>
+
+     <section class="section banner" aria-label="banner" data-section style="width: 100%; padding: 0; margin: 0;">
+  <div class="container" style="display: flex; justify-content: space-between; flex-wrap: nowrap; width: 100%; max-width: 1200px; margin: 0 auto; padding: 0 20px;">
+
+    <ul class="banner-list" style="display: flex; flex-wrap: nowrap; list-style: none; padding: 0; margin: 0; width: 100%;">
+
+      <!-- First card with more width -->
+      <li style="flex: 2; position: relative; margin: 0 10px;">
+        <div class="banner-card banner-card-1 has-before hover:shine" style="position: relative; height: 400px;">
+
+          <a href="style.html" class="btn btn-secondary" style="position: absolute; bottom: 20px; left: 50%; transform: translateX(-50%); z-index: 2;">Style Analysis</a>
+
+          <div class="has-bg-image" style="background-image: url('assets/styleana.png'); background-size: cover; background-position: center; height: 100%; width: 100%;"></div>
+
+        </div>
+      </li>
+
+      <!-- Second card (no text overlay) -->
+      <li style="flex: 1; position: relative; margin: 0 10px;">
+        <div class="banner-card banner-card-2 has-before hover:shine" style="position: relative; height: 400px;">
+
+          <a href="color.html" class="btn btn-secondary" style="position: absolute; bottom: 20px; left: 50%; transform: translateX(-50%); z-index: 2;">Color Analysis</a>
+
+          <div class="has-bg-image" style="background-image: url('assets/colorana.png'); background-size: cover; background-position: center; height: 100%; width: 100%;"></div>
+
+        </div>
+      </li>
+
+    </ul>
+
+  </div>
+</section>
+
+
+
+
+      <!-- 
+        - #FEATURE
+      -->
+
+      <section class="section feature" aria-label="feature" data-section>
+        <div class="container">
+
+          <h2 class="h2-large section-title">Why Shop with ADORA?</h2>
+
+          <ul class="flex-list">
+
+            <li class="flex-item">
+              <div class="feature-card">
+
+                <!-- <img src="./assets/images/feature-1.jpg" width="204" height="236" loading="lazy" alt="Guaranteed PURE"
+                  class="card-icon"> -->
+
+                <h3 class="h3 card-title">Exclusive, Trendy Styles</h3>
+
+                <p class="card-text">
+                  Our brand stays ahead of fashion trends, 
+                  offering exclusive collections that you won't find anywhere else. 
+                </p>
+
+              </div>
+            </li>
+
+            <li class="flex-item">
+              <div class="feature-card">
+
+                <!-- <img src="./assets/images/feature-2.jpg" width="204" height="236" loading="lazy"
+                  alt="Completely Cruelty-Free" class="card-icon"> -->
+
+                <h3 class="h3 card-title">New Arrivals Weekly</h3>
+
+                <p class="card-text">
+                  We constantly refresh our inventory with the latest collections.
+                   With new arrivals every week, there’s always something exciting waiting for you.
+                </p>
+
+              </div>
+            </li>
+
+            <li class="flex-item">
+              <div class="feature-card">
+
+                <!-- <img src="./assets/images/feature-3.jpg" width="204" height="236" loading="lazy"
+                  alt="Ingredient Sourcing" class="card-icon"> -->
+
+                <h3 class="h3 card-title">Personalized Shopping Experience</h3>
+
+                <p class="card-text">
+                  Discover your style with our AI-powered recommendations!
+                   Our personalized shopping journey ensures you find looks that suit your taste and make shopping fun and easy.
+                </p>
+
+              </div>
+            </li>
+
+          </ul>
+
+        </div>
+      </section>
+
+
+
+
+
+      <!-- 
+        - #OFFER
+      -->
+
+      <!-- <section class="section offer" id="offer" aria-label="offer" data-section>
+        <div class="container">
+
+          <figure class="offer-banner">
+            <img src="./assets/images/offer-banner-1.jpg" width="305" height="408" loading="lazy" alt="offer products"
+              class="w-100">
+
+            <img src="./assets/images/offer-banner-2.jpg" width="450" height="625" loading="lazy" alt="offer products"
+              class="w-100">
+          </figure>
+
+          <div class="offer-content">
+
+            <p class="offer-subtitle">
+              <span class="span">Special Offer</span>
+
+              <span class="badge" aria-label="20% off">-20%</span>
+            </p>
+
+            <h2 class="h2-large section-title">Mountain Pine Bath Oil</h2>
+
+            <p class="section-text">
+              Made using clean, non-toxic ingredients, our products are designed for everyone.
+            </p>
+
+            <div class="countdown">
+
+              <span class="time" aria-label="days">15</span>
+              <span class="time" aria-label="hours">21</span>
+              <span class="time" aria-label="minutes">46</span>
+              <span class="time" aria-label="seconds">08</span>
+
+            </div>
+
+            <a href="#" class="btn btn-primary">Get Only $39.00</a>
+
+          </div>
+
+        </div>
+      </section> -->
+
+
+
+
+
+      <!-- 
+        - #BLOG
+      -->
+
+<!--       <section class="section blog" id="blog" aria-label="blog" data-section>
+        <div class="container">
+
+          <h2 class="h2-large section-title">BLOGS</h2>
+
+          <ul class="flex-list">
+
+            <li class="flex-item">
+              <div class="blog-card">
+
+                <figure class="card-banner img-holder has-before hover:shine" style="--width: 700; --height: 450;">
+                  <img src="./assets/images/blog-1.jpg" width="700" height="450" loading="lazy" alt="BLOG1"
+                    class="img-cover">
+                </figure>
+
+                <h3 class="h3">
+                  <a href="#" class="card-title">Blog1</a>
+                </h3>
+
+                <a href="#" class="btn-link">
+                  <span class="span">....</span>
+
+                  <ion-icon name="arrow-forward-outline" aria-hidden="true"></ion-icon>
+                </a>
+
+              </div>
+            </li>
+
+            <li class="flex-item">
+              <div class="blog-card">
+
+                <figure class="card-banner img-holder has-before hover:shine" style="--width: 700; --height: 450;">
+                  <img src="./assets/images/blog-2.jpg" width="700" height="450" loading="lazy" alt="BLOG2"
+                    class="img-cover">
+                </figure>
+
+                <h3 class="h3">
+                  <a href="#" class="card-title">BLOG2</a>
+                </h3>
+
+                <a href="#" class="btn-link">
+                  <span class="span">.....</span>
+
+                  <ion-icon name="arrow-forward-outline" aria-hidden="true"></ion-icon>
+                </a>
+
+              </div>
+            </li>
+
+            <li class="flex-item">
+              <div class="blog-card">
+
+                <figure class="card-banner img-holder has-before hover:shine" style="--width: 700; --height: 450;">
+                  <img src="./assets/images/blog-3.jpg" width="700" height="450" loading="lazy" alt="BLOG3"
+                    class="img-cover">
+                </figure>
+
+                <h3 class="h3">
+                  <a href="#" class="card-title">BLOG3</a>
+                </h3>
+
+                <a href="#" class="btn-link">
+                  <span class="span">....</span>
+
+                  <ion-icon name="arrow-forward-outline" aria-hidden="true"></ion-icon>
+                </a>
+
+              </div>
+            </li>
+
+          </ul>
+
+        </div>
+      </section> -->
+
+    </article>
+  </main>
+
+
+
+
+
+  <!-- 
+    - #FOOTER
+  -->
+
+  <footer class="footer" data-section>
+    <div class="container">
+
+      <div class="footer-top">
+
+        <ul class="footer-list">
+
+          <li>
+            <p class="footer-list-title">Company</p>
+          </li>
+
+          <li>
+            <p class="footer-list-text">
+              basavangudi banglore
+            </p>
+          </li>
+
+          <li>
+            <p class="footer-list-text bold">+12345678</p>
+          </li>
+
+          <li>
+            <p class="footer-list-text">hello@gmail.com</p>
+          </li>
+<li>
+  <button style="
+    background-color: #4CAF50; /* Green */
     border: none;
-    font: inherit;
-  }
-  
-  input { width: 100%; }
-  
-  button { cursor: pointer; }
-  
-  ion-icon {
-    pointer-events: none;
-    --ionicon-stroke-width: 25px;
-  }
-  
-  html {
-    font-family: var(--ff-urbanist);
-    font-size: 10px;
-    scroll-behavior: smooth;
-  }
-  
-  body {
-    background-color: var(--white);
-    color: var(--gray-web);
-    font-size: 1.6rem;
-    font-weight: var(--fw-500);
-    line-height: 1.6;
-  }
-  
-  :focus-visible { outline-offset: 4px; }
-  
-  ::-webkit-scrollbar {
-    width: 10px;
-    height: 5px;
-  }
-  
-  ::-webkit-scrollbar-track { background-color: hsl(0, 0%, 95%); }
-  
-  ::-webkit-scrollbar-thumb { background-color: hsl(0, 0%, 80%); }
-  
-  ::-webkit-scrollbar-thumb:hover { background-color: hsl(0, 0%, 70%); }
-  
-  /-----------------------------------\
-    #REUSED STYLE
-  \-----------------------------------/
-  
-  .container { padding-inline: 15px; }
-  
-  .section { padding-block: var(--section-padding); }
-  
-  .has-bg-image {
-    background-repeat: no-repeat;
-    background-size: cover;
-    background-position: center;
-    height: 100%;
-  }
-  
-  .h1,
-  .h2,
-  .h3,
-  .h2-large {
-    color: var(--black);
-    font-weight: var(--fw-600);
-    line-height: 1.3;
-  }
-  
-  .h1 {
-    font-size: var(--fs-1);
-    line-height: 1.2;
-  }
-  
-  .h2 { font-size: var(--fs-3); }
-  
-  .h2-large { font-size: var(--fs-2); }
-  
-  .h3 { font-size: var(--fs-4); }
-  
-  .btn {
-    font-weight: var(--fw-600);
-    max-width: max-content;
-    padding: 10px 30px;
-    border-radius: var(--radius-3);
-    transition: var(--transition-1);
-  }
-  
-  .btn-primary,
-  .btn-secondary:is(:hover, :focus) {
-    background-color: var(--black);
-    color: var(--white);
-  }
-  
-  .btn-primary:is(:hover, :focus) { background-color: var(--hoockers-green); }
-  
-  .btn-secondary {
-    background-color: var(--white);
-    color: var(--black);
-    box-shadow: var(--shadow-2);
-  }
-  
-  .has-scrollbar {
-    display: flex;
-    gap: 15px;
-    overflow-x: auto;
-    padding-block-end: 15px;
-    margin-block-end: -15px;
-    scroll-snap-type: inline mandatory;
-  }
-  
-  .scrollbar-item {
-    min-width: 100%;
-    scroll-snap-align: start;
-  }
-  
-  .has-scrollbar::-webkit-scrollbar-track,
-  .has-scrollbar::-webkit-scrollbar-thumb { background-color: transparent; }
-  
-  .has-scrollbar:is(:hover, :focus-within)::-webkit-scrollbar-track {
-    background-color: hsl(0, 0%, 98%);
-  }
-  
-  .has-scrollbar:is(:hover, :focus-within)::-webkit-scrollbar-thumb {
-    background-color: hsl(0, 0%, 70%);
-  }
-  
-  .has-before,
-  .has-after {
-    position: relative;
-    z-index: 1;
-  }
-  
-  .has-before::before,
-  .has-after::after {
-    content: "";
-    position: absolute;
-  }
-  
-  .hover\:shine { overflow: hidden; }
-  
-  .hover\:shine .has-bg-image {
-    position: absolute;
-    top: 0;
-    right: 0;
-    bottom: 0;
-    left: 0;
-    z-index: -1;
-    transition: var(--transition-2);
-  }
-  
-  .hover\:shine:is(:hover, :focus) .has-bg-image { transform: scale(1.15); }
-  
-  .hover\:shine::before {
-    top: 0;
-    left: -140%;
-    bottom: 0;
-    width: 100%;
-    background-image: var(--gradient);
-    transform: skewX(-25deg);
-    transition: var(--transition-2);
-    z-index: 1;
-  }
-  
-  .hover\:shine:is(:hover, :focus-within)::before { animation: shine 1s ease forwards; }
-  
-  @keyframes shine {
-    0% { transform: skewX(-25deg) translateX(0); }
-    100% { transform: skewX(-25deg) translateX(250%); }
-  }
-  
-  .btn-link {
-    color: var(--black);
-    font-weight: var(--fw-600);
-    display: flex;
-    align-items: center;
-    gap: 3px;
-    transition: var(--transition-1);
-  }
-  
-  .img-holder {
-    aspect-ratio: var(--width) / var(--height);
-    background-color: var(--light-gray);
-  }
-  
-  .img-cover {
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-  }
-  
-  .badge {
-    max-width: max-content;
-    background-color: var(--hoockers-green);
-    color: var(--white);
-    font-weight: var(--fw-700);
-    padding-inline: 12px;
-    border-radius: var(--radius-3);
-  }
-  
-  .flex-list {
-    display: flex;
-    flex-wrap: wrap;
-    justify-content: center;
-    align-items: center;
-    gap: 30px;
-  }
-  
-  .w-100 { width: 100%; }
-  
-  [data-section] > * {
-    transform: translateY(100px);
-    opacity: 0;
-    transition: var(--transition-3);
-  }
-  
-  [data-section].active > * {
-    transform: translateY(0);
-    opacity: 1;
-  }
-  
-  /-----------------------------------\
-    #HEADER
-  \-----------------------------------/
-  
-   
-  .header .input-wrapper,
-  .header-action-btn:not(:first-child),
-  .navbar { display: none; }
-  
-  .header {
-    position: relative;
-    padding-block-end: 80px;
-  }
-  
-  .alert {
-    background-color: #f5f5dc;
-    color: var(--black);
-    font-size: var(--fs-7);
-    text-transform: uppercase;
-    font-weight: var(--fw-700);
-    letter-spacing: 2px;
+    color: white;
+    padding: 15px 32px;
     text-align: center;
-    padding-block: 15px;
-  }
-  
-  .header-top {
-    position: absolute;
-    bottom: 0;
-    left: 0;
-    width: 100%;
-    background-color: var(--white);
-    padding-block: 26px;
-    z-index: 4;
-  }
-  
-  .header-top.active {
-    position: fixed;
-    top: -80px;
-    bottom: auto;
-    box-shadow: var(--shadow-1);
-    transform: translateY(100%);
-    transition: var(--transition-2);
-  }
-  
-  .header-top.header-hide {
-    box-shadow: none;
-    transform: translateY(0);
-  }
-  
-  .header-top .container {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    gap: 20px;
-  }
-  
-        .container {
-            max-width: 1200px;
-            margin: 2rem auto;
-            padding: 0 1rem;
-        }
-
-  
-  .nav-open-btn {
-    width: 26px;
-    display: grid;
-    gap: 6px;
-    padding-block: 5px;
-  }
-  
-  .nav-open-btn .line {
-    height: 2px;
-    background-color: var(--black);
-  }
-  
-  .nav-open-btn .line-1 { width: 15px; }
-  
-  .nav-open-btn .line-3 { width: 18px; }
-  
-  .header-action-btn {
-    font-size: 28px;
-    transition: var(--transition-1);
-  }
-  
-  .header-action-btn:is(:hover, :focus) { color: var(--black_70); }
-  /-----------------------------------\
-    #MOBILE NAVBAR
-  \-----------------------------------/
-  
-  .sidebar { z-index: 5; }
-  
-  .mobile-navbar {
-    background-color: var(--white);
-    position: fixed;
-    top: 0;
-    left: 0;
-    bottom: 0;
-    max-width: 350px;
-    width: 100%;
-    padding: 25px 40px;
-    z-index: 6;
-    transform: translateX(-100%);
-    visibility: hidden;
-    transition: 0.25s var(--cubic-in);
-  }
-  
-  .mobile-navbar.active {
-    visibility: visible;
-    transform: translateX(0);
-    transition: 0.4s var(--cubic-out);
-  }
-  
-  .mobile-navbar .wrapper {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    margin-block-end: 55px;
-  }
-  
-  .nav-close-btn {
-    font-size: 28px;
-    color: var(--hoockers-green);
-  }
-  
-  .nav-close-btn ion-icon { --ionicon-stroke-width: 40px; }
-  
-  .mobile-navbar .navbar-link {
-    color: var(--black);
-    font-size: var(--fs-8);
-    text-transform: uppercase;
-    font-weight: var(--fw-600);
-    letter-spacing: 1px;
-    padding-block: 5px;
-    transition: var(--transition-1);
-  }
-  
-  .mobile-navbar .navbar-link:is(:hover, :focus) { color: var(--hoockers-green); }
-  
-  .overlay {
-    background-color: transparent;
-    position: fixed;
-    top: 0;
-    right: 0;
-    bottom: 0;
-    left: 0;
-    z-index: 5;
-    pointer-events: none;
-    transition: var(--transition-1);
-  }
-  
-  .overlay.active {
-    background-color: var(--black_50);
-    pointer-events: all;
-  } 
-  /-----------------------------------\
-    #HERO
-  \-----------------------------------/
-  
-  .hero { padding-block-start: 0; }
-  
-  .hero-card {
-    background-color: var(--light-gray);
-    padding: 100px 15px;
-    background-position: 40%;
-  }
-  
-  .hero-text {
-    font-size: var(--fs-6);
-    margin-block: 16px 30px;
-  }
-  
-  .hero .price {
-    color: var(--black);
-    font-size: var(--fs-5);
-    font-weight: var(--fw-600);
-    margin-block-end: 20px;
-  }
-  
-  .hero .scrollbar-item { min-width: 100%; }
-  /-----------------------------------\
-    #COLLECTION
-  \-----------------------------------/
-  
-  .collection { padding-block-start: 0; }
-  
-  .collection-list {
-    display: grid;
-    gap: 15px;
-  }
-  
-  .collection-card {
-    background-color: var(--light-gray);
-    min-height: 400px;
-    padding: 40px;
-    padding-block-end: 30px;
-    display: flex;
-    flex-direction: column;
-  }
-  
-  .collection-card .card-title { margin-block-end: 12px; }
-  
-  .collection-card .card-text {
-    color: var(--black);
-    font-size: var(--fs-6);
-    font-weight: var(--fw-600);
-    margin-block-end: auto;
-  } 
-  /-----------------------------------\
-    #SHOP
-  \-----------------------------------/
-  .collection-card .card-title,
-.collection-card .card-text,
-.collection-card .btn-link span,
-.collection-card .btn-link ion-icon {
-  color: white;
-}
-
-.collection-card .btn-link span {
-  text-shadow: 0 0 5px rgba(255, 255, 255, 0.8), 0 0 10px rgba(255, 255, 255, 0.6);
-  font-weight: bold;
-}
-
-/* Adding a hover effect for extra shine */
-.collection-card .btn-link span:hover {
-  text-shadow: 0 0 10px rgba(255, 255, 255, 1), 0 0 20px rgba(255, 255, 255, 0.9);
-  transition: text-shadow 0.3s ease;
-}
-
-  
-  .shop .title-wrapper {
-    display: flex;
-    flex-wrap: wrap;
-    justify-content: space-between;
-    align-items: center;
-    gap: 18px;
-    margin-block-end: 50px;
-  }
-  
-  .shop .btn-link:is(:hover, :focus) { color: var(--hoockers-green); }
-  
-  .shop-card .card-banner {
-    position: relative;
-    overflow: hidden;
-  }
-  
-  .shop-card .badge {
-    position: absolute;
-    top: 20px;
-    left: 20px;
-  }
-  
-  .shop-card .card-actions {
-    position: absolute;
-    top: 50%;
-    right: 0;
-    transform: translate(0, -50%);
-    display: grid;
-    gap: 10px;
-    opacity: 0;
-    transition: var(--transition-2);
-  }
-  
-  .shop-card .action-btn {
-    background-color: var(--white);
-    font-size: 24px;
-    padding: 12px;
-    border-radius: 50%;
-    transition: var(--transition-1);
-  }
-  
-  .shop-card .action-btn:is(:hover, :focus) {
-    background-color: var(--black);
-    color: var(--white);
-  }
-  
-  .shop-card:is(:hover, :focus-within) .card-actions {
-    opacity: 1;
-    transform: translate(-20px, -50%);
-  }
-  
-  .shop-card .card-content {
-    padding-block: 20px;
-    text-align: center;
-  }
-  
-  .shop-card :is(.price, .card-rating, .rating-wrapper) {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    gap: 5px;
-  }
-  
-  .shop-card .del {
-    font-size: var(--fs-9);
-    font-weight: var(--fw-400);
-  }
-  
-  .shop-card .price .span {
-    color: var(--black);
-    font-weight: var(--fw-700);
-  }
-  
-  .shop-card .card-title {
-    color: var(--black);
-    font-size: var(--fs-7);
-    font-weight: var(--fw-500);
-    margin-block-end: 8px;
-    transition: var(--transition-1);
-  }
-  
-  .shop-card .card-title:is(:hover, :focus) {
-    text-decoration: underline;
-    color: var(--hoockers-green);
-  }
-  
-  .shop-card .rating-wrapper {
-    gap: 2px;
-    color: var(--hoockers-green);
-    font-size: 15px;
-  }
-  
-  .shop-card .rating-text {
-    font-size: var(--fs-8);
-    font-weight: var(--fw-400);
-    line-height: 1;
-  }
-  .shop-list {
-    list-style: none;
-    padding: 0;
-    display: flex;
-    flex-wrap: wrap;
-    gap: 10px; /* Adjust spacing between items */
-  }
-  
-  .shop-list {
-    list-style: none;
-    padding: 0;
-    display: flex;
-    flex-wrap: wrap;
-    gap: 10px; /* Adjust spacing between items */
-  }
-  
-  .shop-item {
-    width: calc(25% - 10px); /* 4 items per row */
-    margin-bottom: 10px;
-  }
-  
-  .shop-card {
-    width: 100%;
-    height: 500px; /* Increased height from 300px to 400px */
-  }
-  
-  .card-banner {
-    --width: 540px;
-    --height: 720px;
-  }
-  
-  .img-cover {
-    width: 100%;
-    height: 380px;
-  }
-  
-  @media (max-width: 1024px) {
-    .shop-item {
-      width: calc(33.33% - 10px); /* 3 items per row for medium screens */
-    }
-  }
-  
-  @media (max-width: 768px) {
-    .shop-item {
-      width: calc(50% - 10px); /* 2 items per row for smaller screens */
-    }
-  }
-  
-  @media (max-width: 480px) {
-    .shop-item {
-      width: 100%; /* 1 item per row for very small screens */
-    }
-  }
-  
-  
-
-  /-----------------------------------\
-    #BANNER
-  \-----------------------------------/
-  
-  .banner-list {
-    display: grid;
-    gap: 30px;
-  }
-  
-  .banner-card {
-    min-height: 420px;
-    padding: 30px;
-  }
-  
-  .banner-card .card-subtitle {
-    color: var(--black);
-    font-size: var(--fs-6);
-    font-weight: var(--fw-600);
-    text-transform: uppercase;
-    letter-spacing: 2px;
-  }
-  
-  .banner-card :is(.card-subtitle, .card-title) { text-shadow: 0 0 2px var(--cultured-2); }
-  
-  .banner-card-1 .card-title { margin-block: 10px 30px; }
-  
-  .banner-card .card-text {
-    color: var(--black);
-    font-size: var(--fs-7);
-    margin-block: 10px 25px;
-  } 
-  /-----------------------------------\
-    #FEATURE
-  \-----------------------------------/
-  
-  .feature { text-align: center; }
-  
-  .feature .section-title { margin-block-end: 40px; }
-  
-  .feature-card .card-icon {
-    width: 100px;
-    margin-inline: auto;
-  }
-  
-  .feature-card .card-title { margin-block: 35px 15px; }
-  
-  .feature-card .card-text { font-size: var(--fs-7); }
-  
-  /-----------------------------------\
-    #OFFER
-  \-----------------------------------/
-  
-  /* .offer-banner {
-    display: grid;
-    grid-template-columns: 0.7fr 1fr;
-    align-items: center;
-    gap: 30px;
-    margin-block-end: 60px;
-  }
-  
-  .offer-subtitle {
-    font-size: var(--fs-7);
-    display: flex;
-    align-items: center;
-    gap: 10px;
-  }
-  
-  .offer-subtitle .span {
-    color: var(--black);
-    text-transform: uppercase;
-    font-weight: var(--fw-600);
-    letter-spacing: 2px;
-  }
-  
-  .offer .badge { font-weight: var(--fw-500); }
-  
-  .offer .section-title { margin-block: 20px 8px; }
-  
-  .offer .section-text { font-size: var(--fs-6); }
-  
-  .offer .countdown {
-    color: var(--hoockers-green);
-    font-size: var(--fs-2);
-    line-height: 1;
-    display: flex;
-    margin-block: 20px 40px;
-  }
-  
-  .offer .time:not(:last-child)::after {
-    content: ":";
-    color: var(--gray-web);
-    font-size: 3rem;
-    font-weight: var(--fw-500);
-    margin-inline: 10px;
-  }
-  
-  .offer .time {
-    display: flex;
-    align-items: center;
-  }
-  
-   */
-  
-  
-  
-  /-----------------------------------\
-    #BLOG
-  \-----------------------------------/
-  
-  .blog { padding-block-end: calc(var(--section-padding) * 2); }
-  
-  .blog .section-title {
-    text-align: center;
-    margin-block-end: 40px;
-  }
-  
-  .blog-card .card-banner img { transition: var(--transition-2); }
-  
-  .blog-card:is(:hover, :focus-within) .card-banner img { transform: scale(1.2); }
-  
-  .blog-card .card-title {
-    text-align: center;
-    margin-block: 30px 20px;
-    transition: var(--transition-1);
-  }
-  
-  .blog-card .card-title:is(:hover, :focus) { color: var(--hoockers-green); }
-  
-  .blog-card .btn-link { justify-content: center; }
-  
-  
-  
-  
-  
-  /-----------------------------------\
-    #FOOTER
-  \-----------------------------------/
-  
-  .footer .logo { display: none; }
-  
-  .footer {
-    background-color: var(--cultured-1);
-    padding-block: 70px;
-  }
-  
-  .footer-top {
-    display: grid;
-    gap: 40px;
-    margin-block-end: 60px;
-  }
-  
-  .footer-list-title {
-    color: var(--black);
-    font-size: var(--fs-5);
-    font-weight: var(--fw-600);
-    margin-block-end: 10px;
-  }
-  
-  .footer-list-text { font-size: var(--fs-8); }
-  
-  .footer-list-text .link {
+    text-decoration: none;
     display: inline-block;
-    color: var(--black);
-    font-weight: var(--fw-600);
-    text-decoration: underline;
-    transition: var(--transition-1);
-  }
-  
-  .footer-list-text .link:is(:hover, :focus) { color: var(--hoockers-green); }
-  
-  .footer-list-text.bold {
-    color: var(--black);
-    font-weight: var(--fw-800);
-    margin-block: 15px 2px;
-  }
-  
-  .footer-link {
-    font-size: var(--fs-7);
-    padding-block: 5px;
-  }
-  
-  .footer-link:is(:hover, :focus) { text-decoration: underline; }
-  
-  .newsletter-title {
-    color: var(--black);
-    font-size: var(--fs-3);
-    font-weight: var(--fw-600);
-    line-height: 1.3;
-  }
-  
-  .newsletter-text {
-    font-size: var(--fs-7);
-    line-height: 2;
-    margin-block: 10px 35px;
-  }
-  
-  .newsletter-form { position: relative; }
-  
-  .email-field {
-    background-color: var(--white);
-    font-size: var(--fs-7);
-    padding: 12px 18px;
-    padding-inline-end: 145px;
-    border: 1px solid var(--hoockers-green_20);
-    border-radius: var(--radius-3);
-    outline: none;
-    transition: var(--transition-1);
-  }
-  
-  .email-field::placeholder { color: var(--spanish-gray); }
-  
-  .email-field:focus { border-color: var(--black); }
-  
-  .newsletter-form .btn {
-    position: absolute;
-    top: 0;
-    right: 0;
-    bottom: 0;
-  }
-  
-  .copyright { font-size: var(--fs-7); }
-  
-  .footer-bottom .wrapper {
-    display: flex;
-    flex-wrap: wrap;
-    justify-content: flex-start;
-    align-items: center;
-    gap: 15px;
-    margin-block-end: 20px;
-  }
-  
-  .social-list {
-    display: flex;
-    gap: 20px;
-  }
-  
-  .social-link {
-    color: var(--black);
-    font-size: 18px;
-    transition: var(--transition-1);
-  }
-  
-  .social-link:is(:hover, :focus) { color: var(--hoockers-green); }
-  
-  .footer-bottom > img { max-width: max-content; }
-  
-  
-  
-  
-  
-  /-----------------------------------\
-    #BACK TO TOP
-  \-----------------------------------/
-  
-  .back-top-btn {
-    position: fixed;
-    bottom: 20px;
-    right: 30px;
-    background-color: var(--white);
-    color: var(--hoockers-green);
-    font-size: 22px;
-    padding: 13px;
-    border-radius: 50%;
-    box-shadow: var(--shadow-1);
-    z-index: 4;
-    opacity: 0;
-    visibility: hidden;
-    transition: var(--transition-1);
-  }
-  
-  .back-top-btn:is(:hover, :focus) {
-    background-color: var(--hoockers-green);
-    color: var(--white);
-  }
-  
-  .back-top-btn.active {
-    opacity: 1;
-    visibility: visible;
-    transform: translateY(-10px);
-  }
-  
-  
-  
-  
-  
-  /-----------------------------------\
-    #MEDIA QUERIES
-  \-----------------------------------/
-  
-  /**
-   * responsive for larger than 575px screen
-   */
-  
-  @media (min-width: 575px) {
-  
-    /**
-     * REUSED STYLE
-     */
-  
-    .container {
-      max-width: 540px;
-      width: 100%;
-      margin-inline: auto;
-    }
-  
-    :is(.header, .hero) .container { max-width: unset; }
-  
-    .has-scrollbar { gap: 30px; }
-  
-    .scrollbar-item { min-width: calc(50% - 15px); }
-  
-  
-  
-    /**
-     * HEADER
-     */
-  
-    .alert { padding-block: 8px; }
-  
-    .header-top .container { padding-inline: 30px; }
-  
-  
-  
-    /**
-     * HERO
-     */
-  
-    .hero-card { padding-inline: 70px; }
-  
-    .hero-text { max-width: 30ch; }
-  
-  
-  
-    /**
-     * BANNER
-     */
-  
-    .banner-card .card-text { max-width: 30ch; }
-  
-  
-  
-    /**
-     * OFFER
-     */
-  
-    .offer .countdown { --fs-2: 4.8rem; }
-  
-    .offer .countdown .time:not(:last-child)::after { margin-inline: 20px; }
-  
-  }
-  
-  
-  
-  
-  
-  /**
-   * responsive for larger than 768px screen
-   */
-  
-  @media (min-width: 768px) {
-  
-    /**
-     * CUSTOM PROPERTY
-     */
-  
-    :root {
-  
-      /**
-       * typography
-       */
-  
-      --fs-1: 5.6rem;
-  
-    }
-  
-  
-  
-    /**
-     * REUSED STYLE
-     */
-  
-    .container { max-width: 730px; }
-  
-    .flex-item { max-width: calc(50% - 15px); }
-  
-  
-  
-    /**
-     * COLLECTION
-     */
-  
-    .collection-card { min-height: 450px; }
-  
-  
-  
-    /**
-     * BANNER
-     */
-  
-    .banner-list { grid-template-columns: 1fr 0.7fr; }
-  
-    .banner-card { padding: 50px; }
-  
-  
-  
-    /**
-     * OFFER
-     */
-  
-    /* .offer .section-text { max-width: 45ch; } */
-  
-  
-  
-    /**
-     * FOOTER
-     */
-  
-    .footer-top { grid-template-columns: repeat(3, 1fr); }
-  
-    .footer-list:last-child { grid-column: 1 / 4; }
-  
-    .footer-bottom {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-    }
-  
-    .footer-bottom .wrapper { margin-block-end: 0; }
-  
-  }
-  
-  
-  
-  
-  
-  /**
-   * responsive for larger than 992px screen
-   */
-  
-  @media (min-width: 992px) {
-  
-    /**
-     * CUSTOM PROPERTY
-     */
-  
-    :root {
-  
-      /**
-       * spacing
-       */
-  
-      --section-padding: 50px;
-  
-    }
-  
-  
-  
-    /**
-     * REUSED STYLE
-     */
-  
-    .container { max-width: 960px; }
-  
-    .scrollbar-item { min-width: calc(33.33% - 20px); }
-  
-    .flex-item { max-width: calc(33.33% - 20px); }
-  
-  
-  
-    /**
-     * COLLECTION
-     */
-  
-    .collection-list {
-      grid-template-columns: repeat(3, 1fr);
-      gap: 30px;
-    }
-  
-  
-  
-    /**
-     * BANNER
-     */
-  
-    .banner-list { grid-template-columns: 1fr 0.5fr; }
-  
-  
-  
-    /**
-     * OFFER
-     */
-  
-    .offer .container {
-      display: grid;
-      grid-template-columns: 1fr 0.7fr;
-      align-items: center;
-      gap: 30px;
-    }
-  
-    .offer-banner { margin-block-end: 0; }
-  
-  
-  
-    /**
-     * FOOTER
-     */
-  
-    .footer .logo { display: block; }
-  
-    .footer { padding-block: 100px 80px; }
-  
-    .footer-top {
-      grid-template-columns: 0.4fr 0.4fr 0.4fr 1fr;
-      margin-block-end: 120px;
-    }
-  
-    .footer-list:last-child { grid-column: auto; }
-  
-    .footer .logo img { width: 190px; }
-  
-  }
-  
-  
-  
-  
-  
-  /**
-   * responsive for larger than 1200px screen
-   */
-  
-  @media (min-width: 1200px) {
-  
-    /**
-     * REUSED STYLE
-     */
-  
-    .container { max-width: 1300px; }
-  
-    .scrollbar-item { min-width: calc(20% - 24px); }
-  
-  
-  
-    /**
-     * HEADER
-     */
-  
-    .header .input-wrapper,
-    .header-action-btn:not(:first-child),
-    .navbar { display: block; }
-  
-    .nav-open-btn { display: none; }
-  
-    .header {
-      padding-block-end: 60px;
-      margin-block-end: 10px;
-    }
-  
-    .header-top {
-      position: unset;
-      padding-block: 24px 0;
-    }
-  
-    .header-top:is(.active, .header-hide) { all: unset; }
-  
-    .header-top .container { flex-wrap: wrap; }
-  
-    .search-field {
-      width: 270;
-      font-size: var(--fs-7);
-      border: 2px solid var(--hoockers-green_20);
-      border-radius: var(--radius-3);
-      padding: 10px 20px;
-      padding-inline-end: 40px;
-      outline: none;
-      transition: var(--transition-1);
-    }
-  
-    .search-field::placeholder { color: var(--spanish-gray); }
-  
-    .search-field:focus { border-color: var(--black); }
-  
-    .header .input-wrapper { position: relative; }
-  
-    .header .search-submit {
-      position: absolute;
-      top: 50%;
-      right: 15px;
-      transform: translateY(-50%);
-      font-size: 22px;
-    }
-  
-    .header .search-submit ion-icon { --ionicon-stroke-width: 40px; }
-  
-    .header .logo { margin-inline-end: 60px; }
-  
-    .header-actions {
-      display: flex;
-      align-items: center;
-      gap: 40px;
-    }
-  
-    .header-action-btn { position: relative; }
-  
-    .header-action-btn .btn-badge {
-      position: absolute;
-      top: 0;
-      right: -10px;
-      background-color: var(--black);
-      color: var(--white);
-      font-size: var(--fs-9);
-      min-width: 18px;
-      height: 18px;
-      line-height: 1.4;
-      border-radius: 20px;
-    }
-  
-    .header-action-btn:last-child {
-      display: flex;
-      align-items: center;
-      gap: 10px;
-    }
-  
-    .header-action-btn .btn-text {
-      font-size: var(--fs-7);
-      font-weight: var(--fw-700);
-      margin-block-start: 3px;
-    }
-  
-    .navbar {
-      position: absolute;
-      bottom: 0;
-      left: 0;
-      width: 100%;
-      background-color: var(--white);
-      padding-block: 18px;
-      z-index: 4;
-    }
-  
-    .navbar .navbar-list {
-      display: flex;
-      justify-content: center;
-      gap: 45px;
-    }
-  
-    .navbar .navbar-link {
-      color: var(--black);
-      font-size: var(--fs-7);
-      font-weight: var(--fw-600);
-    }
-  
-    .navbar .navbar-link::after {
-      bottom: 0;
-      left: 0;
-      width: 100%;
-      height: 1px;
-      background-color: var(--black);
-      transition: var(--transition-1);
-      transform: scaleX(0);
-      transform-origin: left;
-    }
-  
-    .navbar .navbar-link:is(:hover, :focus)::after {
-      transform: scaleX(1);
-    }
-  
-    .header-top.active .navbar {
-      position: fixed;
-      top: -80px;
-      bottom: auto;
-      padding-block: 28px;
-      box-shadow: var(--shadow-1);
-      transform: translateY(100%);
-      transition: var(--transition-2);
-    }
-  
-    .header-top.header-hide .navbar {
-      box-shadow: none;
-      transform: translateY(0);
-    }
-  
-  
-  
-    /**
-     * HERO
-     */
-  
-    .hero-card { padding: 120px 100px; }
-  
-    .hero-text { max-width: 40ch; }
-  
-  
-  
-    /**
-     * BANNER
-     */
-  
-    .banner-card-1 .card-title { max-width: 15ch; }
-  
-  
-  
-    /**
-     * FEATURE
-     */
-  
-    .feature .section-title { margin-block-end: 60px; }
-  
-    .feature .flex-list {
-      gap: 100px;
-      padding-inline: 50px;
-    }
-  
-    .feature .flex-item { max-width: calc(33.33% - 66.66px); }
-/* ... (previous CSS remains the same) */
+    font-size: 16px;
+    margin: 4px 2px;
+    cursor: pointer;
+    border-radius: 12px;
+    transition: background-color 0.3s, transform 0.3s;
+">
+   <a href="admin.html">admin</a>
+</button>
+</li>
 
-/* Header adjustments */
-.header-top .container {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  padding: 0 20px;
-  max-width: 1300px;
-  margin: 0 auto;
-}
+        </ul>
 
-.header .logo {
-  order: 2;
-  flex-grow: 1;
-  text-align: center;
-}
+        <ul class="footer-list">
 
-.header .input-wrapper {
-  order: 1;
-}
+          <li>
+            <p class="footer-list-title">Section</p>
+          </li>
 
-.header-actions {
-  order: 3;
-}
+          <li>
+            <a href="#home" class="footer-link">HOME</a>
+          </li>
 
-@media (max-width: 992px) {
-  .header-top .container {
-    flex-wrap: wrap;
-  }
-  
-  .header .logo {
-    order: 1;
-    width: 100%;
-    margin-bottom: 10px;
-  }
-  
-  .header .input-wrapper {
-    order: 2;
-    width: 100%;
-    margin-bottom: 10px;
-  }
-  
-  .header-actions {
-    order: 3;
-    width: 100%;
-    justify-content: center;
-  }
-}
+          <li>
+            <a href="#collection" class="footer-link">OCCASION</a>
+          </li>
 
-/* Hero section improvements */
-.hero {
-  padding-top: 60px;
-}
+          <li>
+            <a href="#shop" class="footer-link">TRENDING</a>
+          </li>
 
-.hero-card {
-  background-size: cover;
-  background-position: center;
-  text-align: center;
-  color: white;
-  text-shadow: 2px 2px 4px rgba(0,0,0,0.5);
-}
+          <li>
+            <a href="#profile" class="footer-link">STYLE PROFILE</a>
+          </li>
 
-.hero-text {
-  max-width: 600px;
-  margin: 0 auto;
-}
+        </ul>
 
-@media (max-width: 768px) {
-  .hero-card {
-    padding: 60px 20px;
-  }
-}
+        <ul class="footer-list">
 
-/* Footer centering */
-.footer .container {
-  max-width: 1300px;
-  margin: 0 auto;
-  padding: 0 20px;
-}
+          <li>
+            <p class="footer-list-title">Infomation</p>
+          </li>
 
-.footer-top {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-  gap: 30px;
-  justify-content: center;
-}
+          <!-- <li>
+            <a href="#" class="footer-link">Start a Return</a>
+          </li> -->
 
-/* Middle section adjustments */
-.container {
-  max-width: 1300px;
-  margin: 0 auto;
-  padding: 0 20px;
-}
+          <li>
+            <a href="contactus.html" class="footer-link">Contact Us</a>
+            
+          </li>
 
-@media (max-width: 1200px) {
-  .container {
-    max-width: 960px;
-  }
-}
+          <li>
+            <a href="faq.html" class="footer-link">Shipping FAQ</a>
+           
+          </li>
 
-@media (max-width: 992px) {
-  .container {
-    max-width: 720px;
-  }
-}
+          <li>
+            <a href="termsandcondition.html" class="footer-link">Terms & Conditions</a>
+          </li>
 
-@media (max-width: 768px) {
-  .container {
-    max-width: 540px;
-  }
-}
+          <li>
+            <a href="privacy.html" class="footer-link">Privacy Policy</a>
+          </li>
 
-@media (max-width: 576px) {
-  .container {
-    max-width: none;
-    padding: 0 15px;
-  }
-}
+        </ul>
 
-/* Ensure content doesn't shift left on zoom out */
-body {
-  min-width: 320px;
-  overflow-x: hidden;
-}
-.header-top .container {
-  display: flex;
-  align-items: center; /* Vertically center the items */
-  justify-content: space-between; /* Space between items */
-}
+        <div class="footer-list">
 
-.logo {
-  margin: 0 auto; /* Centers the logo */
-  display: flex; /* Makes sure the logo is treated as a flex item */
-  justify-content: center; /* Center the content of the logo */
-}
+          <p class="newsletter-title">Good emails.</p>
+
+          <p class="newsletter-text">
+            Enter your email below to be the first to know about new collections and product launches.
+          </p>
+
+          <form action="" class="newsletter-form">
+            <input type="email" name="email_address" placeholder="Enter your email address" required
+              class="email-field">
+
+            <button type="submit" class="btn btn-primary">Subscribe</button>
+          </form>
+
+        </div>
+
+      </div>
+
+      <div class="footer-bottom">
+
+        <div class="wrapper">
+          <p class="copyright">
+            &copy;2024 Adora
+          </p>
+
+          <ul class="social-list">
+
+            <li>
+              <a href="#" class="social-link">
+                <ion-icon name="logo-twitter"></ion-icon>
+              </a>
+            </li>
+
+            <li>
+              <a href="#" class="social-link">
+                <ion-icon name="logo-facebook"></ion-icon>
+              </a>
+            </li>
+
+            <li>
+              <a href="#" class="social-link">
+                <ion-icon name="logo-instagram"></ion-icon>
+              </a>
+            </li>
+
+            <li>
+              <a href="#" class="social-link">
+                <ion-icon name="logo-youtube"></ion-icon>
+              </a>
+            </li>
+
+          </ul>
+        </div>
+
+        <a href="#" class="logo">
+          <img src="./assets/images/logo.png" width="179" height="26" loading="lazy" alt="payment">
+        </a>
+
+        <!-- <img src="image copy.png" width="15%" height="5" alt="available all payment method" class="w-100"> -->
 
 
-/* ... (rest of the CSS remains the same) */
-  
-  
-  
-    /**
-     * OFFER
-     */
-  
-    /* .offer .container { gap: 120px; } */
-  
-  }
- /* General Styling for the Poster Section*/
+      </div>
+
+    </div>
+  </footer>
+
+
+
+
+
+  <!-- 
+    - #BACK TO TOP
+  -->
+
+  <a href="#top" class="back-top-btn" aria-label="back to top" data-back-top-btn>
+    <ion-icon name="arrow-up" aria-hidden="true"></ion-icon>
+  </a>
+
+
+
+
+
+  <!-- 
+    - custom js link
+  -->
+  <script src="script2.js" defer></script>
+  <script>
+  // Check if user is logged in
+  document.addEventListener('DOMContentLoaded', () => {
+    const token = localStorage.getItem('token');
+    const userBtn = document.getElementById('user-btn');
+    const profileLink = document.getElementById('profile-link');
+
+    if (token) {
+      userBtn.innerHTML = '<a href="logout.html"><ion-icon name="log-out-outline"></ion-icon> Logout</a>';
+      profileLink.style.display = 'inline-block';
+    } else {
+      userBtn.innerHTML = '<a href="login.html"><ion-icon name="log-in-outline"></ion-icon> Login</a>';
+      profileLink.style.display = 'none';
+    }
+  });
+
+  // Redirect to cart page
+  document.getElementById('cart-btn').addEventListener('click', () => {
+    window.location.href = 'cart.html';
+  });
+</script>
+
+
+  <!-- 
+    - ionicon link
+  -->
+  <script type="module" src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.esm.js"></script>
+  <script nomodule src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.js"></script>
+
+</body>
+
+</html>
