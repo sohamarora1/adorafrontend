@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Men's Section - Trendify</title>
+    <title>Women's Section - Trendify</title>
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap');
 
@@ -1238,17 +1238,17 @@
   <h1 style="color:black; text-align:center">Men section</h1>
     <div class="container">
         <section id="college-outfits" class="product-section">
-            <h2>formals</h2>
+            <h2>collegeoutfits</h2>
             <div class="product-grid"></div>
         </section>
 
         <section id="trendy-outfits" class="product-section">
-            <h2>festive outfits</h2>
+            <h2>trendy outfits</h2>
             <div class="product-grid"></div>
         </section>
 
         <section id="casual-outfits" class="product-section">
-            <h2>Casual Outfits</h2>
+            <h2>Party wear </h2>
             <div class="product-grid"></div>
         </section>
     </div>
@@ -1360,16 +1360,16 @@ function displayProducts(products) {
     const casualOutfits = document.querySelector('#casual-outfits .product-grid');
 
     products.forEach(product => {
-        if (product.category === 'mensection') {
+        if (product.category === 'womensection') {
             const productCard = createProductCard(product);
             switch (product.type) {
-                case 'formals':
+                case 'collegeoutfits':
                     collegeOutfits.innerHTML += productCard;
                     break;
-                case 'festives':
+                case 'festiveoutfits':
                     trendyOutfits.innerHTML += productCard;
                     break;
-                case 'casuals':
+                case 'partywear':
                     casualOutfits.innerHTML += productCard;
                     break;
             }
