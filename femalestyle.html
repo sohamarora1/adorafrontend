@@ -1406,6 +1406,96 @@ function displayProducts(products) {
     });
 }
 
+// Search functionality
+function searchProducts(products) {
+    const searchField = document.querySelector('.search-field');
+    const searchSubmit = document.querySelector('.search-submit');
+
+    function performSearch() {
+        const searchTerm = searchField.value.toLowerCase().trim();
+        
+        // Clear previous product displays
+        const productGrids = document.querySelectorAll('.product-grid');
+        productGrids.forEach(grid => grid.innerHTML = '');
+
+        // If search term is empty, display all products
+        if (searchTerm === '') {
+            displayProducts(products);
+            return;
+        }
+
+        // Prepare to track products for each section
+        const sectionProducts = {
+            'fallfavourite': [],
+            'bollywoodinspo': [],
+            'kpopinspo': [],
+            'softgirlinspo': [],
+            'denim': [],
+            'moderndrapes': []
+        };
+
+        // Filter products based on search term
+        const filteredProducts = products.filter(product => 
+            product.title.toLowerCase().includes(searchTerm) && 
+            product.category === 'womensection'
+        );
+
+        // Categorize filtered products
+        filteredProducts.forEach(product => {
+            switch (product.type) {
+                case 'fallfavourite':
+                    sectionProducts.fallfavourite.push(product);
+                    break;
+                case 'bollywoodinspo':
+                    sectionProducts.bollywoodinspo.push(product);
+                    break;
+                case 'kpopinspo':
+                    sectionProducts.kpopinspo.push(product);
+                    break;
+                case 'softgirlinspo':
+                    sectionProducts.softgirlinspo.push(product);
+                    break;
+                case 'denim':
+                    sectionProducts.denim.push(product);
+                    break;
+                case 'moderndrapes':
+                    sectionProducts.moderndrapes.push(product);
+                    break;
+            }
+        });
+
+        // Display products for each section or show no products message
+        const sections = [
+            { gridSelector: '#fallfavourite .product-grid', type: 'fallfavourite', sectionName: 'Fall Favourite' },
+            { gridSelector: '#bollywoodinspo .product-grid', type: 'bollywoodinspo', sectionName: 'Bollywood Inspo' },
+            { gridSelector: '#kpopinspo .product-grid', type: 'kpopinspo', sectionName: 'K-Pop Inspo' },
+            { gridSelector: '#softgirlinspo .product-grid', type: 'softgirlinspo', sectionName: 'Soft Girl Inspo' },
+            { gridSelector: '#denim .product-grid', type: 'denim', sectionName: 'Denim' },
+            { gridSelector: '#moderndrapes .product-grid', type: 'moderndrapes', sectionName: 'Modern Drapes' }
+        ];
+
+        sections.forEach(section => {
+            const grid = document.querySelector(section.gridSelector);
+            
+            if (sectionProducts[section.type].length > 0) {
+                // Display products for this section
+                sectionProducts[section.type].forEach(product => {
+                    grid.innerHTML += createProductCard(product);
+                });
+            } else {
+                // Show no products message for this section
+                grid.innerHTML = `
+                    <div class="no-results" style="width: 100%; text-align: center; padding: 20px;">
+                        <p>No products found for ${section.sectionName} section.</p>
+                    </div>
+                `;
+            }
+        });
+    }
+
+    searchField.addEventListener('input', performSearch);
+    searchSubmit.addEventListener('click', performSearch);
+}
 
 function addToCart(product) {
     const token = localStorage.getItem('token');
@@ -1445,6 +1535,9 @@ async function init() {
     displayProducts(products);
     updateCartDisplay();
 
+    // Initialize search functionality
+    searchProducts(products);
+
     document.addEventListener('click', async function (e) {
         if (e.target && e.target.classList.contains('btn-add-to-cart')) {
             const productId = e.target.getAttribute('data-product-id');
@@ -1472,5 +1565,6 @@ async function init() {
 
 init();
 </script>
+
 </body>
 </html>
