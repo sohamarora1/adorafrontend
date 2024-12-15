@@ -19,7 +19,155 @@
     - custom css link
   -->
   <link rel="stylesheet" href="style2.css">
+<style>
+        /* CSS Reset and Base Styles */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
 
+        body {
+            font-family: 'Arial', sans-serif;
+            line-height: 1.6;
+            color: #333;
+        }
+
+        /* Header Styles */
+        .header {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            background-color: white;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+            z-index: 1000;
+        }
+
+        .header-alert {
+            background-color: #f4f4f4;
+            text-align: center;
+            padding: 10px;
+            font-size: 14px;
+            color: #333;
+        }
+
+        .header-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 15px;
+        }
+
+        /* Logo */
+        .logo {
+            display: flex;
+            align-items: center;
+        }
+
+        .logo img {
+            max-height: 40px;
+        }
+
+        /* Navigation */
+        .nav-menu {
+            display: flex;
+            gap: 30px;
+            list-style: none;
+        }
+
+        .nav-link {
+            text-decoration: none;
+            color: #333;
+            font-weight: 500;
+            position: relative;
+            transition: color 0.3s ease;
+        }
+
+        .nav-link::after {
+            content: '';
+            position: absolute;
+            width: 0;
+            height: 2px;
+            bottom: -5px;
+            left: 0;
+            background-color: #000;
+            transition: width 0.3s ease;
+        }
+
+        .nav-link:hover {
+            color: #666;
+        }
+
+        .nav-link:hover::after {
+            width: 100%;
+        }
+
+        /* Header Actions */
+        .header-actions {
+            display: flex;
+            align-items: center;
+            gap: 20px;
+        }
+
+        .header-action-btn {
+            background: none;
+            border: none;
+            cursor: pointer;
+            font-size: 22px;
+            color: #333;
+            transition: color 0.3s ease;
+            position: relative;
+        }
+
+        .header-action-btn:hover {
+            color: #666;
+        }
+
+        .btn-badge {
+            position: absolute;
+            top: -8px;
+            right: -8px;
+            background-color: #ff4500;
+            color: white;
+            font-size: 10px;
+            padding: 2px 6px;
+            border-radius: 50%;
+        }
+
+        /* Mobile Responsive */
+        @media screen and (max-width: 992px) {
+            .nav-menu {
+                display: none;
+                flex-direction: column;
+                position: absolute;
+                top: 100%;
+                left: 0;
+                width: 100%;
+                background-color: white;
+                box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+                padding: 20px;
+            }
+
+            .nav-toggle {
+                display: block;
+            }
+
+            .nav-menu.active {
+                display: flex;
+            }
+        }
+
+        .nav-toggle {
+            display: none;
+            background: none;
+            border: none;
+            font-size: 24px;
+            cursor: pointer;
+        }
+    </style>
   <!-- 
     - google font link
   -->
@@ -1071,6 +1219,17 @@
   <!-- 
     - custom js link
   -->
+  
+    <script>
+        // Mobile Navigation Toggle
+        const navToggle = document.querySelector('.nav-toggle');
+        const navMenu = document.querySelector('.nav-menu');
+
+        navToggle.addEventListener('click', () => {
+            navMenu.classList.toggle('active');
+            navToggle.classList.toggle('active');
+        });
+    </script>
   <script src="script2.js" defer></script>
   <script>
   // Check if user is logged in
