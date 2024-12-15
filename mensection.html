@@ -1375,132 +1375,68 @@ function displayProducts(products) {
         }
     });
 }
-async function addToCart(product) {
+
+function addToCart(product) {
     const token = localStorage.getItem('token');
     if (!token) {
         alert('Please log in to add items to your cart.');
         return;
     }
 
-    try {
-        const response = await fetch('https://adora-t8e8.onrender.com/api/cart/add', {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json',
-                'auth': token  // Ensure this matches the backend expectation
-            },
-            body: JSON.stringify({
-                productId: product._id,
-                title: product.title,
-                price: product.price,
-                qty: 1,
-                imgSrc: product.imgSrc
-            })
-        });
+    let cart = JSON.parse(localStorage.getItem('cart')) || [];
+    const existingItem = cart.find(item => item._id === product._id);
 
-        // Log the full response for debugging
-        if (!response.ok) {
-            const errorText = await response.text();
-            console.error('Cart Add Error:', response.status, errorText);
-            throw new Error(`Failed to add product to cart: ${errorText}`);
-        }
-
-        const data = await response.json();
-        await updateCartDisplay();
-        alert('Product added to cart successfully');
-    } catch (error) {
-        console.error('Error adding to cart:', error);
-        alert(`Failed to add product to cart: ${error.message}`);
+    if (existingItem) {
+        existingItem.qty += 1;
+    } else {
+        cart.push({ ...product, qty: 1 });
     }
+
+    localStorage.setItem('cart', JSON.stringify(cart));
+    updateCartDisplay();
+    alert('Product added to cart successfully');
 }
 
-// Improved Update Cart Display Function
-async function updateCartDisplay() {
-    const token = localStorage.getItem('token');
-    if (!token) {
-        // Reset cart display if no token
-        document.getElementById('cart-count').textContent = '0';
-        document.getElementById('cart-total').textContent = '₹ 0.00';
-        return;
-    }
+function updateCartDisplay() {
+    const cart = JSON.parse(localStorage.getItem('cart')) || [];
+    const cartCount = document.getElementById('cart-count');
+    const cartTotal = document.getElementById('cart-total');
 
-    try {
-        const response = await fetch('https://adora-t8e8.onrender.com/api/cart/user', {
-            method: 'GET',
-            headers: {
-                'Content-Type': 'application/json',
-                'auth': token  // Ensure this matches the backend expectation
-            }
-        });
+    const itemCount = cart.reduce((total, item) => total + item.qty, 0);
+    const totalPrice = cart.reduce((total, item) => total + (item.price * item.qty), 0);
 
-        // Log the full response for debugging
-        if (!response.ok) {
-            const errorText = await response.text();
-            console.error('Cart Fetch Error:', response.status, errorText);
-            throw new Error(`Failed to fetch cart: ${errorText}`);
-        }
-
-        const data = await response.json();
-        
-        // Check if cart and items exist
-        const cart = data.cart?.items || [];
-
-        const cartCount = document.getElementById('cart-count');
-        const cartTotal = document.getElementById('cart-total');
-
-        const itemCount = cart.reduce((total, item) => total + (item.qty || 0), 0);
-        const totalPrice = cart.reduce((total, item) => total + ((item.price || 0) * (item.qty || 0)), 0);
-
-        cartCount.textContent = itemCount;
-        cartTotal.textContent = `₹ ${totalPrice.toFixed(2)}`;
-    } catch (error) {
-        console.error('Error fetching cart:', error);
-        
-        // Reset cart display on error
-        document.getElementById('cart-count').textContent = '0';
-        document.getElementById('cart-total').textContent = '₹ 0.00';
-    }
+    cartCount.textContent = itemCount;
+    cartTotal.textContent = `₹ ${totalPrice.toFixed(2)}`;
 }
-
 
 async function init() {
-    try {
-        const products = await fetchProducts();
-        displayProducts(products);
-        
-        // Only update cart display if token exists
-        const token = localStorage.getItem('token');
-        if (token) {
-            await updateCartDisplay();
-        }
+    const products = await fetchProducts();
+    displayProducts(products);
+    updateCartDisplay();
 
-        document.addEventListener('click', async function (e) {
-            if (e.target && e.target.classList.contains('btn-add-to-cart')) {
-                const productId = e.target.getAttribute('data-product-id');
-                const product = products.find(p => p._id === productId);
-                if (product) {
-                    await addToCart(product);
-                }
+    document.addEventListener('click', async function (e) {
+        if (e.target && e.target.classList.contains('btn-add-to-cart')) {
+            const productId = e.target.getAttribute('data-product-id');
+            const product = products.find(p => p._id === productId);
+            if (product) {
+                addToCart(product);
             }
-        });
-
-        const cartBtn = document.getElementById('cart-btn');
-        if (cartBtn) {
-            cartBtn.addEventListener('click', function () {
-                const token = localStorage.getItem('token');
-                if (!token) {
-                    alert('Please log in to view your cart.');
-                    return;
-                }
-                window.location.href = 'cart.html';
-            });
         }
+    });
 
-        checkAuth(); // Check login/logout state on page load
-    } catch (error) {
-        console.error('Initialization error:', error);
-        alert('Failed to load page. Please try again.');
+    const cartBtn = document.getElementById('cart-btn');
+    if (cartBtn) {
+        cartBtn.addEventListener('click', function () {
+            const token = localStorage.getItem('token');
+            if (!token) {
+                alert('Please log in to view your cart.');
+                return;
+            }
+            window.location.href = 'cart.html';
+        });
     }
+
+    checkAuth(); // Check login/logout state on page load
 }
 
 init();
