@@ -1355,22 +1355,31 @@ function createProductCard(product) {
 }
 
 function displayProducts(products) {
-    const collegeOutfits = document.querySelector('#college-outfits .product-grid');
-    const trendyOutfits = document.querySelector('#trendy-outfits .product-grid');
-    const casualOutfits = document.querySelector('#casual-outfits .product-grid');
+    const streetwearGrid = document.querySelector('#streetwear .product-grid');
+    const minimalistGrid = document.querySelector('#minimalist .product-grid');
+    const seasonalCollectionsGrid = document.querySelector('#seasonalcollections .product-grid');
+    const partyEditGrid = document.querySelector('#partyedit .product-grid');
+    const oldMoneyGrid = document.querySelector('#oldmoney .product-grid');
 
     products.forEach(product => {
         if (product.category === 'womensection') {
             const productCard = createProductCard(product);
+
             switch (product.type) {
-                case 'collegeoutfits':
-                    collegeOutfits.innerHTML += productCard;
+                case 'streetwear':
+                    streetwearGrid.innerHTML += productCard;
                     break;
-                case 'festiveoutfits':
-                    trendyOutfits.innerHTML += productCard;
+                case 'minimalist':
+                    minimalistGrid.innerHTML += productCard;
                     break;
-                case 'partywear':
-                    casualOutfits.innerHTML += productCard;
+                case 'seasonalcollections':
+                    seasonalCollectionsGrid.innerHTML += productCard;
+                    break;
+                case 'partyedit':
+                    partyEditGrid.innerHTML += productCard;
+                    break;
+                case 'oldmoney':
+                    oldMoneyGrid.innerHTML += productCard;
                     break;
             }
         }
@@ -1410,34 +1419,8 @@ function updateCartDisplay() {
     cartTotal.textContent = `₹ ${totalPrice.toFixed(2)}`;
 }
 
-async function init() {
-    const products = await fetchProducts();
-    displayProducts(products);
-    updateCartDisplay();
-
-    document.addEventListener('click', async function (e) {
-        if (e.target && e.target.classList.contains('btn-add-to-cart')) {
-            const productId = e.target.getAttribute('data-product-id');
-            const product = products.find(p => p._id === productId);
-            if (product) {
-                addToCart(product);
-            }
-        }
-    });
-
-    const cartBtn = document.getElementById('cart-btn');
-    if (cartBtn) {
-        cartBtn.addEventListener('click', function () {
-            const token = localStorage.getItem('token');
-            if (!token) {
-                alert('Please log in to view your cart.');
-                return;
-            }
-            window.location.href = 'cart.html';
-        });
-    }
-
-    // Search functionality
+// Search functionality
+function searchProducts(products) {
     const searchField = document.querySelector('.search-field');
     const searchSubmit = document.querySelector('.search-submit');
 
@@ -1456,9 +1439,11 @@ async function init() {
 
         // Prepare to track products for each section
         const sectionProducts = {
-            'collegeoutfits': [],
-            'festiveoutfits': [],
-            'partywear': []
+            'streetwear': [],
+            'minimalist': [],
+            'seasonalcollections': [],
+            'partyedit': [],
+            'oldmoney': []
         };
 
         // Filter products based on search term
@@ -1470,23 +1455,31 @@ async function init() {
         // Categorize filtered products
         filteredProducts.forEach(product => {
             switch (product.type) {
-                case 'collegeoutfits':
-                    sectionProducts.collegeoutfits.push(product);
+                case 'streetwear':
+                    sectionProducts.streetwear.push(product);
                     break;
-                case 'festiveoutfits':
-                    sectionProducts.festiveoutfits.push(product);
+                case 'minimalist':
+                    sectionProducts.minimalist.push(product);
                     break;
-                case 'partywear':
-                    sectionProducts.partywear.push(product);
+                case 'seasonalcollections':
+                    sectionProducts.seasonalcollections.push(product);
+                    break;
+                case 'partyedit':
+                    sectionProducts.partyedit.push(product);
+                    break;
+                case 'oldmoney':
+                    sectionProducts.oldmoney.push(product);
                     break;
             }
         });
 
         // Display products for each section or show no products message
         const sections = [
-            { gridSelector: '#college-outfits .product-grid', type: 'collegeoutfits', sectionName: 'College Outfits' },
-            { gridSelector: '#trendy-outfits .product-grid', type: 'festiveoutfits', sectionName: 'Festive Outfits' },
-            { gridSelector: '#casual-outfits .product-grid', type: 'partywear', sectionName: 'Casual Outfits' }
+            { gridSelector: '#streetwear .product-grid', type: 'streetwear', sectionName: 'Streetwear' },
+            { gridSelector: '#minimalist .product-grid', type: 'minimalist', sectionName: 'Minimalist' },
+            { gridSelector: '#seasonalcollections .product-grid', type: 'seasonalcollections', sectionName: 'Seasonal Collections' },
+            { gridSelector: '#partyedit .product-grid', type: 'partyedit', sectionName: 'Party Edit' },
+            { gridSelector: '#oldmoney .product-grid', type: 'oldmoney', sectionName: 'Old Money' }
         ];
 
         sections.forEach(section => {
@@ -1510,12 +1503,44 @@ async function init() {
 
     searchField.addEventListener('input', performSearch);
     searchSubmit.addEventListener('click', performSearch);
+}
+
+async function init() {
+    const products = await fetchProducts();
+    displayProducts(products);
+    updateCartDisplay();
+
+    // Initialize search functionality
+    searchProducts(products);
+
+    document.addEventListener('click', async function (e) {
+        if (e.target && e.target.classList.contains('btn-add-to-cart')) {
+            const productId = e.target.getAttribute('data-product-id');
+            const product = products.find(p => p._id === productId);
+            if (product) {
+                addToCart(product);
+            }
+        }
+    });
+
+    const cartBtn = document.getElementById('cart-btn');
+    if (cartBtn) {
+        cartBtn.addEventListener('click', function () {
+            const token = localStorage.getItem('token');
+            if (!token) {
+                alert('Please log in to view your cart.');
+                return;
+            }
+            window.location.href = 'cart.html';
+        });
+    }
 
     checkAuth(); // Check login/logout state on page load
 }
 
 init();
 </script>
+
 
 </body>
 </html>
