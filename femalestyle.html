@@ -1235,23 +1235,39 @@
     </div>
 
   </header>
-  <h1 style="color:black; text-align:center">Men section</h1>
-    <div class="container">
-        <section id="college-outfits" class="product-section">
-            <h2>formals</h2>
-            <div class="product-grid"></div>
-        </section>
+  <h1 style="color:black; text-align:center">Female style Aesthetics</h1>
+   <div class="container">
+    <section id="fallfavourite" class="product-section">
+        <h2>Fall Favourite</h2>
+        <div class="product-grid"></div>
+    </section>
 
-        <section id="trendy-outfits" class="product-section">
-            <h2>festive outfits</h2>
-            <div class="product-grid"></div>
-        </section>
+    <section id="bollywoodinspo" class="product-section">
+        <h2>Bollywood Inspired</h2>
+        <div class="product-grid"></div>
+    </section>
 
-        <section id="casual-outfits" class="product-section">
-            <h2>Casual Outfits</h2>
-            <div class="product-grid"></div>
-        </section>
-    </div>
+    <section id="kpopinspo" class="product-section">
+        <h2>K-Pop Inspired</h2>
+        <div class="product-grid"></div>
+    </section>
+
+    <section id="softgirlinspo" class="product-section">
+        <h2>Soft Girl Inspo</h2>
+        <div class="product-grid"></div>
+    </section>
+
+    <section id="denim" class="product-section">
+        <h2>Denim Collection</h2>
+        <div class="product-grid"></div>
+    </section>
+
+    <section id="moderndrapes" class="product-section">
+        <h2>Modern Drapes</h2>
+        <div class="product-grid"></div>
+    </section>
+</div>
+
 
     <footer class="footer">
       <div class="footer-container">
@@ -1355,27 +1371,41 @@ function createProductCard(product) {
 }
 
 function displayProducts(products) {
-    const collegeOutfits = document.querySelector('#college-outfits .product-grid');
-    const trendyOutfits = document.querySelector('#trendy-outfits .product-grid');
-    const casualOutfits = document.querySelector('#casual-outfits .product-grid');
+    const fallFavouriteGrid = document.querySelector('#fallfavourite .product-grid');
+    const bollywoodInspoGrid = document.querySelector('#bollywoodinspo .product-grid');
+    const kpopInspoGrid = document.querySelector('#kpopinspo .product-grid');
+    const softGirlInspoGrid = document.querySelector('#softgirlinspo .product-grid');
+    const denimGrid = document.querySelector('#denim .product-grid');
+    const modernDrapesGrid = document.querySelector('#moderndrapes .product-grid');
 
     products.forEach(product => {
-        if (product.category === 'menstyle') {
+        if (product.category === 'womensection') {
             const productCard = createProductCard(product);
+
             switch (product.type) {
-                case 'formals':
-                    collegeOutfits.innerHTML += productCard;
+                case 'fallfavourite':
+                    fallFavouriteGrid.innerHTML += productCard;
                     break;
-                case 'festives':
-                    trendyOutfits.innerHTML += productCard;
+                case 'bollywoodinspo':
+                    bollywoodInspoGrid.innerHTML += productCard;
                     break;
-                case 'casuals':
-                    casualOutfits.innerHTML += productCard;
+                case 'kpopinspo':
+                    kpopInspoGrid.innerHTML += productCard;
+                    break;
+                case 'softgirlinspo':
+                    softGirlInspoGrid.innerHTML += productCard;
+                    break;
+                case 'denim':
+                    denimGrid.innerHTML += productCard;
+                    break;
+                case 'moderndrapes':
+                    modernDrapesGrid.innerHTML += productCard;
                     break;
             }
         }
     });
 }
+
 
 function addToCart(product) {
     const token = localStorage.getItem('token');
