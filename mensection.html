@@ -1375,38 +1375,74 @@ function displayProducts(products) {
         }
     });
 }
-
-function addToCart(product) {
+async function addToCart(product) {
     const token = localStorage.getItem('token');
     if (!token) {
         alert('Please log in to add items to your cart.');
         return;
     }
 
-    let cart = JSON.parse(localStorage.getItem('cart')) || [];
-    const existingItem = cart.find(item => item._id === product._id);
+    try {
+        const response = await fetch('https://adora-t8e8.onrender.com/api/cart/add', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                'auth': token
+            },
+            body: JSON.stringify({
+                productId: product._id,
+                title: product.title,
+                price: product.price,
+                qty: 1,
+                imgSrc: product.imgSrc
+            })
+        });
 
-    if (existingItem) {
-        existingItem.qty += 1;
-    } else {
-        cart.push({ ...product, qty: 1 });
+        if (!response.ok) {
+            throw new Error('Failed to add product to cart');
+        }
+
+        const data = await response.json();
+        updateCartDisplay();
+        alert('Product added to cart successfully');
+    } catch (error) {
+        console.error('Error adding to cart:', error);
+        alert('Failed to add product to cart');
     }
-
-    localStorage.setItem('cart', JSON.stringify(cart));
-    updateCartDisplay();
-    alert('Product added to cart successfully');
 }
 
-function updateCartDisplay() {
-    const cart = JSON.parse(localStorage.getItem('cart')) || [];
-    const cartCount = document.getElementById('cart-count');
-    const cartTotal = document.getElementById('cart-total');
+// Update the updateCartDisplay function to fetch from backend
+async function updateCartDisplay() {
+    const token = localStorage.getItem('token');
+    if (!token) return;
 
-    const itemCount = cart.reduce((total, item) => total + item.qty, 0);
-    const totalPrice = cart.reduce((total, item) => total + (item.price * item.qty), 0);
+    try {
+        const response = await fetch('https://adora-t8e8.onrender.com/api/cart/user', {
+            method: 'GET',
+            headers: {
+                'Content-Type': 'application/json',
+                'auth': token
+            }
+        });
 
-    cartCount.textContent = itemCount;
-    cartTotal.textContent = `₹ ${totalPrice.toFixed(2)}`;
+        if (!response.ok) {
+            throw new Error('Failed to fetch cart');
+        }
+
+        const data = await response.json();
+        const cart = data.cart.items;
+
+        const cartCount = document.getElementById('cart-count');
+        const cartTotal = document.getElementById('cart-total');
+
+        const itemCount = cart.reduce((total, item) => total + item.qty, 0);
+        const totalPrice = cart.reduce((total, item) => total + (item.price || 0), 0);
+
+        cartCount.textContent = itemCount;
+        cartTotal.textContent = `₹ ${totalPrice.toFixed(2)}`;
+    } catch (error) {
+        console.error('Error fetching cart:', error);
+    }
 }
 
 async function init() {
