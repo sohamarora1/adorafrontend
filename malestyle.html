@@ -1252,7 +1252,7 @@
         <div class="product-grid"></div>
     </section>
 
-    <section id="activewear" class="product-section">
+    <section id="Active Wear" class="product-section">
         <h2>Active Wear</h2>
         <div class="product-grid"></div>
     </section>
@@ -1369,7 +1369,7 @@ function displayProducts(products) {
     const streetwearGrid = document.querySelector('#streetwear .product-grid');
     const minimalistGrid = document.querySelector('#minimalist .product-grid');
     const seasonalCollectionsGrid = document.querySelector('#seasonalcollections .product-grid');
-    const activewearGrid = document.querySelector('#activewear .product-grid');
+    const activewearGrid = document.querySelector('#activewear.product-grid');
     const oldMoneyGrid = document.querySelector('#oldmoney .product-grid');
 
     products.forEach(product => {
@@ -1489,7 +1489,7 @@ function searchProducts(products) {
             { gridSelector: '#streetwear .product-grid', type: 'streetwear', sectionName: 'Streetwear' },
             { gridSelector: '#minimalist .product-grid', type: 'minimalist', sectionName: 'Minimalist' },
             { gridSelector: '#seasonalcollections .product-grid', type: 'seasonalcollections', sectionName: 'Seasonal Collections' },
-            { gridSelector: '#activewear .product-grid', type: 'activewear', sectionName: 'Active Wear' },
+            { gridSelector: '#activewear.product-grid', type: 'activewear', sectionName: 'Active Wear' },
             { gridSelector: '#oldmoney .product-grid', type: 'oldmoney', sectionName: 'Old Money' }
         ];
 
