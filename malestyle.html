@@ -1226,7 +1226,7 @@
         <a href="#shop" class="navbar-link has-after">TRENDING</a>
       </li>
       <li>
-        <a href="#blog" class="navbar-link has-after">BLOG</a>
+        <a href="#blog" class="navbar-link has-after">Style Analysis</a>
       </li>
     </ul>
   </nav>
@@ -1252,7 +1252,7 @@
         <div class="product-grid"></div>
     </section>
 
-    <section id="partyedit" class="product-section">
+    <section id="activewear" class="product-section">
         <h2>Active Wear</h2>
         <div class="product-grid"></div>
     </section>
@@ -1288,7 +1288,7 @@
               <ul>
                   <li><a href="#">Home</a></li>
                   <li><a href="#">Shop</a></li>
-                  <li><a href="#">Blog</a></li>
+                  <li><a href="#">Style Analysis</a></li>
                   <li><a href="#">Privacy Policy</a></li>
               </ul>
           </div>
@@ -1369,7 +1369,7 @@ function displayProducts(products) {
     const streetwearGrid = document.querySelector('#streetwear .product-grid');
     const minimalistGrid = document.querySelector('#minimalist .product-grid');
     const seasonalCollectionsGrid = document.querySelector('#seasonalcollections .product-grid');
-    const partyEditGrid = document.querySelector('#partyedit .product-grid');
+    const activewearGrid = document.querySelector('#activewear .product-grid');
     const oldMoneyGrid = document.querySelector('#oldmoney .product-grid');
 
     products.forEach(product => {
@@ -1386,8 +1386,8 @@ function displayProducts(products) {
                 case 'seasonalcollections':
                     seasonalCollectionsGrid.innerHTML += productCard;
                     break;
-                case 'partyedit':
-                    partyEditGrid.innerHTML += productCard;
+                case 'activewear':
+                    activewearGrid.innerHTML += productCard;
                     break;
                 case 'oldmoney':
                     oldMoneyGrid.innerHTML += productCard;
@@ -1453,7 +1453,7 @@ function searchProducts(products) {
             'streetwear': [],
             'minimalist': [],
             'seasonalcollections': [],
-            'partyedit': [],
+            'activewear': [],
             'oldmoney': []
         };
 
@@ -1475,8 +1475,8 @@ function searchProducts(products) {
                 case 'seasonalcollections':
                     sectionProducts.seasonalcollections.push(product);
                     break;
-                case 'partyedit':
-                    sectionProducts.partyedit.push(product);
+                case 'activewear':
+                    sectionProducts.activewear.push(product);
                     break;
                 case 'oldmoney':
                     sectionProducts.oldmoney.push(product);
@@ -1489,7 +1489,7 @@ function searchProducts(products) {
             { gridSelector: '#streetwear .product-grid', type: 'streetwear', sectionName: 'Streetwear' },
             { gridSelector: '#minimalist .product-grid', type: 'minimalist', sectionName: 'Minimalist' },
             { gridSelector: '#seasonalcollections .product-grid', type: 'seasonalcollections', sectionName: 'Seasonal Collections' },
-            { gridSelector: '#partyedit .product-grid', type: 'partyedit', sectionName: 'Party Edit' },
+            { gridSelector: '#activewear .product-grid', type: 'activewear', sectionName: 'Active Wear' },
             { gridSelector: '#oldmoney .product-grid', type: 'oldmoney', sectionName: 'Old Money' }
         ];
 
