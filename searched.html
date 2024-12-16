@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Searched Products</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <script type="module" src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.esm.js"></script>
+    <script nomodule src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.js"></script>
+    <style>
+        /* Include your existing CSS or add new styles here */
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+        }
+        .header-actions {
+            display: flex;
+            justify-content: flex-end;
+            align-items: center;
+            padding: 10px;
+            background-color: #f8f8f8;
+        }
+        .header-action-btn {
+            margin-left: 10px;
+            background: none;
+            border: none;
+            cursor: pointer;
+        }
+        .product-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+            gap: 20px;
+            padding: 20px;
+        }
+        .product-card {
+            border: 1px solid #ddd;
+            padding: 15px;
+            text-align: center;
+        }
+        .product-image {
+            max-width: 100%;
+            height: 300px;
+            object-fit: cover;
+        }
+        .btn-add-to-cart {
+            background-color: #007bff;
+            color: white;
+            border: none;
+            padding: 10px 15px;
+            cursor: pointer;
+        }
+        .btn-add-to-cart.disabled {
+            background-color: #cccccc;
+            cursor: not-allowed;
+        }
+        .search-container {
+            display: flex;
+            justify-content: center;
+            padding: 20px;
+        }
+        #search-input {
+            width: 300px;
+            padding: 10px;
+            margin-right: 10px;
+        }
+        #search-button {
+            padding: 10px 15px;
+            background-color: #007bff;
+            color: white;
+            border: none;
+            cursor: pointer;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="header-actions">
+            <button class="header-action-btn" aria-label="user">
+                <ion-icon name="person-outline" aria-hidden="true"></ion-icon>
+            </button>
+            <button class="header-action-btn" id="login-btn" style="display: none;">Login</button>
+            <button class="header-action-btn" id="logout-btn" style="display: none;">Logout</button>
+            <button class="header-action-btn" aria-label="favourite item">
+                <ion-icon name="star-outline" aria-hidden="true"></ion-icon>
+                <span class="btn-badge">0</span>
+            </button>
+            <button class="header-action-btn" aria-label="cart item" id="cart-btn">
+                <data class="btn-text" value="0" id="cart-total">₹ 0.00</data>
+                <ion-icon name="bag-handle-outline" aria-hidden="true"></ion-icon>
+                <span class="btn-badge" id="cart-count">0</span>
+            </button>
+        </div>
+    </header>
+
+    <div class="search-container">
+        <input type="text" id="search-input" placeholder="Search products...">
+        <button id="search-button">Search</button>
+    </div>
+
+    <h1 style="color:black; text-align:center">Searched Products</h1>
+    
+    <div class="product-grid" id="searched-products-grid"></div>
+
+    <footer>
+        <!-- Add footer content similar to the original page -->
+    </footer>
+
+    <script src="searchedproducts.js"></script>
+</body>
+</html>
