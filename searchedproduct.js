@@ -10,25 +10,15 @@ async function fetchProducts() {
 }
 
 function searchProducts(query, products) {
-    // Normalize the search query by trimming and converting to lowercase
     const normalizedQuery = query.trim().toLowerCase();
-
-    // If query is empty, return no results
     if (!normalizedQuery) return [];
-
-    // Split the query into individual words to allow more flexible searching
     const queryWords = normalizedQuery.split(/\s+/);
 
-    // Filter products that match any of the query words in title or description
     return products.filter(product => {
-        // Normalize product title and description to lowercase for case-insensitive search
         const normalizedTitle = product.title.toLowerCase();
         const normalizedDescription = product.description.toLowerCase();
-
-        // Check if ALL query words are present in either title or description
         return queryWords.every(word => 
-            normalizedTitle.includes(word) || 
-            normalizedDescription.includes(word)
+            normalizedTitle.includes(word) || normalizedDescription.includes(word)
         );
     });
 }
@@ -56,22 +46,13 @@ async function displaySearchedProducts() {
     const searchInput = document.getElementById('search-input');
     const searchedProductsGrid = document.getElementById('searched-products-grid');
     const searchButton = document.getElementById('search-button');
-
-    // Fetch all products
     const products = await fetchProducts();
 
-    // Function to perform search
     function performSearch(query = '') {
-        // Use query from input if not provided
         const searchQuery = query || searchInput.value.trim();
-        
-        // Clear previous results
         searchedProductsGrid.innerHTML = '';
-
-        // Perform search
         const searchResults = searchProducts(searchQuery, products);
 
-        // Display search results
         if (searchResults.length === 0) {
             searchedProductsGrid.innerHTML = '<p>No products found.</p>';
         } else {
@@ -80,7 +61,6 @@ async function displaySearchedProducts() {
                 searchedProductsGrid.innerHTML += productCard;
             });
 
-            // Add event listeners for Add to Cart buttons
             document.querySelectorAll('.btn-add-to-cart:not(.disabled)').forEach(button => {
                 button.addEventListener('click', async (e) => {
                     const productId = e.target.getAttribute('data-product-id');
@@ -91,17 +71,13 @@ async function displaySearchedProducts() {
         }
     }
 
-    // Check for query parameter in URL
     const urlParams = new URLSearchParams(window.location.search);
     const initialQuery = urlParams.get('q');
-
-    // If there's an initial query from URL, pre-fill and search
     if (initialQuery) {
-        searchInput.value = initialQuery;
-        performSearch(initialQuery);
+        searchInput.value = initialQuery.trim();
+        performSearch(initialQuery.trim());
     }
 
-    // Add event listeners for search
     searchButton.addEventListener('click', () => performSearch());
     searchInput.addEventListener('keypress', (e) => {
         if (e.key === 'Enter') {
@@ -109,7 +85,6 @@ async function displaySearchedProducts() {
         }
     });
 
-    // Initial setup for login/logout buttons
     checkAuth();
     updateCartDisplay();
 }
@@ -167,5 +142,4 @@ function checkAuth() {
     }
 }
 
-// Initialize the page
 window.addEventListener('DOMContentLoaded', displaySearchedProducts);
