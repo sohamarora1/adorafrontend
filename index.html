@@ -1221,7 +1221,15 @@
   <!-- 
     - custom js link
   -->
-  
+  <script>
+function navigateToSearchPage() {
+    const searchQuery = document.getElementById('search-input').value.trim();
+    if (searchQuery) {
+        // Redirect to searched products page with query
+        window.location.href = `searchedproducts.html?q=${encodeURIComponent(searchQuery)}`;
+    }
+}
+</script>
     <script>
         // Mobile Navigation Toggle
         const navToggle = document.querySelector('.nav-toggle');
