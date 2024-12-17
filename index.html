@@ -1241,6 +1241,25 @@ function navigateToSearchPage() {
         });
     </script>
   <script src="script2.js" defer></script>
+<script>
+function updateCartDisplay() {
+    const cart = JSON.parse(localStorage.getItem('cart')) || [];
+    const cartCount = document.getElementById('cart-count');
+    const cartTotal = document.getElementById('cart-total');
+
+    const itemCount = cart.reduce((total, item) => total + item.qty, 0);
+    const totalPrice = cart.reduce((total, item) => total + (item.price * item.qty), 0);
+
+    cartCount.textContent = itemCount;
+    cartTotal.textContent = `₹ ${totalPrice.toFixed(2)}`;
+}
+  async function init(){
+updateCartDisplay();
+
+  }
+  init();
+
+</script>
   <script>
   // Check if user is logged in
   document.addEventListener('DOMContentLoaded', () => {
