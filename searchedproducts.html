@@ -8,41 +8,115 @@
     <script type="module" src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.esm.js"></script>
     <script nomodule src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.js"></script>
     <style>
-        /* Include your existing CSS or add new styles here */
+        /* General Body Styling */
         body {
             font-family: Arial, sans-serif;
             margin: 0;
             padding: 0;
+            background-color: #f9f9f9;
         }
+
+        /* Header Styling */
+        header {
+            background: linear-gradient(135deg, #e8dff7, #f3e8ff);
+            height: 80px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 0 20px;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+        }
+
         .header-actions {
             display: flex;
-            justify-content: flex-end;
             align-items: center;
-            padding: 10px;
-            background-color: #f8f8f8;
+            gap: 15px;
         }
+
         .header-action-btn {
-            margin-left: 10px;
             background: none;
             border: none;
             cursor: pointer;
+            font-size: 16px;
+            color: #5a4e72;
+            transition: color 0.3s ease;
         }
+
+        .header-action-btn:hover {
+            color: #8b75b7;
+        }
+
+        .header-logo {
+            font-size: 28px;
+            font-weight: bold;
+            color: #5a4e72;
+        }
+
+        .login-btn, .logout-btn {
+            background-color: #8b75b7;
+            color: white;
+            border: none;
+            padding: 8px 12px;
+            border-radius: 4px;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+
+        .login-btn:hover, .logout-btn:hover {
+            background-color: #7a639d;
+        }
+
+        /* Search Container */
+        .search-container {
+            display: flex;
+            justify-content: center;
+            padding: 20px;
+        }
+
+        #search-input {
+            width: 300px;
+            padding: 10px;
+            margin-right: 10px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+        }
+
+        #search-button {
+            padding: 10px 15px;
+            background-color: #8b75b7;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+
+        #search-button:hover {
+            background-color: #7a639d;
+        }
+
+        /* Product Grid */
         .product-grid {
             display: grid;
             grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
             gap: 20px;
             padding: 20px;
         }
+
         .product-card {
             border: 1px solid #ddd;
             padding: 15px;
             text-align: center;
+            background: white;
+            border-radius: 4px;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
         }
+
         .product-image {
             max-width: 100%;
             height: 300px;
             object-fit: cover;
         }
+
         .btn-add-to-cart {
             background-color: #007bff;
             color: white;
@@ -50,62 +124,51 @@
             padding: 10px 15px;
             cursor: pointer;
         }
-        .btn-add-to-cart.disabled {
-            background-color: #cccccc;
-            cursor: not-allowed;
-        }
-        .search-container {
-            display: flex;
-            justify-content: center;
-            padding: 20px;
-        }
-        #search-input {
-            width: 300px;
-            padding: 10px;
-            margin-right: 10px;
-        }
-        #search-button {
-            padding: 10px 15px;
-            background-color: #007bff;
-            color: white;
-            border: none;
-            cursor: pointer;
-        }
     </style>
 </head>
 <body>
+    <!-- Header Section -->
     <header>
+        <!-- Logo -->
+        <div class="header-logo">Adora</div>
+
+        <!-- Header Actions -->
         <div class="header-actions">
-            <button class="header-action-btn" aria-label="user">
-                <ion-icon name="person-outline" aria-hidden="true"></ion-icon>
-            </button>
+            <!-- Home Icon -->
+            <a href="index.html" aria-label="home">
+                <button class="header-action-btn">
+                    <ion-icon name="home-outline" aria-hidden="true"></ion-icon>
+                </button>
+            </a>
+
+            <!-- Login/Logout Buttons -->
             <button class="header-action-btn" id="login-btn" style="display: none;">Login</button>
             <button class="header-action-btn" id="logout-btn" style="display: none;">Logout</button>
-<!--             <button class="header-action-btn" aria-label="favourite item"> -->
-                <ion-icon name="star-outline" aria-hidden="true"></ion-icon>
-                <span class="btn-badge">0</span>
-            </button>
-           <a href="cart.html"> <button class="header-action-btn" aria-label="cart item" id="cart-btn">
-                <data class="btn-text" value="0" id="cart-total">₹ 0.00</data>
-                <ion-icon name="bag-handle-outline" aria-hidden="true"></ion-icon>
-                <span class="btn-badge" id="cart-count">0</span>
-            </button></a>
+            <!-- Cart Icon -->
+            <a href="cart.html">
+                <button class="header-action-btn" aria-label="cart item" id="cart-btn">
+                    <ion-icon name="bag-handle-outline" aria-hidden="true"></ion-icon>
+                    <!-- <span class="btn-badge" id="cart-count">0</span> -->
+                </button>
+            </a>
         </div>
     </header>
 
+    <!-- Search Container -->
     <div class="search-container">
         <input type="text" id="search-input" placeholder="Search products...">
         <button id="search-button">Search</button>
     </div>
 
+    <!-- Page Title -->
     <h1 style="color:black; text-align:center">Searched Products</h1>
-    
+
+    <!-- Product Grid -->
     <div class="product-grid" id="searched-products-grid"></div>
 
     <footer>
         <!-- Add footer content similar to the original page -->
     </footer>
-
     <script src="searchedproducts.js"></script>
 </body>
 </html>
