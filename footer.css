@@ -1,0 +1,60 @@
+/* Footer Container */
+#footer-container {
+  background-color: var(--cultured-1);
+  padding-block: 70px;
+}
+
+/* Footer Top */
+#footer-top {
+  display: grid;
+  gap: 40px;
+  margin-bottom: 60px;
+}
+
+/* Admin Button */
+#admin-button a {
+  text-decoration: none;
+  color: white;
+}
+
+#admin-button:hover {
+  background-color: #45a049; /* Slightly darker green */
+  transform: scale(1.05);
+}
+
+/* Newsletter */
+#newsletter-title {
+  color: var(--black);
+  font-size: var(--fs-3);
+  font-weight: var(--fw-600);
+}
+
+#newsletter-text {
+  font-size: var(--fs-7);
+  margin-bottom: 35px;
+}
+
+/* Footer Bottom */
+#footer-bottom {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+#footer-copyright {
+  font-size: var(--fs-7);
+}
+
+#footer-social .social-link {
+  font-size: 18px;
+  color: var(--black);
+  transition: var(--transition-1);
+}
+
+#footer-social .social-link:hover {
+  color: var(--hoockers-green);
+}
+
+#footer-logo {
+  display: none; /* This keeps the logo hidden as per your request */
+}
