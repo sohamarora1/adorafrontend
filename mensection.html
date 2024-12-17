@@ -1257,20 +1257,20 @@
 
        
   <div class="header-actions">
-    <button class="header-action-btn" aria-label="user">
+<!--     <button class="header-action-btn" aria-label="user">
       <ion-icon name="person-outline" aria-hidden="true"></ion-icon>
-    </button>
+    </button> -->
  <button class="header-action-btn" id="login-btn" style="display: none;">Login</button>
     <button class="header-action-btn" id="logout-btn" style="display: none;">Logout</button>
-    <button class="header-action-btn" aria-label="favourite item">
-      <ion-icon name="star-outline" aria-hidden="true"></ion-icon>
-      <span class="btn-badge">0</span>
-    </button>
+<!--     <button class="header-action-btn" aria-label="favourite item"> -->
+<!--       <ion-icon name="star-outline" aria-hidden="true"></ion-icon> -->
+<!--       <span class="btn-badge">0</span> -->
+<!--     </button> -->
 
     <button class="header-action-btn" aria-label="cart item" id="cart-btn">
       <data class="btn-text" value="0" id="cart-total">₹ 0.00</data>
       <ion-icon name="bag-handle-outline" aria-hidden="true"></ion-icon>
-      <span class="btn-badge" id="cart-count">0</span>
+      <span class="btn-badge" id="cart-count"></span>
     </button>
   </div>
 
@@ -1280,13 +1280,13 @@
         <a href="#home" class="navbar-link has-after">Home</a>
       </li>
       <li>
-        <a href="#collection" class="navbar-link has-after">OCCASIONS</a>
+        <a href="#collection" class="navbar-link has-after">MEN</a>
       </li>
       <li>
-        <a href="#shop" class="navbar-link has-after">TRENDING</a>
+        <a href="#shop" class="navbar-link has-after">WOMEN</a>
       </li>
       <li>
-        <a href="#blog" class="navbar-link has-after">BLOG</a>
+        <a href="#blog" class="navbar-link has-after">TRENDING</a>
       </li>
     </ul>
   </nav>
@@ -1295,15 +1295,15 @@
     </div>
 
   </header>
-  <h1 style="color:black; text-align:center">Men section</h1>
+  <h1 style="color:black; text-align:center">Men Section</h1>
     <div class="container">
         <section id="college-outfits" class="product-section">
-            <h2>formals</h2>
+            <h2>Formals</h2>
             <div class="product-grid"></div>
         </section>
 
         <section id="trendy-outfits" class="product-section">
-            <h2>festive outfits</h2>
+            <h2>Festive Outfits</h2>
             <div class="product-grid"></div>
         </section>
 
@@ -1313,48 +1313,170 @@
         </section>
     </div>
 
-    <footer class="footer">
-      <div class="footer-container">
-          <div class="footer-section">
-              <h3>About Us</h3>
-              <ul>
-                  <li><a href="#">Our Story</a></li>
-                  <li><a href="#">Team</a></li>
-                  <li><a href="#">Careers</a></li>
-              </ul>
-          </div>
-          <div class="footer-section">
-              <h3>Customer Service</h3>
-              <ul>
-                  <li><a href="#">Contact Us</a></li>
-                  <li><a href="#">FAQs</a></li>
-                  <li><a href="#">Shipping</a></li>
-                  <li><a href="#">Returns</a></li>
-              </ul>
-          </div>
-          <div class="footer-section">
-              <h3>Quick Links</h3>
-              <ul>
-                  <li><a href="#">Home</a></li>
-                  <li><a href="#">Shop</a></li>
-                  <li><a href="#">Blog</a></li>
-                  <li><a href="#">Privacy Policy</a></li>
-              </ul>
-          </div>
-          <div class="footer-section">
-              <h3>Connect With Us</h3>
-              <div class="social-icons">
-                  <a href="#"><i class="fab fa-facebook"></i></a>
-                  <a href="#"><i class="fab fa-twitter"></i></a>
-                  <a href="#"><i class="fab fa-instagram"></i></a>
-                  <a href="#"><i class="fab fa-pinterest"></i></a>
-              </div>
-          </div>
+    <footer class="footer" data-section>
+    <div class="container">
+
+      <div class="footer-top">
+
+        <ul class="footer-list">
+
+          <li>
+            <p class="footer-list-title">Company</p>
+          </li>
+
+          <li>
+            <p class="footer-list-text">
+              basavangudi banglore
+            </p>
+          </li>
+
+          <li>
+            <p class="footer-list-text bold">+12345678</p>
+          </li>
+
+          <li>
+            <p class="footer-list-text">hello@gmail.com</p>
+          </li>
+<li>
+  <button style="
+    background-color: #4CAF50; /* Green */
+    border: none;
+    color: white;
+    padding: 15px 32px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 16px;
+    margin: 4px 2px;
+    cursor: pointer;
+    border-radius: 12px;
+    transition: background-color 0.3s, transform 0.3s;
+">
+   <a href="admin.html">admin</a>
+</button>
+</li>
+
+        </ul>
+
+        <ul class="footer-list">
+
+          <li>
+            <p class="footer-list-title">Section</p>
+          </li>
+
+          <li>
+            <a href="#home" class="footer-link">HOME</a>
+          </li>
+
+          <li>
+            <a href="#collection" class="footer-link">OCCASION</a>
+          </li>
+
+          <li>
+            <a href="#shop" class="footer-link">TRENDING</a>
+          </li>
+
+          <li>
+            <a href="#profile" class="footer-link">STYLE PROFILE</a>
+          </li>
+
+        </ul>
+
+        <ul class="footer-list">
+
+          <li>
+            <p class="footer-list-title">Infomation</p>
+          </li>
+
+          <!-- <li>
+            <a href="#" class="footer-link">Start a Return</a>
+          </li> -->
+
+          <li>
+            <a href="contactus.html" class="footer-link">Contact Us</a>
+            
+          </li>
+
+          <li>
+            <a href="faq.html" class="footer-link">Shipping FAQ</a>
+           
+          </li>
+
+          <li>
+            <a href="termsandcondition.html" class="footer-link">Terms & Conditions</a>
+          </li>
+
+          <li>
+            <a href="privacy.html" class="footer-link">Privacy Policy</a>
+          </li>
+
+        </ul>
+
+        <div class="footer-list">
+
+          <p class="newsletter-title">Good emails.</p>
+
+          <p class="newsletter-text">
+            Enter your email below to be the first to know about new collections and product launches.
+          </p>
+
+          <form action="" class="newsletter-form">
+            <input type="email" name="email_address" placeholder="Enter your email address" required
+              class="email-field">
+
+            <button type="submit" class="btn btn-primary">Subscribe</button>
+          </form>
+
+        </div>
+
       </div>
+
       <div class="footer-bottom">
-          <p>&copy; 2023 Your Company Name. All rights reserved.</p>
+
+        <div class="wrapper">
+          <p class="copyright">
+            &copy;2024 Adora
+          </p>
+
+          <ul class="social-list">
+
+            <li>
+              <a href="#" class="social-link">
+                <ion-icon name="logo-twitter"></ion-icon>
+              </a>
+            </li>
+
+            <li>
+              <a href="#" class="social-link">
+                <ion-icon name="logo-facebook"></ion-icon>
+              </a>
+            </li>
+
+            <li>
+              <a href="#" class="social-link">
+                <ion-icon name="logo-instagram"></ion-icon>
+              </a>
+            </li>
+
+            <li>
+              <a href="#" class="social-link">
+                <ion-icon name="logo-youtube"></ion-icon>
+              </a>
+            </li>
+
+          </ul>
+        </div>
+
+<!--         <a href="#" class="logo">
+          <img src="./assets/images/logo.png" width="179" height="26" alt="payment">
+        </a> -->
+
+
       </div>
+
+    </div>
   </footer>
+
 <!--     <script src="auth.js"> </script> -->
 <script>
 function checkAuth() {
