@@ -1179,6 +1179,37 @@
     /* .offer .container { gap: 120px; } */
   
   }
+        .search-container {
+    display: flex;
+    align-items: center;
+    border: 2px solid #ccc; /* Rectangle outline */
+    border-radius: 4px;
+    padding: 4px;
+    background-color: #fff;
+}
+
+.search-field {
+    border: none;
+    outline: none;
+    padding: 8px 12px;
+    font-size: 14px;
+    width: 200px; /* Adjust width as needed */
+    border-radius: 4px 0 0 4px;
+}
+
+.search-submit {
+    background-color: transparent;
+    border: none;
+    padding: 8px 12px;
+    cursor: pointer;
+    color: #555;
+    border-radius: 0 4px 4px 0;
+}
+
+.search-submit:hover {
+    color: #007bff;
+}
+
   
     </style>
 </head>
@@ -1202,13 +1233,14 @@
         </button>
 
         <div class="input-wrapper">
-          <input type="search" name="search" placeholder="SEARCH PRODUCTS" class="search-field">
-        
-          <button class="search-submit" aria-label="search">
-            <ion-icon name="arrow-up-outline" aria-hidden="true"></ion-icon>
-          </button>
+      <div class="search-container">
+        <input type="search" name="search" placeholder="SEARCH PRODUCTS" class="search-field">
+        <button class="search-submit" aria-label="search">
+          <ion-icon name="search-outline" aria-hidden="true"></ion-icon>
+        </button>
+      </div>
         </div>
-        
+
 
         <a href="index.html" class="logo">
           <img src="assets/logoletter.png" width="100" height="18" alt="ADORA">
