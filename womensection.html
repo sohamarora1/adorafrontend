@@ -1160,6 +1160,43 @@
     /* .offer .container { gap: 120px; } */
   
   }
+              .search-container {
+    display: flex;
+    align-items: center;
+    border: 2px solid #ccc; /* Rectangle outline */
+    border-radius: 4px;
+    padding: 4px;
+    background-color: #fff;
+}
+
+
+.search-field {
+    border: none;
+    outline: none;
+    padding: 8px 12px;
+    font-size: 14px;
+    width: 200px; /* Adjust width as needed */
+    border-radius: 4px 0 0 4px;
+}
+
+.search-submit {
+    background-color: transparent;
+    border: none;
+    padding: 8px 12px;
+    cursor: pointer;
+    color: #555;
+    border-radius: 0 4px 4px 0;
+}
+
+.search-submit:hover {
+    color: #007bff;
+}
+.search-field::-webkit-search-cancel-button {
+  -webkit-appearance: none;
+  appearance: none;
+  display: none;
+}
+
   
     </style>
 </head>
@@ -1182,14 +1219,17 @@
           <span class="line line-3"></span>
         </button>
 
-        <div class="input-wrapper">
-          <input type="search" name="search" placeholder="CHAT WITH AI" class="search-field">
-        
-          <button class="search-submit" aria-label="search">
-            <ion-icon name="arrow-up-outline" aria-hidden="true"></ion-icon>
-          </button>
+       <div class="input-wrapper">
+      <div class="search-container">
+        <input type="search" name="search" placeholder="SEARCH PRODUCTS" class="search-field">
+        <button class="search-submit" aria-label="search">
+          <ion-icon name="search-outline" aria-hidden="true"></ion-icon>
+        </button>
+      </div>
         </div>
         
+ <script type="module" src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.esm.js"></script>
+        <script nomodule src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.js"></script>
 
         <a href="index.html" class="logo">
           <img src="assets/logoletter.png" width="100" height="18" alt="ADORA">
@@ -1197,16 +1237,16 @@
 
        
   <div class="header-actions">
-    <button class="header-action-btn" aria-label="user">
+<!--     <button class="header-action-btn" aria-label="user">
       <ion-icon name="person-outline" aria-hidden="true"></ion-icon>
-    </button>
+    </button> -->
  <button class="header-action-btn" id="login-btn" style="display: none;">Login</button>
     <button class="header-action-btn" id="logout-btn" style="display: none;">Logout</button>
-    <button class="header-action-btn" aria-label="favourite item">
+<!--     <button class="header-action-btn" aria-label="favourite item">
       <ion-icon name="star-outline" aria-hidden="true"></ion-icon>
       <span class="btn-badge">0</span>
     </button>
-
+ -->
     <button class="header-action-btn" aria-label="cart item" id="cart-btn">
       <data class="btn-text" value="0" id="cart-total">₹ 0.00</data>
       <ion-icon name="bag-handle-outline" aria-hidden="true"></ion-icon>
@@ -1220,13 +1260,13 @@
         <a href="#home" class="navbar-link has-after">Home</a>
       </li>
       <li>
-        <a href="#collection" class="navbar-link has-after">OCCASIONS</a>
+        <a href="#collection" class="navbar-link has-after">MEN</a>
       </li>
       <li>
-        <a href="#shop" class="navbar-link has-after">TRENDING</a>
+        <a href="#shop" class="navbar-link has-after">WOMEN</a>
       </li>
       <li>
-        <a href="#blog" class="navbar-link has-after">BLOG</a>
+        <a href="#blog" class="navbar-link has-after">TRENDING</a>
       </li>
     </ul>
   </nav>
