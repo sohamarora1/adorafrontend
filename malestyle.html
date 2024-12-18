@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>male style - Trendify</title>
+    <title>TRENDING MEN-ADORA</title>
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap');
 
@@ -216,31 +216,6 @@
     box-shadow: var(--shadow-2);
   }
   
-  .has-scrollbar {
-    display: flex;
-    gap: 15px;
-    overflow-x: auto;
-    padding-block-end: 15px;
-    margin-block-end: -15px;
-    scroll-snap-type: inline mandatory;
-  }
-  
-  .scrollbar-item {
-    min-width: 100%;
-    scroll-snap-align: start;
-  }
-  
-  .has-scrollbar::-webkit-scrollbar-track,
-  .has-scrollbar::-webkit-scrollbar-thumb { background-color: transparent; }
-  
-  .has-scrollbar:is(:hover, :focus-within)::-webkit-scrollbar-track {
-    background-color: hsl(0, 0%, 98%);
-  }
-  
-  .has-scrollbar:is(:hover, :focus-within)::-webkit-scrollbar-thumb {
-    background-color: hsl(0, 0%, 70%);
-  }
-  
   .has-before,
   .has-after {
     position: relative;
@@ -343,18 +318,7 @@
     position: relative;
     padding-block-end: 80px;
   }
-  
-  .alert {
-    background-color: #f5f5dc;
-    color: var(--black);
-    font-size: var(--fs-7);
-    text-transform: uppercase;
-    font-weight: var(--fw-700);
-    letter-spacing: 2px;
-    text-align: center;
-    padding-block: 15px;
-  }
-  
+
   .header-top {
     position: absolute;
     bottom: 0;
@@ -501,228 +465,8 @@
         .btn-add-to-cart:hover {
             background-color: #2980b9;
         }
-        .footer .logo { display: none; }
   
-  .footer {
-    background-color: var(--cultured-1);
-    padding-block: 70px;
-  }
-  
-  .footer-top {
-    display: grid;
-    gap: 40px;
-    margin-block-end: 60px;
-  }
-  
-  .footer-list-title {
-    color: var(--black);
-    font-size: var(--fs-5);
-    font-weight: var(--fw-600);
-    margin-block-end: 10px;
-  }
-  
-  .footer-list-text { font-size: var(--fs-8); }
-  
-  .footer-list-text .link {
-    display: inline-block;
-    color: var(--black);
-    font-weight: var(--fw-600);
-    text-decoration: underline;
-    transition: var(--transition-1);
-  }
-  
-  .footer-list-text .link:is(:hover, :focus) { color: var(--hoockers-green); }
-  
-  .footer-list-text.bold {
-    color: var(--black);
-    font-weight: var(--fw-800);
-    margin-block: 15px 2px;
-  }
-  
-  .footer-link {
-    font-size: var(--fs-7);
-    padding-block: 5px;
-  }
-  
-  .footer-link:is(:hover, :focus) { text-decoration: underline; }
-  
-  .newsletter-title {
-    color: var(--black);
-    font-size: var(--fs-3);
-    font-weight: var(--fw-600);
-    line-height: 1.3;
-  }
-  
-  .newsletter-text {
-    font-size: var(--fs-7);
-    line-height: 2;
-    margin-block: 10px 35px;
-  }
-  
-  .newsletter-form { position: relative; }
-  
-  .email-field {
-    background-color: var(--white);
-    font-size: var(--fs-7);
-    padding: 12px 18px;
-    padding-inline-end: 145px;
-    border: 1px solid var(--hoockers-green_20);
-    border-radius: var(--radius-3);
-    outline: none;
-    transition: var(--transition-1);
-  }
-  
-  .email-field::placeholder { color: var(--spanish-gray); }
-  
-  .email-field:focus { border-color: var(--black); }
-  
-  .newsletter-form .btn {
-    position: absolute;
-    top: 0;
-    right: 0;
-    bottom: 0;
-  }
-  
-  .copyright { font-size: var(--fs-7); }
-  
-  .footer-bottom .wrapper {
-    display: flex;
-    flex-wrap: wrap;
-    justify-content: flex-start;
-    align-items: center;
-    gap: 15px;
-    margin-block-end: 20px;
-  }
-  
-  .social-list {
-    display: flex;
-    gap: 20px;
-  }
-  
-  .social-link {
-    color: var(--black);
-    font-size: 18px;
-    transition: var(--transition-1);
-  }
-  
-  .social-link:is(:hover, :focus) { color: var(--hoockers-green); }
-  
-  .footer-bottom > img { max-width: max-content; }
-  
-  
-  
-  
-  
-  .back-top-btn {
-    position: fixed;
-    bottom: 20px;
-    right: 30px;
-    background-color: var(--white);
-    color: var(--hoockers-green);
-    font-size: 22px;
-    padding: 13px;
-    border-radius: 50%;
-    box-shadow: var(--shadow-1);
-    z-index: 4;
-    opacity: 0;
-    visibility: hidden;
-    transition: var(--transition-1);
-  }
-  
-  .back-top-btn:is(:hover, :focus) {
-    background-color: var(--hoockers-green);
-    color: var(--white);
-  }
-  
-  .back-top-btn.active {
-    opacity: 1;
-    visibility: visible;
-    transform: translateY(-10px);
-  }
-  .footer {
-    background-color: #f8f9fa;
-    color: #333;
-    padding: 50px 0;
-    margin-top: 50px;
-    border-top: 1px solid #e0e0e0;
-}
-
-.footer-container {
-    max-width: 1200px;
-    margin: 0 auto;
-    display: flex;
-    justify-content: space-between;
-    flex-wrap: wrap;
-}
-
-.footer-section {
-    flex: 1;
-    min-width: 200px;
-    margin-bottom: 30px;
-}
-
-.footer-section h3 {
-    color: #3498db;
-    font-size: 1.2rem;
-    margin-bottom: 20px;
-    font-weight: 600;
-}
-
-.footer-section ul {
-    list-style: none;
-    padding: 0;
-}
-
-.footer-section ul li {
-    margin-bottom: 10px;
-}
-
-.footer-section ul li a {
-    color: #555;
-    text-decoration: none;
-    transition: color 0.3s ease;
-}
-
-.footer-section ul li a:hover {
-    color: #3498db;
-}
-
-.footer-bottom {
-    text-align: center;
-    padding-top: 20px;
-    margin-top: 40px;
-    border-top: 1px solid #e0e0e0;
-}
-
-.footer-bottom p {
-    color: #777;
-    font-size: 0.9rem;
-}
-
-.social-icons {
-    display: flex;
-    justify-content: center;
-    margin-top: 20px;
-}
-
-.social-icons a {
-    color: #3498db;
-    font-size: 1.5rem;
-    margin: 0 10px;
-    transition: color 0.3s ease;
-}
-
-.social-icons a:hover {
-    color: #2980b9;
-}
-  
-  
-  
-  
-  
-  /**
-   * responsive for larger than 575px screen
-   */
+ 
   
   @media (min-width: 575px) {
   
@@ -738,9 +482,6 @@
   
     :is(.header, .hero) .container { max-width: unset; }
   
-    .has-scrollbar { gap: 30px; }
-  
-    .scrollbar-item { min-width: calc(50% - 15px); }
   
   
   
@@ -748,48 +489,13 @@
      * HEADER
      */
   
-    .alert { padding-block: 8px; }
+ 
   
     .header-top .container { padding-inline: 30px; }
   
   
   
-    /**
-     * HERO
-     */
-  
-    .hero-card { padding-inline: 70px; }
-  
-    .hero-text { max-width: 30ch; }
-  
-  
-  
-    /**
-     * BANNER
-     */
-  
-    .banner-card .card-text { max-width: 30ch; }
-  
-  
-  
-    /**
-     * OFFER
-     */
-  
-    .offer .countdown { --fs-2: 4.8rem; }
-  
-    .offer .countdown .time:not(:last-child)::after { margin-inline: 20px; }
-  
-  }
-  
-  
-  
-  
-  
-  /**
-   * responsive for larger than 768px screen
-   */
-  
+
   @media (min-width: 768px) {
   
     /**
@@ -825,51 +531,7 @@
     .collection-card { min-height: 450px; }
   
   
-  
-    /**
-     * BANNER
-     */
-  
-    .banner-list { grid-template-columns: 1fr 0.7fr; }
-  
-    .banner-card { padding: 50px; }
-  
-  
-  
-    /**
-     * OFFER
-     */
-  
-    /* .offer .section-text { max-width: 45ch; } */
-  
-  
-  
-    /**
-     * FOOTER
-     */
-  
-    .footer-top { grid-template-columns: repeat(3, 1fr); }
-  
-    .footer-list:last-child { grid-column: 1 / 4; }
-  
-    .footer-bottom {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-    }
-  
-    .footer-bottom .wrapper { margin-block-end: 0; }
-  
-  }
-  
-  
-  
-  
-  
-  /**
-   * responsive for larger than 992px screen
-   */
-  
+ 
   @media (min-width: 992px) {
   
     /**
@@ -885,8 +547,6 @@
       --section-padding: 50px;
   
     }
-  
-  
   
     /**
      * REUSED STYLE
@@ -909,49 +569,7 @@
       gap: 30px;
     }
   
-  
-  
-    /**
-     * BANNER
-     */
-  
-    .banner-list { grid-template-columns: 1fr 0.5fr; }
-  
-  
-  
-    /**
-     * OFFER
-     */
-  
-    .offer .container {
-      display: grid;
-      grid-template-columns: 1fr 0.7fr;
-      align-items: center;
-      gap: 30px;
-    }
-  
-    .offer-banner { margin-block-end: 0; }
-  
-  
-  
-    /**
-     * FOOTER
-     */
-  
-    .footer .logo { display: block; }
-  
-    .footer { padding-block: 100px 80px; }
-  
-    .footer-top {
-      grid-template-columns: 0.4fr 0.4fr 0.4fr 1fr;
-      margin-block-end: 120px;
-    }
-  
-    .footer-list:last-child { grid-column: auto; }
-  
-    .footer .logo img { width: 190px; }
-  
-  }
+
   .product-image {
     margin-top:5% ;
     justify-content: center;
@@ -961,12 +579,6 @@
 }
   
   
-  
-  
-  
-  /**
-   * responsive for larger than 1200px screen
-   */
   
   @media (min-width: 1200px) {
   
@@ -1118,47 +730,7 @@
       transform: translateY(0);
     }
   
-  
-  
-    /**
-     * HERO
-     */
-  
-    .hero-card { padding: 120px 100px; }
-  
-    .hero-text { max-width: 40ch; }
-  
-  
-  
-    /**
-     * BANNER
-     */
-  
-    .banner-card-1 .card-title { max-width: 15ch; }
-  
-  
-  
-    /**
-     * FEATURE
-     */
-  
-    .feature .section-title { margin-block-end: 60px; }
-  
-    .feature .flex-list {
-      gap: 100px;
-      padding-inline: 50px;
-    }
-  
-    .feature .flex-item { max-width: calc(33.33% - 66.66px); }
-  
-  
-  
-    /**
-     * OFFER
-     */
-  
-    /* .offer .container { gap: 120px; } */
-  
+
   }
   .search-container {
     display: flex;
@@ -1204,12 +776,6 @@
    
   <header class="header">
 
-    <div class="alert">
-      <div class="container">
-        <p class="alert-text">FREE SHIPPING ON ORDERS ABOVE 1000</p>
-      </div>
-    </div>
-
     <div class="header-top" data-header>
       <div class="container">
 
@@ -1250,16 +816,16 @@
   <nav class="navbar">
     <ul class="navbar-list">
       <li>
-        <a href="#home" class="navbar-link has-after">Home</a>
+        <a href="index.html" class="navbar-link has-after">Home</a>
       </li>
       <li>
-        <a href="#collection" class="navbar-link has-after">OCCASIONS</a>
+        <a href="femalestyle.html" class="navbar-link has-after">WOMEN_STYLE AESTHETICS</a>
       </li>
       <li>
-        <a href="#shop" class="navbar-link has-after">TRENDING</a>
+        <a href="color.html" class="navbar-link has-after">COLOR ANALYSIS</a>
       </li>
       <li>
-        <a href="#blog" class="navbar-link has-after">Style Analysis</a>
+        <a href="style.html" class="navbar-link has-after">STYLE ANALYSIS</a>
       </li>
     </ul>
   </nav>
@@ -1268,7 +834,7 @@
     </div>
 
   </header>
-  <h1 style="color:black; text-align:center">Male style Aesthetics</h1>
+  <h1 style="color:black; text-align:center">TRENDING!!</h1>
   <div class="container">
     <section id="streetwear" class="product-section">
         <h2>Streetwear</h2>
@@ -1296,50 +862,7 @@
     </section>
 </div>
 
-<!-- 
-    <footer class="footer">
-      <div class="footer-container">
-          <div class="footer-section">
-              <h3>About Us</h3>
-              <ul>
-                  <li><a href="#">Our Story</a></li>
-                  <li><a href="#">Team</a></li>
-                  <li><a href="#">Careers</a></li>
-              </ul>
-          </div>
-          <div class="footer-section">
-              <h3>Customer Service</h3>
-              <ul>
-                  <li><a href="#">Contact Us</a></li>
-                  <li><a href="#">FAQs</a></li>
-                  <li><a href="#">Shipping</a></li>
-                  <li><a href="#">Returns</a></li>
-              </ul>
-          </div>
-          <div class="footer-section">
-              <h3>Quick Links</h3>
-              <ul>
-                  <li><a href="#">Home</a></li>
-                  <li><a href="#">Shop</a></li>
-                  <li><a href="#">Style Analysis</a></li>
-                  <li><a href="#">Privacy Policy</a></li>
-              </ul>
-          </div>
-          <div class="footer-section">
-              <h3>Connect With Us</h3>
-              <div class="social-icons">
-                  <a href="#"><i class="fab fa-facebook"></i></a>
-                  <a href="#"><i class="fab fa-twitter"></i></a>
-                  <a href="#"><i class="fab fa-instagram"></i></a>
-                  <a href="#"><i class="fab fa-pinterest"></i></a>
-              </div>
-          </div>
-      </div>
-      <div class="footer-bottom">
-          <p>&copy; 2023 Your Company Name. All rights reserved.</p>
-      </div>
-  </footer> -->
-<!--     <script src="auth.js"> </script> -->
+
 <script>
 function checkAuth() {
     const token = localStorage.getItem('token');
