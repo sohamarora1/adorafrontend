@@ -41,7 +41,7 @@
         }
 
         .header-alert {
-            background-color: #f4f4f4;
+            background-color: #F5EFFF;
             text-align: center;
             padding: 10px;
             font-size: 14px;
@@ -214,20 +214,16 @@
 
       <div class="header-actions">
         <button class="header-action-btn" aria-label="user" id="user-btn">
-<!--           <ion-icon name="person-outline" aria-hidden="true"></ion-icon> -->
+
         </button>
 
-<!--         <button class="header-action-btn" aria-label="favorite item">
-          <ion-icon name="star-outline" aria-hidden="true"></ion-icon>
-          <span class="btn-badge">0</span>
-        </button> -->
+
 
         <button class="header-action-btn" aria-label="cart item" id="cart-btn">
       <data class="btn-text" value="0" id="cart-total">₹ 0.00</data>
       <ion-icon name="bag-handle-outline" aria-hidden="true"></ion-icon>
       <span class="btn-badge" id="cart-count"></span>
     </button>
-<!--          <button onclick="window.location.href='/logout.html'">Logout</button> -->
       </div>
 
       <nav class="navbar">
@@ -235,7 +231,7 @@
           <li><a href="index.html" class="navbar-link has-after">Home</a></li>
           <li><a href="mensection.html" class="navbar-link has-after">Men</a></li>
           <li><a href="womensection.html" class="navbar-link has-after">Women</a></li>
-          <li><a href="style.html" class="navbar-link has-after">Style</a></li>
+          <li><a href="#shop" class="navbar-link has-after">Trending</a></li>
         </ul>
       </nav>
     </div>
@@ -270,20 +266,16 @@
         </li>
 
         <li>
-          <a href="#collection" class="navbar-link" data-nav-link>Collection</a>
+          <a href="mensection.html" class="navbar-link" data-nav-link>MEN</a>
         </li>
 
         <li>
-          <a href="#shop" class="navbar-link" data-nav-link>Shop</a>
+          <a href="womensection.html" class="navbar-link" data-nav-link>Women</a>
         </li>
 
         <li>
-          <a href="#offer" class="navbar-link" data-nav-link>Offer</a>
+          <a href="#shop" class="navbar-link" data-nav-link>Trending</a>
         </li>
-<!-- 
-        <li>
-          <a href="#blog" class="navbar-link" data-nav-link>Blog</a>
-        </li> -->
 
       </ul>
 
@@ -359,6 +351,7 @@
       </section>   
       <h1 style="text-align: center;"><b>WHAT'S THE OCCASION?</b></h1>
       <br>
+<!--       WOMEN SECTION -->
       <H3 style="text-align: center;">WOMEN</H3>
 
       <section class="section collection" id="collection" aria-label="collection" data-section>
@@ -371,9 +364,9 @@
 
                 <h2 class="h2 card-title">COLLEGE OUTFITS</h2>
 
-                <p class="card-text">Starting at ₹ 299</p>
+                <p class="card-text">Starting at ₹ 399</p>
 
-                <a href="#" class="btn-link">
+                <a href="womensection.html" class="btn-link">
                   <span class="span">Discover Now</span>
 
                   <ion-icon name="arrow-forward" aria-hidden="true"></ion-icon>
@@ -391,7 +384,7 @@
 
                 <p class="card-text">Starting at ₹ 799</p>
 
-                <a href="#" class="btn-link">
+                <a href="womensection.html" class="btn-link">
                   <span class="span">Discover Now</span>
 
                   <ion-icon name="arrow-forward" aria-hidden="true"></ion-icon>
@@ -408,7 +401,7 @@
 
                 <p class="card-text">Starting at ₹ 1299</p>
 
-                <a href="#" class="btn-link">
+                <a href="womensection.html" class="btn-link">
                   <span class="span">Discover Now</span>
 
                   <ion-icon name="arrow-forward" aria-hidden="true"></ion-icon>
@@ -423,6 +416,7 @@
 
         </div>
       </section>
+      
       <!-- MEN SECTION!! -->
       <h3 style="text-align: center;">MEN</h3>
       <section class="section collection" id="collection" aria-label="collection" data-section>
@@ -437,7 +431,7 @@
 
                 <p class="card-text">Starting at ₹ 499</p>
 
-                <a href="#" class="btn-link">
+                <a href="mensection.html" class="btn-link">
                   <span class="span">Shop Now</span>
 
                   <ion-icon name="arrow-forward" aria-hidden="true"></ion-icon>
@@ -455,7 +449,7 @@
 
                 <p class="card-text">Starting at ₹ 599</p>
 
-                <a href="#" class="btn-link">
+                <a href="mensection.html" class="btn-link">
                   <span class="span">Discover Now</span>
 
                   <ion-icon name="arrow-forward" aria-hidden="true"></ion-icon>
@@ -473,7 +467,7 @@
 
                 <p class="card-text">Starting at ₹ 299</p>
 
-                <a href="#" class="btn-link">
+                <a href="mensection.html" class="btn-link">
                   <span class="span">Discover Now</span>
 
                   <ion-icon name="arrow-forward" aria-hidden="true"></ion-icon>
@@ -494,7 +488,7 @@
 
 
       <!-- 
-        - #SHOP
+        - #Trending
       -->
       <H1 id="shopredirect" style="text-align:center">SEE WHAT'S TRENDING</H1>
 
@@ -647,7 +641,9 @@
 
         </div>
       </section>
+      
       <!-- MEN STYLE AESTHETIC -->
+      
       <section class="section shop" id="shop" aria-label="shop" data-section>
         <div class="container">
 
@@ -788,7 +784,7 @@
 
 
       <!-- 
-        - #BANNER
+        - #STYLE ANALYSIS
       -->
       <h1 id="profile" style="text-align: center;">
         Style Profile
@@ -836,15 +832,12 @@
       <section class="section feature" aria-label="feature" data-section>
         <div class="container">
 
-          <h2 class="h2-large section-title">Why Shop with ADORA?</h2>
+          <h2 style="text-align:center;" class="h2-large section-title">Why Shop with ADORA?</h2>
 
           <ul class="flex-list">
 
             <li class="flex-item">
               <div class="feature-card">
-
-                <!-- <img src="./assets/images/feature-1.jpg" width="204" height="236" loading="lazy" alt="Guaranteed PURE"
-                  class="card-icon"> -->
 
                 <h3 class="h3 card-title">Exclusive, Trendy Styles</h3>
 
@@ -859,9 +852,6 @@
             <li class="flex-item">
               <div class="feature-card">
 
-                <!-- <img src="./assets/images/feature-2.jpg" width="204" height="236" loading="lazy"
-                  alt="Completely Cruelty-Free" class="card-icon"> -->
-
                 <h3 class="h3 card-title">New Arrivals Weekly</h3>
 
                 <p class="card-text">
@@ -875,13 +865,10 @@
             <li class="flex-item">
               <div class="feature-card">
 
-                <!-- <img src="./assets/images/feature-3.jpg" width="204" height="236" loading="lazy"
-                  alt="Ingredient Sourcing" class="card-icon"> -->
-
                 <h3 class="h3 card-title">Personalized Shopping Experience</h3>
 
                 <p class="card-text">
-                  Discover your style with our AI-powered recommendations!
+                  Discover your style with our STYLE ANALYSIS FEATURE!
                    Our personalized shopping journey ensures you find looks that suit your taste and make shopping fun and easy.
                 </p>
 
@@ -892,138 +879,6 @@
 
         </div>
       </section>
-
-
-
-
-
-      <!-- 
-        - #OFFER
-      -->
-
-      <!-- <section class="section offer" id="offer" aria-label="offer" data-section>
-        <div class="container">
-
-          <figure class="offer-banner">
-            <img src="./assets/images/offer-banner-1.jpg" width="305" height="408" loading="lazy" alt="offer products"
-              class="w-100">
-
-            <img src="./assets/images/offer-banner-2.jpg" width="450" height="625" loading="lazy" alt="offer products"
-              class="w-100">
-          </figure>
-
-          <div class="offer-content">
-
-            <p class="offer-subtitle">
-              <span class="span">Special Offer</span>
-
-              <span class="badge" aria-label="20% off">-20%</span>
-            </p>
-
-            <h2 class="h2-large section-title">Mountain Pine Bath Oil</h2>
-
-            <p class="section-text">
-              Made using clean, non-toxic ingredients, our products are designed for everyone.
-            </p>
-
-            <div class="countdown">
-
-              <span class="time" aria-label="days">15</span>
-              <span class="time" aria-label="hours">21</span>
-              <span class="time" aria-label="minutes">46</span>
-              <span class="time" aria-label="seconds">08</span>
-
-            </div>
-
-            <a href="#" class="btn btn-primary">Get Only $39.00</a>
-
-          </div>
-
-        </div>
-      </section> -->
-
-
-
-
-
-      <!-- 
-        - #BLOG
-      -->
-
-<!--       <section class="section blog" id="blog" aria-label="blog" data-section>
-        <div class="container">
-
-          <h2 class="h2-large section-title">BLOGS</h2>
-
-          <ul class="flex-list">
-
-            <li class="flex-item">
-              <div class="blog-card">
-
-                <figure class="card-banner img-holder has-before hover:shine" style="--width: 700; --height: 450;">
-                  <img src="./assets/images/blog-1.jpg" width="700" height="450" loading="lazy" alt="BLOG1"
-                    class="img-cover">
-                </figure>
-
-                <h3 class="h3">
-                  <a href="#" class="card-title">Blog1</a>
-                </h3>
-
-                <a href="#" class="btn-link">
-                  <span class="span">....</span>
-
-                  <ion-icon name="arrow-forward-outline" aria-hidden="true"></ion-icon>
-                </a>
-
-              </div>
-            </li>
-
-            <li class="flex-item">
-              <div class="blog-card">
-
-                <figure class="card-banner img-holder has-before hover:shine" style="--width: 700; --height: 450;">
-                  <img src="./assets/images/blog-2.jpg" width="700" height="450" loading="lazy" alt="BLOG2"
-                    class="img-cover">
-                </figure>
-
-                <h3 class="h3">
-                  <a href="#" class="card-title">BLOG2</a>
-                </h3>
-
-                <a href="#" class="btn-link">
-                  <span class="span">.....</span>
-
-                  <ion-icon name="arrow-forward-outline" aria-hidden="true"></ion-icon>
-                </a>
-
-              </div>
-            </li>
-
-            <li class="flex-item">
-              <div class="blog-card">
-
-                <figure class="card-banner img-holder has-before hover:shine" style="--width: 700; --height: 450;">
-                  <img src="./assets/images/blog-3.jpg" width="700" height="450" loading="lazy" alt="BLOG3"
-                    class="img-cover">
-                </figure>
-
-                <h3 class="h3">
-                  <a href="#" class="card-title">BLOG3</a>
-                </h3>
-
-                <a href="#" class="btn-link">
-                  <span class="span">....</span>
-
-                  <ion-icon name="arrow-forward-outline" aria-hidden="true"></ion-icon>
-                </a>
-
-              </div>
-            </li>
-
-          </ul>
-
-        </div>
-      </section> -->
 
     </article>
   </main>
@@ -1111,9 +966,6 @@
             <p class="footer-list-title">Infomation</p>
           </li>
 
-          <!-- <li>
-            <a href="#" class="footer-link">Start a Return</a>
-          </li> -->
 
           <li>
             <a href="contactus.html" class="footer-link">Contact Us</a>
@@ -1189,12 +1041,6 @@
 
           </ul>
         </div>
-
-        <a href="#" class="logo">
-          <img src="./assets/images/logo.png" width="179" height="26" loading="lazy" alt="payment">
-        </a>
-
-        <!-- <img src="image copy.png" width="15%" height="5" alt="available all payment method" class="w-100"> -->
 
 
       </div>
