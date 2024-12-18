@@ -3,13 +3,13 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Men's Section - Trendify</title>
+    <title>Men's Section - ADORA</title>
 <link rel="stylesheet" href="footer.css">
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap');
 
         body {
-    background: linear-gradient(to right, #dfe9fc,#dfe9fc);  
+    background: linear-gradient(to right, #CDC1FF,#F5EFFF);  
     height: 100vh;
     margin: 0;
     padding: 0;
@@ -655,20 +655,6 @@
   
   
   
-    /**
-     * OFFER
-     */
-  
-    .offer .countdown { --fs-2: 4.8rem; }
-  
-    .offer .countdown .time:not(:last-child)::after { margin-inline: 20px; }
-  
-  }
-  
-  
-  
-  
-  
   /**
    * responsive for larger than 768px screen
    */
@@ -708,51 +694,7 @@
     .collection-card { min-height: 450px; }
   
   
-  
-    /**
-     * BANNER
-     */
-  
-    .banner-list { grid-template-columns: 1fr 0.7fr; }
-  
-    .banner-card { padding: 50px; }
-  
-  
-  
-    /**
-     * OFFER
-     */
-  
-    /* .offer .section-text { max-width: 45ch; } */
-  
-  
-  
-    /**
-     * FOOTER
-     */
-  
-    .footer-top { grid-template-columns: repeat(3, 1fr); }
-  
-    .footer-list:last-child { grid-column: 1 / 4; }
-  
-    .footer-bottom {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-    }
-  
-    .footer-bottom .wrapper { margin-block-end: 0; }
-  
-  }
-  
-  
-  
-  
-  
-  /**
-   * responsive for larger than 992px screen
-   */
-  
+
   @media (min-width: 992px) {
   
     /**
@@ -815,37 +757,7 @@
   
     .offer-banner { margin-block-end: 0; }
   
-  
-  
-    /**
-     * FOOTER
-     */
-  
-    .footer .logo { display: block; }
-  
-    .footer { padding-block: 100px 80px; }
-  
-    .footer-top {
-      grid-template-columns: 0.4fr 0.4fr 0.4fr 1fr;
-      margin-block-end: 120px;
-    }
-  
-    .footer-list:last-child { grid-column: auto; }
-  
-    .footer .logo img { width: 190px; }
-  
-  }
-  .product-image {
-    margin-top:5% ;
-    justify-content: center;
-    width: 100%;
-    height: 250px;
-    object-fit: contain; /* Changed from cover to contain */
-}
-  
-  
-  
-  
+
   
   /**
    * responsive for larger than 1200px screen
@@ -1034,13 +946,7 @@
   
     .feature .flex-item { max-width: calc(33.33% - 66.66px); }
   
-  
-  
-    /**
-     * OFFER
-     */
-  
-    /* .offer .container { gap: 120px; } */
+ 
   
   }
         .search-container {
@@ -1121,15 +1027,10 @@
 
        
   <div class="header-actions">
-<!--     <button class="header-action-btn" aria-label="user">
-      <ion-icon name="person-outline" aria-hidden="true"></ion-icon>
-    </button> -->
+
  <button class="header-action-btn" id="login-btn" style="display: none;">Login</button>
     <button class="header-action-btn" id="logout-btn" style="display: none;">Logout</button>
-<!--     <button class="header-action-btn" aria-label="favourite item"> -->
-<!--       <ion-icon name="star-outline" aria-hidden="true"></ion-icon> -->
-<!--       <span class="btn-badge">0</span> -->
-<!--     </button> -->
+
 
     <button class="header-action-btn" aria-label="cart item" id="cart-btn">
       <data class="btn-text" value="0" id="cart-total">₹ 0.00</data>
@@ -1141,16 +1042,16 @@
   <nav class="navbar">
     <ul class="navbar-list">
       <li>
-        <a href="#home" class="navbar-link has-after">Home</a>
+        <a href="index.html" class="navbar-link has-after">Home</a>
       </li>
       <li>
-        <a href="#collection" class="navbar-link has-after">MEN</a>
+        <a href="mensection.html" class="navbar-link has-after">MEN</a>
       </li>
       <li>
-        <a href="#shop" class="navbar-link has-after">WOMEN</a>
+        <a href="womensection.html" class="navbar-link has-after">WOMEN</a>
       </li>
       <li>
-        <a href="#blog" class="navbar-link has-after">TRENDING</a>
+        <a href="style.html" class="navbar-link has-after">STYLE PROFILE</a>
       </li>
     </ul>
   </nav>
@@ -1180,8 +1081,6 @@
   <div id="footer-container-wrapper"></div>
 <script src="footer.js"></script>
 
-
-<!--     <script src="auth.js"> </script> -->
 <script>
 function checkAuth() {
     const token = localStorage.getItem('token');
