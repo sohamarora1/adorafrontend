@@ -532,10 +532,12 @@ body {
     flex-direction: column;
   }
   
-  .collection-card .card-title { margin-block-end: 12px; }
+  .collection-card .card-title {
+      color:white;
+      margin-block-end: 12px; }
   
   .collection-card .card-text {
-    color: var(--black);
+    color: var(--white);
     font-size: var(--fs-6);
     font-weight: var(--fw-600);
     margin-block-end: auto;
@@ -763,89 +765,6 @@ body {
   
   .feature-card .card-text { font-size: var(--fs-7); }
   
-  /-----------------------------------\
-    #OFFER
-  \-----------------------------------/
-  
-  /* .offer-banner {
-    display: grid;
-    grid-template-columns: 0.7fr 1fr;
-    align-items: center;
-    gap: 30px;
-    margin-block-end: 60px;
-  }
-  
-  .offer-subtitle {
-    font-size: var(--fs-7);
-    display: flex;
-    align-items: center;
-    gap: 10px;
-  }
-  
-  .offer-subtitle .span {
-    color: var(--black);
-    text-transform: uppercase;
-    font-weight: var(--fw-600);
-    letter-spacing: 2px;
-  }
-  
-  .offer .badge { font-weight: var(--fw-500); }
-  
-  .offer .section-title { margin-block: 20px 8px; }
-  
-  .offer .section-text { font-size: var(--fs-6); }
-  
-  .offer .countdown {
-    color: var(--hoockers-green);
-    font-size: var(--fs-2);
-    line-height: 1;
-    display: flex;
-    margin-block: 20px 40px;
-  }
-  
-  .offer .time:not(:last-child)::after {
-    content: ":";
-    color: var(--gray-web);
-    font-size: 3rem;
-    font-weight: var(--fw-500);
-    margin-inline: 10px;
-  }
-  
-  .offer .time {
-    display: flex;
-    align-items: center;
-  }
-  
-   */
-  
-  
-  
-  /-----------------------------------\
-    #BLOG
-  \-----------------------------------/
-  
-  .blog { padding-block-end: calc(var(--section-padding) * 2); }
-  
-  .blog .section-title {
-    text-align: center;
-    margin-block-end: 40px;
-  }
-  
-  .blog-card .card-banner img { transition: var(--transition-2); }
-  
-  .blog-card:is(:hover, :focus-within) .card-banner img { transform: scale(1.2); }
-  
-  .blog-card .card-title {
-    text-align: center;
-    margin-block: 30px 20px;
-    transition: var(--transition-1);
-  }
-  
-  .blog-card .card-title:is(:hover, :focus) { color: var(--hoockers-green); }
-  
-  .blog-card .btn-link { justify-content: center; }
-  
-  
   
   
   
@@ -1053,20 +972,6 @@ body {
      */
   
     .banner-card .card-text { max-width: 30ch; }
-  
-  
-  
-    /**
-     * OFFER
-     */
-  
-    .offer .countdown { --fs-2: 4.8rem; }
-  
-    .offer .countdown .time:not(:last-child)::after { margin-inline: 20px; }
-  
-  }
-  
-  
   
   
   
@@ -1565,15 +1470,3 @@ body {
 }
 
 
-/* ... (rest of the CSS remains the same) */
-  
-  
-  
-    /**
-     * OFFER
-     */
-  
-    /* .offer .container { gap: 120px; } */
-  
-  }
- /* General Styling for the Poster Section*/
