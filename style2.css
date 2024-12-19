@@ -1,12 +1,25 @@
 body {
-/*     background: linear-gradient(to right, #dfe9fc,#dfe9fc);   */
-     background: linear-gradient(135deg, #F5EFFF, #E5D9F2, #CDC1FF,#A294F9);
-    animation: gradientBG 15s ease infinite;
-    color: #333;
-    height: 100vh;
-    margin: 0;
-    padding: 0;
+  background: linear-gradient(135deg, #F5EFFF, #E5D9F2, #CDC1FF, #A294F9);
+  background-size: 400% 400%;
+  animation: gradientBG 15s ease infinite;
+  color: #333;
+  height: 100vh;
+  margin: 0;
+  padding: 0;
+}
+
+@keyframes gradientBG {
+  0% {
+    background-position: 0% 50%;
   }
+  50% {
+    background-position: 100% 50%;
+  }
+  100% {
+    background-position: 0% 50%;
+  }
+}
+
   
 :root {
 
