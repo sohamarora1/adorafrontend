@@ -364,7 +364,7 @@ body {
   }
   
   .alert {
-    background-color: #f5f5dc;
+    background-color: #E5D9F2;
     color: var(--black);
     font-size: var(--fs-7);
     text-transform: uppercase;
