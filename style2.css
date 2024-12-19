@@ -1,7 +1,7 @@
 body {
 /*     background: linear-gradient(to right, #dfe9fc,#dfe9fc);   */
      background: linear-gradient(135deg, #F5EFFF, #E5D9F2, #CDC1FF,#A294F9);
-    animation: gradientBG 5s ease infinite;
+    animation: gradientBG 15s ease infinite;
     color: #333;
     height: 100vh;
     margin: 0;
